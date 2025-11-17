@@ -3,7 +3,7 @@ const WebSocket = require('ws');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5000;
 
 // Servir archivos estáticos (landing page + descargas)
 app.use(express.static('public'));
@@ -45,6 +45,16 @@ wss.on('connection', (ws, req) => {
     peers: getPeerList() 
   }));
   
+  // Notificar a otros peers sobre el nuevo nodo
+  peers.forEach((peer, id) => {
+    if (id !== peerId && peer.ws.readyState === 1) {
+      peer.ws.send(JSON.stringify({
+        type: 'NEW_PEER',
+        peerId: peerId
+      }));
+    }
+  });
+  
   // Manejar mensajes
   ws.on('message', (message) => {
     try {
@@ -52,6 +62,14 @@ wss.on('connection', (ws, req) => {
       
       if (data.type === 'HEARTBEAT') {
         peers.get(peerId).lastSeen = Date.now();
+      }
+      
+      // Reenviar mensajes WebRTC entre peers
+      if (data.type === 'WEBRTC_OFFER' || data.type === 'WEBRTC_ANSWER' || data.type === 'ICE_CANDIDATE') {
+        const targetPeer = peers.get(data.to);
+        if (targetPeer && targetPeer.ws.readyState === 1) {
+          targetPeer.ws.send(JSON.stringify(data));
+        }
       }
     } catch (err) {
       console.error('Error procesando mensaje:', err);
@@ -62,6 +80,16 @@ wss.on('connection', (ws, req) => {
   ws.on('close', () => {
     peers.delete(peerId);
     console.log(`[-] Peer desconectado: ${peerId} - Total: ${peers.size}`);
+    
+    // Notificar a otros peers sobre la desconexión
+    peers.forEach((peer, id) => {
+      if (peer.ws.readyState === 1) {
+        peer.ws.send(JSON.stringify({
+          type: 'PEER_LEFT',
+          peerId: peerId
+        }));
+      }
+    });
   });
 });
 
