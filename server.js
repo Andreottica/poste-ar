@@ -2,8 +2,16 @@ const express = require('express');
 const WebSocket = require('ws');
 const fs = require('fs').promises;
 const path = require('path');
-// Asumimos la dependencia 'uuid' para generar IDs únicos
-const { v4: uuidv4 } = require('uuid'); 
+
+// ====================================================================
+// FUNCIÓN AÑADIDA: Reemplazo minimalista para uuidv4()
+// Esto garantiza que no tienes que instalar la librería 'uuid'.
+// ====================================================================
+const generateSimpleId = () => {
+    // Genera un ID basado en el tiempo y un poco de aleatoriedad
+    return Date.now().toString(36) + Math.random().toString(36).substring(2, 5);
+};
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -13,8 +21,6 @@ app.use(express.json());
 
 // ====================================================================
 // MODIFICACIÓN 1: NUEVA RUTA PARA EL CLIENTE CLI (GOSSIP)
-// Endpoint que el cliente Python llamará para obtener la lista de 
-// direcciones IP:Puerto de los pares activos para el P2P directo.
 // ====================================================================
 
 app.get('/peers', (req, res) => {
@@ -22,12 +28,12 @@ app.get('/peers', (req, res) => {
     const timeoutThreshold = 120000; // 2 minutos (para considerar a un peer activo)
 
     peers.forEach((peer, id) => {
-        // Solo devolvemos pares que tienen un puerto P2P definido (los CLI o Web) y están activos
+        // Solo devolvemos pares que tienen un puerto P2P definido y están activos
         if (peer.p2pPort && (Date.now() - peer.lastSeen < timeoutThreshold)) {
             activePeers.push({
-                username: peer.username || id, // Usar username si está disponible
-                host: peer.ip,      // IP para la conexión P2P
-                port: peer.p2pPort  // Puerto 1987 (definido en el cliente Python)
+                username: peer.username || id, 
+                host: peer.ip,      
+                port: peer.p2pPort  
             });
         }
     });
@@ -81,10 +87,9 @@ async function saveUsers() {
     }
 }
 
-// --- Rutas API REST para el Registro (Usado por pulso.network.py) ---
+// --- Rutas API REST para el Registro ---
 
 app.post('/register', async (req, res) => {
-    // Nota: El cliente Python envía public.key
     const { username, password, publicKey } = req.body; 
 
     if (!username || !password || !publicKey) {
@@ -95,7 +100,6 @@ app.post('/register', async (req, res) => {
         return res.status(409).json({ error: 'El nombre de usuario ya está registrado.' });
     }
     
-    // Almacenar el usuario y su clave pública (la clave privada la tiene solo el cliente)
     registeredUsers.set(username, { 
         password: password, 
         publicKey: publicKey 
@@ -122,17 +126,15 @@ app.post('/login', (req, res) => {
 // -------------------------------------------------------------------
 
 wss.on('connection', (ws, req) => {
-    const peerId = uuidv4(); 
+    // CAMBIO: Usamos nuestra función simple para generar el ID
+    const peerId = generateSimpleId(); 
 
-    // Obtener la IP real del cliente (esencial para Render)
     const clientIp = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0].trim() : req.socket.remoteAddress;
     
-    // Puerto P2P que usa el cliente CLI de Python (pulso.config.py)
     const P2P_PORT_DEFAULT = 1987; 
     
     // ====================================================================
     // MODIFICACIÓN 2: ALMACENAR IP Y PUERTO P2P EN EL MAPA DE PEERS
-    // Esto es lo que necesita el cliente CLI para el Gossip Protocol.
     // ====================================================================
     peers.set(peerId, { 
         ws, 
@@ -140,9 +142,6 @@ wss.on('connection', (ws, req) => {
         lastSeen: Date.now(), 
         p2pPort: P2P_PORT_DEFAULT // <-- CAMBIO AÑADIDO
     }); 
-    
-    // Asignar nombre de usuario si es conocido (simplificación)
-    // Esto podría ser mejor manejado por un mensaje 'IDENTIFY' desde el cliente.
     
     console.log(`[+] Nuevo Peer conectado: ${peerId} - IP: ${clientIp} - Total: ${peers.size}`);
     
@@ -170,7 +169,6 @@ wss.on('connection', (ws, req) => {
                 if(peer) peer.lastSeen = Date.now();
             }
 
-            // El cliente web envía un mensaje 'IDENTIFY' para asociar su username
             if (data.type === 'IDENTIFY' && data.username) {
                 const peer = peers.get(peerId);
                 if (peer) peer.username = data.username;
@@ -180,7 +178,6 @@ wss.on('connection', (ws, req) => {
             if (data.type === 'WEBRTC_OFFER' || data.type === 'WEBRTC_ANSWER' || data.type === 'ICE_CANDIDATE') {
                 const targetPeer = peers.get(data.to);
                 if (targetPeer && targetPeer.ws.readyState === 1) {
-                    // Añadir el 'from' para que el receptor sepa quién le envió el mensaje
                     data.from = peerId;
                     targetPeer.ws.send(JSON.stringify(data));
                 }
@@ -216,7 +213,6 @@ setInterval(() => {
             const username = peer.username || 'Desconocido';
             console.log(`[TIMEOUT] Peer inactivo eliminado: ${id} (@${username})`);
             
-            // Notificar a los demás que el peer se fue
             peers.forEach((p, pid) => {
                 if (pid !== id && p.ws.readyState === 1) {
                     p.ws.send(JSON.stringify({
@@ -226,16 +222,15 @@ setInterval(() => {
                 }
             });
             
-            // Cerrar y eliminar
             if (peer.ws.readyState === 1) peer.ws.close();
             peers.delete(id);
         }
     });
-}, 30000); // Se ejecuta cada 30 segundos
+}, 30000); 
 
 // Iniciar servidor
 loadUsers().then(() => {
     server.listen(PORT, () => {
         console.log(`[SERVER] Servidor corriendo en el puerto ${PORT}`);
     });
-});
+});});
