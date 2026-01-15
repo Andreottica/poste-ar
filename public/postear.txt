@@ -1,0 +1,21 @@
+POSTE.AR - INFRAESTRUCTURA DE COMUNICACIÓN
+==========================================
+Ciudadela, Buenos Aires, Argentina.
+
+I. NATURALEZA
+Sitio anónimo y efímero. No existen usuarios, solo marcas temporales. 
+Los avisos se fijan en el Poste común.
+
+II. NOMENCLATURA
+- POSTEAR: Acción de fijar un mensaje.
+- REETIQUETAR: Disolver el rastro actual para obtener una nueva marca.
+- MARCA: Nomenclador de sesión (ej: abcd.12.efgh.34).
+
+III. CRIPTOGRAFÍA
+Sintaxis: ((contenido|semilla))
+El sistema cifra el contenido en el navegador. La base de datos solo 
+almacena información ilegible sin la semilla.
+
+IV. PERSISTENCIA
+La base de datos es limitada. Al alcanzar su capacidad máxima, 
+el historial se purga automáticamente para permitir nuevos mensajes.
