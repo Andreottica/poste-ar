@@ -2,158 +2,154 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>poste.ar · ciudadela</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>poste.ar | Ciudadela</title>
     <style>
-        :root { --rastro-color: #2e7d32; --gris-suave: #ddd; --texto: #1a1a1a; }
-        body { font-family: 'Courier New', Courier, monospace; background: #fff; color: var(--texto); margin: 0; display: flex; flex-direction: column; align-items: center; }
+        :root {
+            --bg: #0d0d0d;
+            --panel: #1a1a1a;
+            --text: #e0e0e0;
+            --accent: #00ffcc;
+        }
+        body { font-family: monospace; background: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; height: 100vh; }
         
-        .container { width: 728px; border-left: 1px solid var(--gris-suave); border-right: 1px solid var(--gris-suave); min-height: 100vh; padding: 20px; box-sizing: border-box; }
+        /* Interfaz Superior */
+        header { padding: 10px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+        #capacidad { color: var(--accent); font-weight: bold; }
         
-        header { border-bottom: 1px solid var(--gris-suave); padding-bottom: 15px; margin-bottom: 20px; }
-        
-        /* Tipografía estandar para la marca */
-        .brand-line { font-weight: bold; font-size: 16px; margin-bottom: 2px; }
-        .sub-brand { font-size: 12px; color: #666; }
+        /* Buscador */
+        #buscador { background: #000; border: 1px solid #444; color: var(--accent); padding: 5px; width: 150px; outline: none; }
 
-        /* Alerta simple de base de datos */
-        .alerta-espacio { color: #d32f2f; font-size: 12px; margin: 15px 0; display: block; }
+        /* Contenedor Principal */
+        main { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 15px; }
 
-        .nav-status { display: flex; justify-content: space-between; align-items: center; background: #fdfdfd; padding: 10px; border: 1px solid var(--gris-suave); font-size: 13px; margin-top: 15px; }
+        /* Posteo */
+        .post { background: var(--panel); border-left: 4px solid; padding: 10px; border-radius: 2px; position: relative; }
+        .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.8em; color: #888; }
         
-        .avatar { width: 60px; height: 60px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--gris-suave); flex-shrink: 0; }
+        /* Avatar 3x3 - Más "Cuadradito" y Colorido */
+        .avatar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; width: 24px; height: 24px; background: #333; border: 1px solid #555; }
         .pixel { width: 100%; height: 100%; }
 
-        #manual-box { display: none; background: #fff; border: 1px solid var(--gris-suave); padding: 15px; font-size: 13px; white-space: pre-wrap; margin: 15px 0; }
-
-        textarea { width: 100%; height: 100px; border: 1px solid var(--gris-suave); padding: 10px; font-family: inherit; font-size: 15px; resize: none; outline: none; box-sizing: border-box; }
+        /* Formulario Inferior */
+        footer { background: #111; padding: 15px; border-top: 1px solid #333; }
+        .input-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        textarea { flex: 1; min-width: 250px; height: 60px; background: #000; color: #fff; border: 1px solid #444; padding: 8px; resize: none; }
+        button { background: var(--accent); color: #000; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; }
         
-        .btn { cursor: pointer; font-family: inherit; font-weight: bold; border: 1px solid var(--gris-suave); padding: 5px 12px; background: #fff; color: #444; font-size: 12px; }
-        .btn-postear { background: #000; color: #fff; border: 1px solid #000; padding: 8px 25px; font-size: 14px; }
-        
-        .post { display: flex; gap: 20px; border-bottom: 1px solid #eee; padding: 25px 0; align-items: flex-start; }
-        .post-body { flex-grow: 1; min-width: 0; }
-        .marca-tag { font-size: 12px; font-weight: bold; margin-bottom: 5px; }
-        
-        .oculto-box { margin-top: 10px; font-size: 12px; border: 1px dashed var(--gris-suave); padding: 8px; }
-        .contador { font-size: 11px; color: #888; text-align: right; margin-top: 5px; }
+        .links { margin-top: 10px; font-size: 0.7em; }
+        .links a { color: #666; text-decoration: none; margin-right: 15px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <div class="brand-line">poste.ar</div>
-        <div class="sub-brand">Sitio anónimo, efímero. Ciudadela, Buenos Aires, Argentina.</div>
-        
-        <span class="alerta-espacio">Base de datos al 72%, se borrará próximamente.</span>
+<header>
+    <div>POSTE.AR <span id="capacidad">--%</span></div>
+    <input type="text" id="buscador" placeholder="Buscar etiqueta...">
+</header>
 
-        <div class="nav-status">
-            <span>Tu Marca: <b id="current-marca" style="color:var(--rastro-color)">...</b></span>
-            <div>
-                <button class="btn" onclick="reetiquetar()">[ reetiquetar ]</button>
-                <button class="btn" onclick="toggleManual()">[ manual ]</button>
-            </div>
-        </div>
+<main id="timeline">
+    </main>
 
-        <div id="manual-box"></div>
-        
-        <div style="margin-top: 20px;">
-            <textarea id="editor" maxlength="576" placeholder="Escribe aquí... ((secreto|semilla))"></textarea>
-            <div class="contador" id="char-count">576 espacios restantes</div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-                <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
-                <button class="btn" onclick="window.open('/source')">[ download source ]</button>
-            </div>
-        </div>
-    </header>
-
-    <div id="timeline"></div>
-</div>
+<footer>
+    <div class="input-group">
+        <input type="text" id="etiqueta" placeholder="#etiqueta" style="width: 80px; background: #000; color: var(--accent); border: 1px solid #444;">
+        <textarea id="mensaje" placeholder="Escribe aquí (texto secreto con [ ])..."></textarea>
+        <button onclick="enviarPosteo()">PUBLICAR</button>
+    </div>
+    <div class="links">
+        <a href="postear.txt" target="_blank">MANUAL</a>
+        <a href="source.txt" target="_blank">SOURCE</a>
+    </div>
+</footer>
 
 <script>
-    let miMarca = "";
-    let miColor = "";
+    const API_URL = window.location.origin;
 
-    function generarNomenclador() {
-        const r = () => Math.random().toString(36).substring(2, 6);
-        const n = () => Math.floor(Math.random() * 90 + 10);
-        return `${r()}.${n()}.${r()}.${n()}`;
+    // Nomenclador Silábico (Consonante + Vocal)
+    function generarSemilla() {
+        const c = "bdfghjklmnprstvz";
+        const v = "aeiou";
+        const silaba = () => c[Math.floor(Math.random()*c.length)] + v[Math.floor(Math.random()*v.length)];
+        return `${silaba()}${silaba()}.${silaba()}${silaba()}`;
     }
 
-    function generateAvatar(containerId) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = '';
-        const colors = ['#f0f0f0', miColor, '#333', '#aaa'];
+    // Dibujar Avatar 3x3 Colorido
+    function crearAvatar(semilla, colorBase) {
+        const hash = semilla.split('').reduce((a,b) => a + b.charCodeAt(0), 0);
+        let html = `<div class="avatar">`;
         for(let i=0; i<9; i++) {
-            const div = document.createElement('div');
-            div.className = 'pixel';
-            div.style.background = colors[Math.floor(Math.random() * colors.length)];
-            container.appendChild(div);
+            const brillo = (hash + i) % 2 === 0 ? 'saturate(2)' : 'brightness(1.5)';
+            const color = (hash + i) % 3 === 0 ? colorBase : ( (hash+i)%3 === 1 ? '#ffffff' : '#000000');
+            html += `<div class="pixel" style="background:${color}; filter:${brillo}"></div>`;
         }
+        return html + `</div>`;
     }
 
-    function toggleManual() {
-        const box = document.getElementById('manual-box');
-        if(box.style.display === 'block') { box.style.display = 'none'; return; }
-        fetch('postear.txt').then(r => r.text()).then(t => {
-            box.innerText = t;
-            box.style.display = 'block';
+    async function cargarPosteos() {
+        const res = await fetch(`${API_URL}/api/posts`);
+        const posts = await res.json();
+        const timeline = document.getElementById('timeline');
+        timeline.innerHTML = '';
+        
+        // Actualizar capacidad (basado en 576 espacios)
+        document.getElementById('capacidad').innerText = Math.round((posts.length / 576) * 100) + '%';
+
+        posts.forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'post';
+            div.style.borderColor = p.color;
+            div.innerHTML = `
+                <div class="post-header">
+                    ${crearAvatar(p.semilla, p.color)}
+                    <span>${p.semilla}</span>
+                    <span style="color:${p.color}">#${p.etiqueta}</span>
+                </div>
+                <div class="post-content">${procesarTexto(p.contenido)}</div>
+            `;
+            timeline.appendChild(div);
         });
     }
 
-    function reetiquetar() {
-        miMarca = generarNomenclador();
-        miColor = `hsl(${Math.floor(Math.random()*360)}, 60%, 45%)`;
-        document.documentElement.style.setProperty('--rastro-color', miColor);
-        document.getElementById('current-marca').innerText = miMarca;
+    function procesarTexto(t) {
+        // Lógica simple para ocultar texto entre [ ]
+        return t.replace(/\[(.*?)\]/g, '<span style="background:#333; color:#333; cursor:help" onclick="this.style.color=\'#fff\'">$1</span>');
     }
 
-    document.getElementById('editor').oninput = function() {
-        document.getElementById('char-count').innerText = (576 - this.value.length) + " espacios restantes";
-    };
+    async function enviarPosteo() {
+        const etiqueta = document.getElementById('etiqueta').value || 'general';
+        const contenido = document.getElementById('mensaje').value;
+        if(!contenido) return;
 
-    function validarYPostear() {
-        const text = document.getElementById('editor').value;
-        if(!text) return;
-        if (text.includes("((") && (!text.includes("|") || !text.includes("))"))) {
-            alert("Error: Use ((texto|semilla)) para ocultar contenido.");
-            return;
-        }
-        postear(text);
+        const data = {
+            etiqueta,
+            contenido,
+            color: `hsl(${Math.random()*360}, 70%, 60%)`,
+            semilla: generarSemilla()
+        };
+
+        await fetch(`${API_URL}/api/postear`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
+
+        document.getElementById('mensaje').value = '';
+        cargarPosteos();
     }
 
-    function postear(text) {
-        const timeline = document.getElementById('timeline');
-        const post = document.createElement('div');
-        post.className = 'post';
-        
-        const tieneOculto = text.includes("((");
-        let htmlContent = text
-            .replace(/\*(.*?)\*/g, '<b>$1</b>')
-            .replace(/_(.*?)_/g, '<i>$1</i>')
-            .replace(/<(.*?):(.*?)>/g, '<a href="http://$2" target="_blank" style="color:blue">$1</a>')
-            .replace(/\(\((.*?)\|(.*?)\)\)/g, '<span style="background:#000; color:#000;">▒▒▒▒▒</span>');
+    // Buscador en tiempo real
+    document.getElementById('buscador').addEventListener('input', (e) => {
+        const busqueda = e.target.value.toLowerCase();
+        document.querySelectorAll('.post').forEach(post => {
+            const texto = post.innerText.toLowerCase();
+            post.style.display = texto.includes(busqueda) ? 'block' : 'none';
+        });
+    });
 
-        const idAv = 'av-' + Math.random().toString(36).substring(7);
-        post.innerHTML = `
-            <div class="avatar" id="${idAv}"></div>
-            <div class="post-body">
-                <div class="marca-tag" style="color:${miColor}">${miMarca}</div>
-                <div style="white-space: pre-wrap;">${htmlContent}</div>
-                ${tieneOculto ? `
-                    <div class="oculto-box">
-                        Contenido oculto [x]: 
-                        <input type="text" placeholder="semilla..." style="border:none; border-bottom:1px solid #ddd; outline:none; width:120px; font-family:inherit; font-size:11px;">
-                    </div>` : ''}
-            </div>
-        `;
-        timeline.prepend(post);
-        generateAvatar(idAv);
-        document.getElementById('editor').value = '';
-        document.getElementById('char-count').innerText = "576 espacios restantes";
-    }
-
-    reetiquetar();
+    setInterval(cargarPosteos, 10000); // Recarga cada 10 seg
+    cargarPosteos();
 </script>
+
 </body>
 </html>
