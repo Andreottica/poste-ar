@@ -5,40 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>poste.ar | Ciudadela</title>
     <style>
-        :root {
-            --bg: #0d0d0d;
-            --panel: #1a1a1a;
-            --text: #e0e0e0;
-            --accent: #00ffcc;
-        }
-        body { font-family: monospace; background: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; height: 100vh; }
+        body { background-color: #000; color: #fff; font-family: monospace; margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        /* Interfaz Superior */
-        header { padding: 10px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
-        #capacidad { color: var(--accent); font-weight: bold; }
-        
-        /* Buscador */
-        #buscador { background: #000; border: 1px solid #444; color: var(--accent); padding: 5px; width: 150px; outline: none; }
+        /* Barra Superior */
+        header { border-bottom: 1px solid #333; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
+        #capacidad { color: #0ff; font-weight: bold; }
+        #buscador { background: #000; border: 1px solid #444; color: #0ff; padding: 4px; width: 120px; outline: none; font-size: 0.8em; }
 
-        /* Contenedor Principal */
-        main { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 15px; }
-
-        /* Posteo */
-        .post { background: var(--panel); border-left: 4px solid; padding: 10px; border-radius: 2px; position: relative; }
-        .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.8em; color: #888; }
+        /* Timeline */
+        #timeline { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
         
-        /* Avatar 3x3 - Más "Cuadradito" y Colorido */
-        .avatar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; width: 24px; height: 24px; background: #333; border: 1px solid #555; }
+        /* Posteo con Estilo Original */
+        .post { border-left: 3px solid; padding-left: 15px; position: relative; }
+        .post-header { display: flex; align-items: center; gap: 12px; margin-bottom: 5px; font-size: 0.9em; }
+        
+        /* Avatar 3x3 Mejorado: Más cuadradito y vibrante */
+        .avatar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; width: 27px; height: 27px; background: #222; border: 1px solid #444; }
         .pixel { width: 100%; height: 100%; }
 
-        /* Formulario Inferior */
-        footer { background: #111; padding: 15px; border-top: 1px solid #333; }
-        .input-group { display: flex; gap: 10px; flex-wrap: wrap; }
-        textarea { flex: 1; min-width: 250px; height: 60px; background: #000; color: #fff; border: 1px solid #444; padding: 8px; resize: none; }
-        button { background: var(--accent); color: #000; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; }
+        /* Consola Inferior (Tu diseño original) */
+        footer { height: 120px; display: flex; border-top: 1px solid #333; background: #050505; }
         
-        .links { margin-top: 10px; font-size: 0.7em; }
-        .links a { color: #666; text-decoration: none; margin-right: 15px; }
+        .menu-lat { width: 60px; border-right: 1px solid #333; display: flex; flex-direction: column; justify-content: space-around; align-items: center; font-size: 0.7em; }
+        .menu-lat a { color: #555; text-decoration: none; writing-mode: vertical-lr; transform: rotate(180deg); }
+
+        .input-area { flex: 1; display: flex; flex-direction: column; padding: 10px; }
+        #etiqueta { background: #000; border: 1px solid #333; color: #0ff; width: 80px; margin-bottom: 5px; padding: 2px 5px; }
+        #mensaje { flex: 1; background: #000; color: #fff; border: none; outline: none; resize: none; font-family: monospace; font-size: 1.1em; }
+
+        .btn-pub { width: 100px; background: #00ffcc; border: none; color: #000; font-weight: bold; cursor: pointer; font-size: 1em; transition: 0.2s; }
+        .btn-pub:hover { background: #fff; }
+
+        /* Texto secreto */
+        .secreto { background: #222; color: #222; cursor: pointer; padding: 0 4px; border-radius: 2px; }
+        .secreto:hover { background: #333; }
     </style>
 </head>
 <body>
@@ -52,68 +52,64 @@
     </main>
 
 <footer>
-    <div class="input-group">
-        <input type="text" id="etiqueta" placeholder="#etiqueta" style="width: 80px; background: #000; color: var(--accent); border: 1px solid #444;">
-        <textarea id="mensaje" placeholder="Escribe aquí (texto secreto con [ ])..."></textarea>
-        <button onclick="enviarPosteo()">PUBLICAR</button>
-    </div>
-    <div class="links">
+    <div class="menu-lat">
         <a href="postear.txt" target="_blank">MANUAL</a>
         <a href="source.txt" target="_blank">SOURCE</a>
     </div>
+    
+    <div class="input-area">
+        <input type="text" id="etiqueta" placeholder="#etiqueta">
+        <textarea id="mensaje" placeholder="Escribe aquí... usa [ ] para secretos"></textarea>
+    </div>
+
+    <button class="btn-pub" onclick="enviarPosteo()">PUBLICAR</button>
 </footer>
 
 <script>
     const API_URL = window.location.origin;
 
-    // Nomenclador Silábico (Consonante + Vocal)
+    // Generador Silábico (ej: fuso.padi)
     function generarSemilla() {
         const c = "bdfghjklmnprstvz";
         const v = "aeiou";
-        const silaba = () => c[Math.floor(Math.random()*c.length)] + v[Math.floor(Math.random()*v.length)];
-        return `${silaba()}${silaba()}.${silaba()}${silaba()}`;
+        const s = () => c[Math.floor(Math.random()*c.length)] + v[Math.floor(Math.random()*v.length)];
+        return `${s()}${s()}.${s()}${s()}`;
     }
 
-    // Dibujar Avatar 3x3 Colorido
     function crearAvatar(semilla, colorBase) {
         const hash = semilla.split('').reduce((a,b) => a + b.charCodeAt(0), 0);
         let html = `<div class="avatar">`;
         for(let i=0; i<9; i++) {
-            const brillo = (hash + i) % 2 === 0 ? 'saturate(2)' : 'brightness(1.5)';
-            const color = (hash + i) % 3 === 0 ? colorBase : ( (hash+i)%3 === 1 ? '#ffffff' : '#000000');
-            html += `<div class="pixel" style="background:${color}; filter:${brillo}"></div>`;
+            const color = (hash + i) % 3 === 0 ? colorBase : ( (hash+i)%3 === 1 ? '#fff' : '#000');
+            html += `<div class="pixel" style="background:${color}; filter: saturate(2.5) contrast(1.2);"></div>`;
         }
         return html + `</div>`;
     }
 
     async function cargarPosteos() {
-        const res = await fetch(`${API_URL}/api/posts`);
-        const posts = await res.json();
-        const timeline = document.getElementById('timeline');
-        timeline.innerHTML = '';
-        
-        // Actualizar capacidad (basado en 576 espacios)
-        document.getElementById('capacidad').innerText = Math.round((posts.length / 576) * 100) + '%';
+        try {
+            const res = await fetch(`${API_URL}/api/posts`);
+            const posts = await res.json();
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
+            
+            document.getElementById('capacidad').innerText = Math.round((posts.length / 576) * 100) + '%';
 
-        posts.forEach(p => {
-            const div = document.createElement('div');
-            div.className = 'post';
-            div.style.borderColor = p.color;
-            div.innerHTML = `
-                <div class="post-header">
-                    ${crearAvatar(p.semilla, p.color)}
-                    <span>${p.semilla}</span>
-                    <span style="color:${p.color}">#${p.etiqueta}</span>
-                </div>
-                <div class="post-content">${procesarTexto(p.contenido)}</div>
-            `;
-            timeline.appendChild(div);
-        });
-    }
-
-    function procesarTexto(t) {
-        // Lógica simple para ocultar texto entre [ ]
-        return t.replace(/\[(.*?)\]/g, '<span style="background:#333; color:#333; cursor:help" onclick="this.style.color=\'#fff\'">$1</span>');
+            posts.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'post';
+                div.style.borderColor = p.color;
+                div.innerHTML = `
+                    <div class="post-header">
+                        ${crearAvatar(p.semilla, p.color)}
+                        <span style="color:#666">${p.semilla}</span>
+                        <span style="color:${p.color}">#${p.etiqueta}</span>
+                    </div>
+                    <div class="post-content">${p.contenido.replace(/\[(.*?)\]/g, '<span class="secreto" onclick="this.style.color=\'#fff\'">$1</span>')}</div>
+                `;
+                timeline.appendChild(div);
+            });
+        } catch (e) { console.error("Error cargando base de datos"); }
     }
 
     async function enviarPosteo() {
@@ -124,7 +120,7 @@
         const data = {
             etiqueta,
             contenido,
-            color: `hsl(${Math.random()*360}, 70%, 60%)`,
+            color: `hsl(${Math.random()*360}, 80%, 60%)`,
             semilla: generarSemilla()
         };
 
@@ -138,18 +134,15 @@
         cargarPosteos();
     }
 
-    // Buscador en tiempo real
     document.getElementById('buscador').addEventListener('input', (e) => {
-        const busqueda = e.target.value.toLowerCase();
-        document.querySelectorAll('.post').forEach(post => {
-            const texto = post.innerText.toLowerCase();
-            post.style.display = texto.includes(busqueda) ? 'block' : 'none';
+        const term = e.target.value.toLowerCase();
+        document.querySelectorAll('.post').forEach(p => {
+            p.style.display = p.innerText.toLowerCase().includes(term) ? 'block' : 'none';
         });
     });
 
-    setInterval(cargarPosteos, 10000); // Recarga cada 10 seg
+    setInterval(cargarPosteos, 15000);
     cargarPosteos();
 </script>
-
 </body>
 </html>
