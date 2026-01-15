@@ -2,147 +2,158 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>poste.ar | Ciudadela</title>
+    <title>poste.ar · ciudadela</title>
     <style>
-        body { background-color: #000; color: #fff; font-family: monospace; margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        :root { --rastro-color: #2e7d32; --gris-suave: #ddd; --texto: #1a1a1a; }
+        body { font-family: 'Courier New', Courier, monospace; background: #fff; color: var(--texto); margin: 0; display: flex; flex-direction: column; align-items: center; }
         
-        /* Barra Superior */
-        header { border-bottom: 1px solid #333; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
-        #capacidad { color: #0ff; font-weight: bold; }
-        #buscador { background: #000; border: 1px solid #444; color: #0ff; padding: 4px; width: 120px; outline: none; font-size: 0.8em; }
+        .container { width: 728px; border-left: 1px solid var(--gris-suave); border-right: 1px solid var(--gris-suave); min-height: 100vh; padding: 20px; box-sizing: border-box; }
+        
+        header { border-bottom: 1px solid var(--gris-suave); padding-bottom: 15px; margin-bottom: 20px; }
+        
+        /* Tipografía estandar para la marca */
+        .brand-line { font-weight: bold; font-size: 16px; margin-bottom: 2px; }
+        .sub-brand { font-size: 12px; color: #666; }
 
-        /* Timeline */
-        #timeline { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+        /* Alerta simple de base de datos */
+        .alerta-espacio { color: #d32f2f; font-size: 12px; margin: 15px 0; display: block; }
+
+        .nav-status { display: flex; justify-content: space-between; align-items: center; background: #fdfdfd; padding: 10px; border: 1px solid var(--gris-suave); font-size: 13px; margin-top: 15px; }
         
-        /* Posteo con Estilo Original */
-        .post { border-left: 3px solid; padding-left: 15px; position: relative; }
-        .post-header { display: flex; align-items: center; gap: 12px; margin-bottom: 5px; font-size: 0.9em; }
-        
-        /* Avatar 3x3 Mejorado: Más cuadradito y vibrante */
-        .avatar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; width: 27px; height: 27px; background: #222; border: 1px solid #444; }
+        .avatar { width: 60px; height: 60px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--gris-suave); flex-shrink: 0; }
         .pixel { width: 100%; height: 100%; }
 
-        /* Consola Inferior (Tu diseño original) */
-        footer { height: 120px; display: flex; border-top: 1px solid #333; background: #050505; }
+        #manual-box { display: none; background: #fff; border: 1px solid var(--gris-suave); padding: 15px; font-size: 13px; white-space: pre-wrap; margin: 15px 0; }
+
+        textarea { width: 100%; height: 100px; border: 1px solid var(--gris-suave); padding: 10px; font-family: inherit; font-size: 15px; resize: none; outline: none; box-sizing: border-box; }
         
-        .menu-lat { width: 60px; border-right: 1px solid #333; display: flex; flex-direction: column; justify-content: space-around; align-items: center; font-size: 0.7em; }
-        .menu-lat a { color: #555; text-decoration: none; writing-mode: vertical-lr; transform: rotate(180deg); }
-
-        .input-area { flex: 1; display: flex; flex-direction: column; padding: 10px; }
-        #etiqueta { background: #000; border: 1px solid #333; color: #0ff; width: 80px; margin-bottom: 5px; padding: 2px 5px; }
-        #mensaje { flex: 1; background: #000; color: #fff; border: none; outline: none; resize: none; font-family: monospace; font-size: 1.1em; }
-
-        .btn-pub { width: 100px; background: #00ffcc; border: none; color: #000; font-weight: bold; cursor: pointer; font-size: 1em; transition: 0.2s; }
-        .btn-pub:hover { background: #fff; }
-
-        /* Texto secreto */
-        .secreto { background: #222; color: #222; cursor: pointer; padding: 0 4px; border-radius: 2px; }
-        .secreto:hover { background: #333; }
+        .btn { cursor: pointer; font-family: inherit; font-weight: bold; border: 1px solid var(--gris-suave); padding: 5px 12px; background: #fff; color: #444; font-size: 12px; }
+        .btn-postear { background: #000; color: #fff; border: 1px solid #000; padding: 8px 25px; font-size: 14px; }
+        
+        .post { display: flex; gap: 20px; border-bottom: 1px solid #eee; padding: 25px 0; align-items: flex-start; }
+        .post-body { flex-grow: 1; min-width: 0; }
+        .marca-tag { font-size: 12px; font-weight: bold; margin-bottom: 5px; }
+        
+        .oculto-box { margin-top: 10px; font-size: 12px; border: 1px dashed var(--gris-suave); padding: 8px; }
+        .contador { font-size: 11px; color: #888; text-align: right; margin-top: 5px; }
     </style>
 </head>
 <body>
 
-<header>
-    <div>POSTE.AR <span id="capacidad">--%</span></div>
-    <input type="text" id="buscador" placeholder="Buscar etiqueta...">
-</header>
+<div class="container">
+    <header>
+        <div class="brand-line">poste.ar</div>
+        <div class="sub-brand">Sitio anónimo, efímero. Ciudadela, Buenos Aires, Argentina.</div>
+        
+        <span class="alerta-espacio">Base de datos al 72%, se borrará próximamente.</span>
 
-<main id="timeline">
-    </main>
+        <div class="nav-status">
+            <span>Tu Marca: <b id="current-marca" style="color:var(--rastro-color)">...</b></span>
+            <div>
+                <button class="btn" onclick="reetiquetar()">[ reetiquetar ]</button>
+                <button class="btn" onclick="toggleManual()">[ manual ]</button>
+            </div>
+        </div>
 
-<footer>
-    <div class="menu-lat">
-        <a href="postear.txt" target="_blank">MANUAL</a>
-        <a href="source.txt" target="_blank">SOURCE</a>
-    </div>
-    
-    <div class="input-area">
-        <input type="text" id="etiqueta" placeholder="#etiqueta">
-        <textarea id="mensaje" placeholder="Escribe aquí... usa [ ] para secretos"></textarea>
-    </div>
+        <div id="manual-box"></div>
+        
+        <div style="margin-top: 20px;">
+            <textarea id="editor" maxlength="576" placeholder="Escribe aquí... ((secreto|semilla))"></textarea>
+            <div class="contador" id="char-count">576 espacios restantes</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
+                <button class="btn" onclick="window.open('/source')">[ download source ]</button>
+            </div>
+        </div>
+    </header>
 
-    <button class="btn-pub" onclick="enviarPosteo()">PUBLICAR</button>
-</footer>
+    <div id="timeline"></div>
+</div>
 
 <script>
-    const API_URL = window.location.origin;
+    let miMarca = "";
+    let miColor = "";
 
-    // Generador Silábico (ej: fuso.padi)
-    function generarSemilla() {
-        const c = "bdfghjklmnprstvz";
-        const v = "aeiou";
-        const s = () => c[Math.floor(Math.random()*c.length)] + v[Math.floor(Math.random()*v.length)];
-        return `${s()}${s()}.${s()}${s()}`;
+    function generarNomenclador() {
+        const r = () => Math.random().toString(36).substring(2, 6);
+        const n = () => Math.floor(Math.random() * 90 + 10);
+        return `${r()}.${n()}.${r()}.${n()}`;
     }
 
-    function crearAvatar(semilla, colorBase) {
-        const hash = semilla.split('').reduce((a,b) => a + b.charCodeAt(0), 0);
-        let html = `<div class="avatar">`;
+    function generateAvatar(containerId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        const colors = ['#f0f0f0', miColor, '#333', '#aaa'];
         for(let i=0; i<9; i++) {
-            const color = (hash + i) % 3 === 0 ? colorBase : ( (hash+i)%3 === 1 ? '#fff' : '#000');
-            html += `<div class="pixel" style="background:${color}; filter: saturate(2.5) contrast(1.2);"></div>`;
+            const div = document.createElement('div');
+            div.className = 'pixel';
+            div.style.background = colors[Math.floor(Math.random() * colors.length)];
+            container.appendChild(div);
         }
-        return html + `</div>`;
     }
 
-    async function cargarPosteos() {
-        try {
-            const res = await fetch(`${API_URL}/api/posts`);
-            const posts = await res.json();
-            const timeline = document.getElementById('timeline');
-            timeline.innerHTML = '';
-            
-            document.getElementById('capacidad').innerText = Math.round((posts.length / 576) * 100) + '%';
-
-            posts.forEach(p => {
-                const div = document.createElement('div');
-                div.className = 'post';
-                div.style.borderColor = p.color;
-                div.innerHTML = `
-                    <div class="post-header">
-                        ${crearAvatar(p.semilla, p.color)}
-                        <span style="color:#666">${p.semilla}</span>
-                        <span style="color:${p.color}">#${p.etiqueta}</span>
-                    </div>
-                    <div class="post-content">${p.contenido.replace(/\[(.*?)\]/g, '<span class="secreto" onclick="this.style.color=\'#fff\'">$1</span>')}</div>
-                `;
-                timeline.appendChild(div);
-            });
-        } catch (e) { console.error("Error cargando base de datos"); }
-    }
-
-    async function enviarPosteo() {
-        const etiqueta = document.getElementById('etiqueta').value || 'general';
-        const contenido = document.getElementById('mensaje').value;
-        if(!contenido) return;
-
-        const data = {
-            etiqueta,
-            contenido,
-            color: `hsl(${Math.random()*360}, 80%, 60%)`,
-            semilla: generarSemilla()
-        };
-
-        await fetch(`${API_URL}/api/postear`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data)
+    function toggleManual() {
+        const box = document.getElementById('manual-box');
+        if(box.style.display === 'block') { box.style.display = 'none'; return; }
+        fetch('postear.txt').then(r => r.text()).then(t => {
+            box.innerText = t;
+            box.style.display = 'block';
         });
-
-        document.getElementById('mensaje').value = '';
-        cargarPosteos();
     }
 
-    document.getElementById('buscador').addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase();
-        document.querySelectorAll('.post').forEach(p => {
-            p.style.display = p.innerText.toLowerCase().includes(term) ? 'block' : 'none';
-        });
-    });
+    function reetiquetar() {
+        miMarca = generarNomenclador();
+        miColor = `hsl(${Math.floor(Math.random()*360)}, 60%, 45%)`;
+        document.documentElement.style.setProperty('--rastro-color', miColor);
+        document.getElementById('current-marca').innerText = miMarca;
+    }
 
-    setInterval(cargarPosteos, 15000);
-    cargarPosteos();
+    document.getElementById('editor').oninput = function() {
+        document.getElementById('char-count').innerText = (576 - this.value.length) + " espacios restantes";
+    };
+
+    function validarYPostear() {
+        const text = document.getElementById('editor').value;
+        if(!text) return;
+        if (text.includes("((") && (!text.includes("|") || !text.includes("))"))) {
+            alert("Error: Use ((texto|semilla)) para ocultar contenido.");
+            return;
+        }
+        postear(text);
+    }
+
+    function postear(text) {
+        const timeline = document.getElementById('timeline');
+        const post = document.createElement('div');
+        post.className = 'post';
+        
+        const tieneOculto = text.includes("((");
+        let htmlContent = text
+            .replace(/\*(.*?)\*/g, '<b>$1</b>')
+            .replace(/_(.*?)_/g, '<i>$1</i>')
+            .replace(/<(.*?):(.*?)>/g, '<a href="http://$2" target="_blank" style="color:blue">$1</a>')
+            .replace(/\(\((.*?)\|(.*?)\)\)/g, '<span style="background:#000; color:#000;">▒▒▒▒▒</span>');
+
+        const idAv = 'av-' + Math.random().toString(36).substring(7);
+        post.innerHTML = `
+            <div class="avatar" id="${idAv}"></div>
+            <div class="post-body">
+                <div class="marca-tag" style="color:${miColor}">${miMarca}</div>
+                <div style="white-space: pre-wrap;">${htmlContent}</div>
+                ${tieneOculto ? `
+                    <div class="oculto-box">
+                        Contenido oculto [x]: 
+                        <input type="text" placeholder="semilla..." style="border:none; border-bottom:1px solid #ddd; outline:none; width:120px; font-family:inherit; font-size:11px;">
+                    </div>` : ''}
+            </div>
+        `;
+        timeline.prepend(post);
+        generateAvatar(idAv);
+        document.getElementById('editor').value = '';
+        document.getElementById('char-count').innerText = "576 espacios restantes";
+    }
+
+    reetiquetar();
 </script>
 </body>
 </html>
