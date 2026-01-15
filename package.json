@@ -1,7 +1,6 @@
 {
   "name": "poste-ar",
   "version": "1.0.0",
-  "description": "Infraestructura de comunicación Ciudadela",
   "main": "server.js",
   "dependencies": {
     "@libsql/client": "^0.6.0",
