@@ -1,21 +1,57 @@
-POSTE.AR - INFRAESTRUCTURA DE COMUNICACIÓN
-==========================================
-Ciudadela, Buenos Aires, Argentina.
+POSTE.AR - MANUAL DE USO
+========================
 
-I. NATURALEZA
-Sitio anónimo y efímero. No existen usuarios, solo marcas temporales. 
-Los avisos se fijan en el Poste común.
+POSTEAR
+-------
+Escribe tu mensaje (máximo 576 caracteres) y presiona [postear].
+Tu marca temporal aparecerá en todos tus posts durante esta sesión.
 
-II. NOMENCLATURA
-- POSTEAR: Acción de fijar un mensaje.
-- REETIQUETAR: Disolver el rastro actual para obtener una nueva marca.
-- MARCA: Nomenclador de sesión (ej: abcd.12.efgh.34).
+FORMATO DE TEXTO
+----------------
+*texto*              → texto en negrita
+_texto_              → texto en cursiva
+<nombre:url.com>     → crear enlace
 
-III. CRIPTOGRAFÍA
-Sintaxis: ((contenido|semilla))
-El sistema cifra el contenido en el navegador. La base de datos solo 
-almacena información ilegible sin la semilla.
+Ejemplo:
+Hola *mundo*, esto es _importante_. 
+Más info en <sitio:ejemplo.com>
 
-IV. PERSISTENCIA
-La base de datos es limitada. Al alcanzar su capacidad máxima, 
-el historial se purga automáticamente para permitir nuevos mensajes.
+OCULTAR CONTENIDO
+-----------------
+((secreto|clave123))
+
+El texto entre (( )) se cifra con la semilla "clave123".
+Solo quien conozca la semilla podrá descifrar el contenido.
+
+NOTA: Función de cifrado próximamente disponible.
+
+REETIQUETAR
+-----------
+Presiona [reetiquetar] para obtener una nueva marca anónima.
+Útil si quieres cambiar de identidad sin cerrar sesión.
+
+TU MARCA
+--------
+Formato: xxxx.NN.yyyy.MM
+Ejemplo: tide.21.yija.87
+
+Es única y temporal. No se guarda en ningún servidor.
+
+PERSISTENCIA
+------------
+Los mensajes se eliminan automáticamente cada 7 días
+para mantener la base de datos efímera y renovada.
+
+PRIVACIDAD
+----------
+- No se registran IPs ni datos personales
+- No hay cuentas de usuario
+- Todo es anónimo y temporal
+- El código es open source
+
+UBICACIÓN
+---------
+Ciudadela, Buenos Aires, Argentina
+Sitio experimental de comunicación efímera.
+
+Versión: 1.0 Beta
