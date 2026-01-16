@@ -11,11 +11,9 @@
         
         header { border-bottom: 1px solid var(--gris-suave); padding-bottom: 15px; margin-bottom: 20px; }
         
-        /* Tipografía estandar para la marca */
         .brand-line { font-weight: bold; font-size: 16px; margin-bottom: 2px; }
         .sub-brand { font-size: 12px; color: #666; }
 
-        /* Alerta simple de base de datos */
         .alerta-espacio { color: #d32f2f; font-size: 12px; margin: 15px 0; display: block; }
 
         .nav-status { display: flex; justify-content: space-between; align-items: center; background: #fdfdfd; padding: 10px; border: 1px solid var(--gris-suave); font-size: 13px; margin-top: 15px; }
@@ -45,7 +43,7 @@
         <div class="brand-line">poste.ar</div>
         <div class="sub-brand">Sitio anónimo, efímero. Ciudadela, Buenos Aires, Argentina.</div>
         
-        <span class="alerta-espacio">Base de datos al 72%, se borrará próximamente.</span>
+        <span class="alerta-espacio">Base de datos al 0%, se borrará próximamente.</span>
 
         <div class="nav-status">
             <span>Tu Marca: <b id="current-marca" style="color:var(--rastro-color)">...</b></span>
@@ -81,15 +79,7 @@
     }
 
     function generateAvatar(containerId) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = '';
-        const colors = ['#f0f0f0', miColor, '#333', '#aaa'];
-        for(let i=0; i<9; i++) {
-            const div = document.createElement('div');
-            div.className = 'pixel';
-            div.style.background = colors[Math.floor(Math.random() * colors.length)];
-            container.appendChild(div);
-        }
+        generateAvatarFromMarca(containerId, miMarca, miColor);
     }
 
     function toggleManual() {
@@ -122,23 +112,38 @@
         postear(text);
     }
 
-    function postear(text) {
+    async function cargarTimeline() {
+        try {
+            const res = await fetch('/api/posts');
+            const posts = await res.json();
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
+            posts.forEach(post => mostrarPost(post));
+        } catch(e) {
+            console.error('Error cargando posts:', e);
+        }
+    }
+
+    function mostrarPost(post) {
         const timeline = document.getElementById('timeline');
-        const post = document.createElement('div');
-        post.className = 'post';
+        const postDiv = document.createElement('div');
+        postDiv.className = 'post';
         
-        const tieneOculto = text.includes("((");
-        let htmlContent = text
+        const tieneOculto = post.contenido_oculto !== null;
+        let htmlContent = post.contenido
             .replace(/\*(.*?)\*/g, '<b>$1</b>')
             .replace(/_(.*?)_/g, '<i>$1</i>')
-            .replace(/<(.*?):(.*?)>/g, '<a href="http://$2" target="_blank" style="color:blue">$1</a>')
-            .replace(/\(\((.*?)\|(.*?)\)\)/g, '<span style="background:#000; color:#000;">▒▒▒▒▒</span>');
+            .replace(/<(.*?):(.*?)>/g, '<a href="http://$2" target="_blank" style="color:blue">$1</a>');
+        
+        if(tieneOculto) {
+            htmlContent += ' <span style="background:#000; color:#000;">█████</span>';
+        }
 
         const idAv = 'av-' + Math.random().toString(36).substring(7);
-        post.innerHTML = `
+        postDiv.innerHTML = `
             <div class="avatar" id="${idAv}"></div>
             <div class="post-body">
-                <div class="marca-tag" style="color:${miColor}">${miMarca}</div>
+                <div class="marca-tag" style="color:${post.color}">${post.etiqueta}</div>
                 <div style="white-space: pre-wrap;">${htmlContent}</div>
                 ${tieneOculto ? `
                     <div class="oculto-box">
@@ -147,13 +152,100 @@
                     </div>` : ''}
             </div>
         `;
-        timeline.prepend(post);
-        generateAvatar(idAv);
-        document.getElementById('editor').value = '';
-        document.getElementById('char-count').innerText = "576 espacios restantes";
+        timeline.appendChild(postDiv);
+        generateAvatarFromMarca(idAv, post.etiqueta, post.color);
     }
 
-    reetiquetar();
+    async function postear(text) {
+        const payload = {
+            etiqueta: miMarca,
+            contenido: text,
+            color: miColor,
+            semilla: null,
+            contenido_oculto: null
+        };
+        
+        try {
+            const res = await fetch('/api/postear', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            
+            if(res.ok) {
+                document.getElementById('editor').value = '';
+                document.getElementById('char-count').innerText = "576 espacios restantes";
+                await cargarTimeline();
+            } else {
+                alert('Error al postear');
+            }
+        } catch(e) {
+            console.error('Error:', e);
+            alert('Error de conexión');
+        }
+    }
+
+    async function cargarEstadisticas() {
+        try {
+            const res = await fetch('/api/stats');
+            const stats = await res.json();
+            const alerta = document.querySelector('.alerta-espacio');
+            alerta.innerText = `Base de datos al ${stats.percentage}%, se borrará próximamente.`;
+            
+            if(stats.percentage > 80) {
+                alerta.style.color = '#d32f2f';
+            } else if(stats.percentage > 60) {
+                alerta.style.color = '#f57c00';
+            }
+        } catch(e) {
+            console.error('Error cargando stats:', e);
+        }
+    }
+
+    function generateAvatarFromMarca(containerId, marca, colorPrincipal) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        
+        let hash = 0;
+        for(let i = 0; i < marca.length; i++) {
+            hash = marca.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        
+        const colores = [
+            '#f0f0f0', 
+            colorPrincipal, 
+            '#333', 
+            '#aaa',
+            '#666',
+            darkenColor(colorPrincipal, 20)
+        ];
+        
+        for(let i=0; i<9; i++) {
+            const div = document.createElement('div');
+            div.className = 'pixel';
+            const colorIndex = Math.abs((hash + i) % colores.length);
+            div.style.background = colores[colorIndex];
+            container.appendChild(div);
+        }
+    }
+
+    function darkenColor(color, percent) {
+        const num = parseInt(color.replace("#",""), 16);
+        const amt = Math.round(2.55 * percent);
+        const R = (num >> 16) - amt;
+        const G = (num >> 8 & 0x00FF) - amt;
+        const B = (num & 0x0000FF) - amt;
+        return "#" + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 +
+            (G<255?G<1?0:G:255)*0x100 + (B<255?B<1?0:B:255))
+            .toString(16).slice(1);
+    }
+
+    window.onload = () => {
+        reetiquetar();
+        cargarTimeline();
+        cargarEstadisticas();
+        setInterval(cargarEstadisticas, 60000);
+    };
 </script>
 </body>
 </html>
