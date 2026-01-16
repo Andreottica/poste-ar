@@ -8,7 +8,8 @@ const PORT = process.env.PORT || 3000;
 
 const db = createClient({
   url: process.env.TURSO_URL || "libsql://ciudadeloa-db-andreottica.aws-us-east-1.turso.io",
-  authToken: process.env.TURSO_TOKEN
+  authToken: process.env.TURSO_TOKEN,
+  syncUrl: undefined
 });
 
 async function inicializarDB() {
