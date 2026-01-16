@@ -17,7 +17,7 @@ app.use(express.static('public'));
 app.get('/api/posts', async (req, res) => {
     try {
         const rs = await db.execute("SELECT * FROM posteos ORDER BY id DESC LIMIT 50");
-        res.json(rs.rows);
+        res.json(Array.from(rs.rows));
     } catch (e) { 
         console.error(e);
         res.status(500).json({ error: e.message }); 
@@ -50,10 +50,11 @@ app.get('/source', (req, res) => {
 app.get('/api/stats', async (req, res) => {
     try {
         const count = await db.execute("SELECT COUNT(*) as total FROM posteos");
+        const rows = Array.from(count.rows);
         const maxCapacity = 1000;
-        const percentage = Math.floor((count.rows[0].total / maxCapacity) * 100);
+        const percentage = Math.floor((rows[0].total / maxCapacity) * 100);
         res.json({ 
-            total: count.rows[0].total, 
+            total: rows[0].total, 
             percentage,
             maxCapacity 
         });
