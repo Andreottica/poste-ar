@@ -1,0 +1,14 @@
+POSTE.AR - CÓDIGO FUENTE
+=========================
+
+Proyecto open source de comunicación anónima y efímera.
+
+Tecnologías:
+- Backend: Node.js + Express
+- Base de datos: Turso (libSQL)
+- Frontend: HTML + CSS + Vanilla JS
+
+Licencia: MIT
+
+Ciudadela, Buenos Aires, Argentina.
+Versión: 1.0 Beta
