@@ -8,18 +8,8 @@ const PORT = process.env.PORT || 3000;
 
 const db = createClient({
   url: process.env.TURSO_URL || "libsql://ciudadeloa-db-andreottica.aws-us-east-1.turso.io",
-  authToken: process.env.TURSO_TOKEN,
-  syncUrl: undefined
+  authToken: process.env.TURSO_TOKEN
 });
-
-async function inicializarDB() {
-  try {
-    await db.execute("SELECT 1");
-    console.log('✓ Base de datos conectada');
-  } catch(e) {
-    console.error('Error conectando DB:', e);
-  }
-}
 
 app.use(express.json());
 app.use(express.static('public'));
@@ -74,8 +64,6 @@ app.get('/api/stats', async (req, res) => {
 
 app.get('/keep-alive', (req, res) => res.send('ok'));
 
-inicializarDB().then(() => {
-    app.listen(PORT, () => { 
-        console.log(`🚀 Servidor en puerto ${PORT}`); 
-    });
+app.listen(PORT, () => { 
+    console.log(`🚀 Servidor en puerto ${PORT}`); 
 });
