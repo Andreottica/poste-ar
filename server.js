@@ -12,18 +12,12 @@ const db = createClient({
 });
 
 async function inicializarDB() {
-  await db.execute(`
-    CREATE TABLE IF NOT EXISTS posteos (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      etiqueta TEXT NOT NULL,
-      contenido TEXT NOT NULL,
-      color TEXT DEFAULT '#2e7d32',
-      semilla TEXT,
-      contenido_oculto TEXT,
-      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
-  console.log('✓ Base de datos lista');
+  try {
+    await db.execute("SELECT 1");
+    console.log('✓ Base de datos conectada');
+  } catch(e) {
+    console.error('Error conectando DB:', e);
+  }
 }
 
 app.use(express.json());
