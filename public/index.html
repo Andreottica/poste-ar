@@ -18,6 +18,10 @@
 
         .nav-status { display: flex; justify-content: space-between; align-items: center; background: #fdfdfd; padding: 10px; border: 1px solid var(--gris-suave); font-size: 15px; margin-top: 15px; }
         
+        .search-box { width: 100%; padding: 10px; border: 1px solid var(--gris-suave); font-family: inherit; font-size: 15px; outline: none; box-sizing: border-box; margin-top: 15px; }
+        
+        .search-info { font-size: 15px; color: #666; margin-top: 10px; text-align: center; }
+        
         .avatar { width: 60px; height: 60px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--gris-suave); flex-shrink: 0; }
         .pixel { width: 100%; height: 100%; }
 
@@ -27,6 +31,7 @@
         
         .btn { cursor: pointer; font-family: inherit; font-weight: bold; border: 1px solid var(--gris-suave); padding: 5px 12px; background: #fff; color: #444; font-size: 15px; }
         .btn-postear { cursor: pointer; background: #000; color: #fff; border: 1px solid #000; padding: 8px 25px; font-size: 15px; }
+        .btn-volver { cursor: pointer; background: #fff; color: #000; border: 1px solid #000; padding: 8px 25px; font-size: 15px; margin: 20px auto; display: block; }
         
         .post { display: flex; gap: 20px; border-bottom: 1px solid #eee; padding: 25px 0; align-items: flex-start; }
         .post-body { flex-grow: 1; min-width: 0; }
@@ -35,6 +40,8 @@
         
         .oculto-box { margin-top: 10px; font-size: 15px; border: 1px dashed var(--gris-suave); padding: 8px; }
         .contador { font-size: 15px; color: #888; text-align: right; margin-top: 5px; }
+        
+        .hidden { display: none; }
     </style>
 </head>
 <body>
@@ -54,6 +61,9 @@
             </div>
         </div>
 
+        <input type="text" class="search-box" id="search-input" placeholder="Buscar..." oninput="buscar()">
+        <div class="search-info" id="search-info"></div>
+
         <div id="manual-box"></div>
         
         <div style="margin-top: 20px;">
@@ -66,12 +76,16 @@
         </div>
     </header>
 
+    <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver a todos los posts ]</button>
+
     <div id="timeline"></div>
 </div>
 
 <script>
     let miMarca = "";
     let miColor = "";
+    let todosLosPosts = [];
+    let buscando = false;
 
     function generarNomenclador() {
         const r = () => Math.random().toString(36).substring(2, 6);
@@ -127,12 +141,17 @@
         try {
             const res = await fetch('/api/posts');
             const posts = await res.json();
-            const timeline = document.getElementById('timeline');
-            timeline.innerHTML = '';
-            posts.forEach(post => mostrarPost(post));
+            todosLosPosts = posts;
+            mostrarPosts(posts);
         } catch(e) {
             console.error('Error cargando posts:', e);
         }
+    }
+
+    function mostrarPosts(posts) {
+        const timeline = document.getElementById('timeline');
+        timeline.innerHTML = '';
+        posts.forEach(post => mostrarPost(post));
     }
 
     function mostrarPost(post) {
@@ -168,6 +187,48 @@
         `;
         timeline.appendChild(postDiv);
         generateAvatarFromMarca(idAv, post.etiqueta, post.color);
+    }
+
+    function buscar() {
+        const query = document.getElementById('search-input').value.trim();
+        const btnVolver = document.getElementById('btn-volver');
+        const searchInfo = document.getElementById('search-info');
+        
+        if(!query) {
+            mostrarPosts(todosLosPosts);
+            btnVolver.classList.add('hidden');
+            searchInfo.innerText = '';
+            buscando = false;
+            return;
+        }
+
+        buscando = true;
+        btnVolver.classList.remove('hidden');
+
+        // Separar términos por coma y limpiar espacios
+        const terminos = query.split(',').map(t => t.trim().toLowerCase()).filter(t => t);
+        
+        // Filtrar posts que contengan TODOS los términos
+        const resultados = todosLosPosts.filter(post => {
+            const textoCompleto = `${post.etiqueta} ${post.contenido} ${formatearFecha(post.fecha)}`.toLowerCase();
+            return terminos.every(termino => textoCompleto.includes(termino));
+        });
+
+        mostrarPosts(resultados);
+        
+        if(resultados.length === 0) {
+            searchInfo.innerText = 'No se encontraron resultados';
+        } else {
+            searchInfo.innerText = `${resultados.length} resultado${resultados.length === 1 ? '' : 's'}`;
+        }
+    }
+
+    function volverATodos() {
+        document.getElementById('search-input').value = '';
+        document.getElementById('search-info').innerText = '';
+        document.getElementById('btn-volver').classList.add('hidden');
+        mostrarPosts(todosLosPosts);
+        buscando = false;
     }
 
     async function postear(text) {
