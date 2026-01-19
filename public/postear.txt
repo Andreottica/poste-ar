@@ -1,57 +1,103 @@
-POSTE.AR - MANUAL DE USO
-========================
+======================
+AYUDA - CÓMO USAR POSTE.AR
+======================
 
-POSTEAR
--------
-Escribe tu mensaje (máximo 576 caracteres) y presiona [postear].
-Tu marca temporal aparecerá en todos tus posts durante esta sesión.
-
-FORMATO DE TEXTO
-----------------
-*texto*              → texto en negrita
-_texto_              → texto en cursiva
-<nombre:url.com>     → crear enlace
-
-Ejemplo:
-Hola *mundo*, esto es _importante_. 
-Más info en <sitio:ejemplo.com>
-
-OCULTAR CONTENIDO
------------------
-((secreto|clave123))
-
-El texto entre (( )) se cifra con la semilla "clave123".
-Solo quien conozca la semilla podrá descifrar el contenido.
-
-NOTA: Función de cifrado próximamente disponible.
-
-REETIQUETAR
------------
-Presiona [reetiquetar] para obtener una nueva marca anónima.
-Útil si quieres cambiar de identidad sin cerrar sesión.
+POSTEAR UN MENSAJE
+------------------
+1. Escribí tu mensaje en el cuadro (máximo 576 caracteres)
+2. Presioná [ postear ]
+3. Tu mensaje aparecerá con tu marca temporal
 
 TU MARCA
 --------
-Formato: xxxx.NN.yyyy.MM
-Ejemplo: tide.21.yija.87
+Es tu identificador anónimo de esta sesión.
+Formato: nana.12.yija.87 (sílabas + números)
 
-Es única y temporal. No se guarda en ningún servidor.
+Mientras no cierres la página o presiones [ reetiquetar ], 
+todos tus posts llevarán la misma marca.
+
+REETIQUETAR
+-----------
+Presioná [ reetiquetar ] para cambiar tu marca y empezar 
+una nueva identidad anónima.
+
+FORMATO DE TEXTO
+----------------
+*texto*           → texto en negrita
+_texto_           → texto en cursiva
+<nombre:url.com>  → crear enlace clickeable
+
+Ejemplo:
+Esto es *importante* y _urgente_.
+Más info en <aquí:ejemplo.com>
+
+BUSCAR MENSAJES
+---------------
+Escribí en el cuadro "Buscar..." lo que querés encontrar.
+
+Ejemplos:
+- Buscar "papeles" → muestra posts con esa palabra
+- Buscar "papeles, Argentina" → muestra posts que tengan 
+  AMBAS palabras (búsqueda con Y)
+- Buscar "23" → encuentra en hora, fecha, texto, marca
+
+La búsqueda NO distingue mayúsculas de minúsculas.
+
+CONTENIDO OCULTO (próximamente)
+--------------------------------
+Usá ((secreto|clave123)) para cifrar parte del mensaje.
+Solo quien tenga la clave "clave123" podrá leerlo.
+
+NOTA: Esta función estará disponible próximamente.
+
+
+======================
+QUÉ ES POSTE.AR
+======================
+
+DEFINICIÓN
+----------
+Poste.ar es un sitio de comunicación anónima y efímera.
+Un tablón digital donde publicar mensajes sin identidad 
+permanente ni registro de usuarios.
+
+FILOSOFÍA
+---------
+- Anonimato: No hay cuentas, emails ni contraseñas
+- Efímero: Los mensajes se borran automáticamente
+- Sin rastro: No guardamos IPs ni datos personales
+- Abierto: El código es open source
 
 PERSISTENCIA
 ------------
-Los mensajes se eliminan automáticamente cada 7 días
-para mantener la base de datos efímera y renovada.
+Todos los mensajes se eliminan automáticamente cada lunes 
+a las 00:00 hs (hora Argentina).
+
+El sitio muestra un contador indicando el % de capacidad 
+de la base de datos.
 
 PRIVACIDAD
 ----------
-- No se registran IPs ni datos personales
-- No hay cuentas de usuario
-- Todo es anónimo y temporal
-- El código es open source
+- No se registran direcciones IP
+- No hay cookies de rastreo
+- No hay análisis de comportamiento
+- Todo el código es auditable
+
+TECNOLOGÍA
+----------
+- Backend: Node.js + Express
+- Base de datos: Turso (libSQL)
+- Frontend: HTML, CSS, JavaScript vanilla
+- Hosting: Render
 
 UBICACIÓN
 ---------
-Ciudadela, Buenos Aires, Argentina
-Sitio experimental de comunicación efímera.
+Proyecto experimental desarrollado en Ciudadela, 
+Buenos Aires, Argentina.
+
+CÓDIGO FUENTE
+-------------
+Presioná [ download source ] para ver información 
+del repositorio y la licencia del proyecto.
 
 Versión: 1.0 Beta
