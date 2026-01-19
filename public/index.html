@@ -14,7 +14,7 @@
         .brand-line { font-weight: bold; font-size: 15px; margin-bottom: 2px; }
         .sub-brand { font-size: 15px; color: #666; }
 
-        .alerta-espacio { color: #d32f2f; font-size: 15px; margin: 15px 0; display: block; }
+        .alerta-espacio { color: #666; font-size: 15px; margin: 15px 0; display: block; }
 
         .nav-status { display: flex; justify-content: space-between; align-items: center; background: #fdfdfd; padding: 10px; border: 1px solid var(--gris-suave); font-size: 15px; margin-top: 15px; }
         
@@ -22,8 +22,7 @@
         
         .search-info { font-size: 15px; color: #666; margin-top: 10px; text-align: center; }
         
-        .avatar { width: 60px; height: 60px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--gris-suave); flex-shrink: 0; }
-        .pixel { width: 100%; height: 100%; }
+        .avatar { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; color: #fff; flex-shrink: 0; border: 2px solid var(--gris-suave); }
 
         #manual-box { display: none; background: #fff; border: 1px solid var(--gris-suave); padding: 15px; font-size: 15px; white-space: pre-wrap; margin: 15px 0; }
 
@@ -51,7 +50,7 @@
         <div class="brand-line">poste.ar</div>
         <div class="sub-brand">Sitio anónimo, efímero. Ciudadela, Buenos Aires, Argentina.</div>
         
-        <span class="alerta-espacio">Base de datos al 0%, se borrará próximamente.</span>
+        <span class="alerta-espacio" id="contador-reset">Reseteo DB: calculando...</span>
 
         <div class="nav-status">
             <span>Tu Marca: <b id="current-marca" style="color:var(--rastro-color)">...</b></span>
@@ -135,6 +134,27 @@
         const hora = String(fecha.getHours()).padStart(2, '0');
         const min = String(fecha.getMinutes()).padStart(2, '0');
         return `${dia}-${mes} ${hora}:${min}hs`;
+    }
+
+    function calcularProximoLunes() {
+        const ahora = new Date();
+        const diaSemana = ahora.getDay();
+        const diasHastaLunes = diaSemana === 0 ? 1 : (8 - diaSemana);
+        const proximoLunes = new Date(ahora);
+        proximoLunes.setDate(ahora.getDate() + diasHastaLunes);
+        proximoLunes.setHours(0, 0, 0, 0);
+        return proximoLunes;
+    }
+
+    function actualizarContadorReset() {
+        const ahora = new Date();
+        const proximoLunes = calcularProximoLunes();
+        const diff = proximoLunes - ahora;
+        
+        const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        
+        document.getElementById('contador-reset').innerText = `Reseteo DB: ${dias}d ${horas}hs`;
     }
 
     async function cargarTimeline() {
@@ -263,66 +283,35 @@
         }
     }
 
-    async function cargarEstadisticas() {
-        try {
-            const res = await fetch('/api/stats');
-            const stats = await res.json();
-            const alerta = document.querySelector('.alerta-espacio');
-            alerta.innerText = `Base de datos al ${stats.percentage}%, se borrará próximamente.`;
-            
-            if(stats.percentage > 80) {
-                alerta.style.color = '#d32f2f';
-            } else if(stats.percentage > 60) {
-                alerta.style.color = '#f57c00';
-            }
-        } catch(e) {
-            console.error('Error cargando stats:', e);
-        }
-    }
-
     function generateAvatarFromMarca(containerId, marca, colorPrincipal) {
         const container = document.getElementById(containerId);
         container.innerHTML = '';
+        
+        const coloresFondo = [
+            '#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', 
+            '#1abc9c', '#e67e22', '#34495e', '#16a085', '#c0392b',
+            '#2980b9', '#8e44ad'
+        ];
         
         let hash = 0;
         for(let i = 0; i < marca.length; i++) {
             hash = marca.charCodeAt(i) + ((hash << 5) - hash);
         }
         
-        const colores = [
-            '#f0f0f0', 
-            colorPrincipal, 
-            '#333', 
-            '#aaa',
-            '#666',
-            darkenColor(colorPrincipal, 20)
-        ];
+        const colorFondo = coloresFondo[Math.abs(hash) % coloresFondo.length];
         
-        for(let i=0; i<9; i++) {
-            const div = document.createElement('div');
-            div.className = 'pixel';
-            const colorIndex = Math.abs((hash + i) % colores.length);
-            div.style.background = colores[colorIndex];
-            container.appendChild(div);
-        }
-    }
-
-    function darkenColor(color, percent) {
-        const num = parseInt(color.replace("#",""), 16);
-        const amt = Math.round(2.55 * percent);
-        const R = (num >> 16) - amt;
-        const G = (num >> 8 & 0x00FF) - amt;
-        const B = (num & 0x0000FF) - amt;
-        return "#" + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 +
-            (G<255?G<1?0:G:255)*0x100 + (B<255?B<1?0:B:255))
-            .toString(16).slice(1);
+        const partes = marca.split('.');
+        const letras = (partes[0].substring(0, 2) || 'XX').toUpperCase();
+        
+        container.style.backgroundColor = colorFondo;
+        container.innerText = letras;
     }
 
     window.onload = () => {
         reetiquetar();
         cargarTimeline();
-        cargarEstadisticas();
-        setInterval(cargarEstadisticas, 60000);
+        actualizarContadorReset();
+        setInterval(actualizarContadorReset, 60000);
     };
 </script>
 </body>
