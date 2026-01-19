@@ -3,12 +3,35 @@ POSTE.AR - CÓDIGO FUENTE
 
 Proyecto open source de comunicación anónima y efímera.
 
-Tecnologías:
+REPOSITORIO
+-----------
+[Próximamente disponible en GitHub]
+
+TECNOLOGÍAS
+-----------
 - Backend: Node.js + Express
 - Base de datos: Turso (libSQL)
-- Frontend: HTML + CSS + Vanilla JS
+- Frontend: HTML + CSS + Vanilla JavaScript
 
-Licencia: MIT
+CARACTERÍSTICAS
+---------------
+- Publicación anónima con marcas temporales
+- Búsqueda en toda la base de datos
+- Purga automática cada 7 días
+- Sin registro de usuarios
+- Sin almacenamiento de IPs
 
-Ciudadela, Buenos Aires, Argentina.
-Versión: 1.0 Beta
+FILOSOFÍA
+---------
+Comunicación efímera, anónima y sin rastro permanente.
+Un tablón digital para mensajes que no necesitan eternidad.
+
+LICENCIA
+--------
+MIT License
+
+UBICACIÓN
+---------
+Ciudadela, Buenos Aires, Argentina
+
+Versión: 1.0
