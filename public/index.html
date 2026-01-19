@@ -31,7 +31,7 @@
         
         .btn { cursor: pointer; font-family: inherit; font-weight: bold; border: 1px solid var(--gris-suave); padding: 5px 12px; background: #fff; color: #444; font-size: 15px; }
         .btn-postear { cursor: pointer; background: #000; color: #fff; border: 1px solid #000; padding: 8px 25px; font-size: 15px; }
-        .btn-volver { cursor: pointer; background: #fff; color: #000; border: 1px solid #000; padding: 8px 25px; font-size: 15px; margin: 20px auto; display: block; }
+        .btn-volver { cursor: pointer; background: #f5f5f5; color: #444; border: 1px solid var(--gris-suave); padding: 8px 25px; font-size: 15px; }
         
         .post { display: flex; gap: 20px; border-bottom: 1px solid #eee; padding: 25px 0; align-items: flex-start; }
         .post-body { flex-grow: 1; min-width: 0; }
@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <input type="text" class="search-box" id="search-input" placeholder="Buscar..." oninput="buscar()">
+        <input type="text" class="search-box" id="search-input" placeholder="Buscar..." onkeyup="buscarConDelay()">
         <div class="search-info" id="search-info"></div>
 
         <div id="manual-box"></div>
@@ -69,14 +69,13 @@
         <div style="margin-top: 20px;">
             <textarea id="editor" maxlength="576" placeholder="Escribe aquí... ((secreto|semilla))"></textarea>
             <div class="contador" id="char-count">576 espacios restantes</div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 10px;">
                 <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
+                <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver ]</button>
                 <button class="btn" onclick="window.open('/source')">[ download source ]</button>
             </div>
         </div>
     </header>
-
-    <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver a todos los posts ]</button>
 
     <div id="timeline"></div>
 </div>
@@ -84,8 +83,8 @@
 <script>
     let miMarca = "";
     let miColor = "";
-    let todosLosPosts = [];
     let buscando = false;
+    let timeoutBusqueda = null;
 
     function generarNomenclador() {
         const r = () => Math.random().toString(36).substring(2, 6);
@@ -141,7 +140,6 @@
         try {
             const res = await fetch('/api/posts');
             const posts = await res.json();
-            todosLosPosts = posts;
             mostrarPosts(posts);
         } catch(e) {
             console.error('Error cargando posts:', e);
@@ -189,13 +187,18 @@
         generateAvatarFromMarca(idAv, post.etiqueta, post.color);
     }
 
-    function buscar() {
+    function buscarConDelay() {
+        clearTimeout(timeoutBusqueda);
+        timeoutBusqueda = setTimeout(buscar, 500);
+    }
+
+    async function buscar() {
         const query = document.getElementById('search-input').value.trim();
         const btnVolver = document.getElementById('btn-volver');
         const searchInfo = document.getElementById('search-info');
         
         if(!query) {
-            mostrarPosts(todosLosPosts);
+            await cargarTimeline();
             btnVolver.classList.add('hidden');
             searchInfo.innerText = '';
             buscando = false;
@@ -205,21 +208,20 @@
         buscando = true;
         btnVolver.classList.remove('hidden');
 
-        // Separar términos por coma y limpiar espacios
-        const terminos = query.split(',').map(t => t.trim().toLowerCase()).filter(t => t);
-        
-        // Filtrar posts que contengan TODOS los términos
-        const resultados = todosLosPosts.filter(post => {
-            const textoCompleto = `${post.etiqueta} ${post.contenido} ${formatearFecha(post.fecha)}`.toLowerCase();
-            return terminos.every(termino => textoCompleto.includes(termino));
-        });
-
-        mostrarPosts(resultados);
-        
-        if(resultados.length === 0) {
-            searchInfo.innerText = 'No se encontraron resultados';
-        } else {
-            searchInfo.innerText = `${resultados.length} resultado${resultados.length === 1 ? '' : 's'}`;
+        try {
+            const res = await fetch(`/api/buscar?q=${encodeURIComponent(query)}`);
+            const resultados = await res.json();
+            
+            mostrarPosts(resultados);
+            
+            if(resultados.length === 0) {
+                searchInfo.innerText = 'No se encontraron resultados';
+            } else {
+                searchInfo.innerText = `${resultados.length} resultado${resultados.length === 1 ? '' : 's'}`;
+            }
+        } catch(e) {
+            console.error('Error en búsqueda:', e);
+            searchInfo.innerText = 'Error al buscar';
         }
     }
 
@@ -227,7 +229,7 @@
         document.getElementById('search-input').value = '';
         document.getElementById('search-info').innerText = '';
         document.getElementById('btn-volver').classList.add('hidden');
-        mostrarPosts(todosLosPosts);
+        cargarTimeline();
         buscando = false;
     }
 
