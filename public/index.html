@@ -87,10 +87,11 @@
     let timeoutBusqueda = null;
 
     function generarNomenclador() {
-        const r = () => Math.random().toString(36).substring(2, 6);
+        const silabas = ['ba','be','bi','bo','bu','ca','ce','ci','co','cu','da','de','di','do','du','fa','fe','fi','fo','fu','ga','ge','gi','go','gu','ja','je','ji','jo','ju','ka','ke','ki','ko','ku','la','le','li','lo','lu','ma','me','mi','mo','mu','na','ne','ni','no','nu','pa','pe','pi','po','pu','ra','re','ri','ro','ru','sa','se','si','so','su','ta','te','ti','to','tu','va','ve','vi','vo','vu','xa','xe','xi','xo','xu','ya','ye','yi','yo','yu','za','ze','zi','zo','zu'];
+        const s = () => silabas[Math.floor(Math.random() * silabas.length)];
         const n = () => Math.floor(Math.random() * 90 + 10);
-        return `${r()}.${n()}.${r()}.${n()}`;
-    }
+        return `${s()}${s()}.${n()}.${s()}${s()}.${n()}`;
+    }}
 
     function generateAvatar(containerId) {
         generateAvatarFromMarca(containerId, miMarca, miColor);
