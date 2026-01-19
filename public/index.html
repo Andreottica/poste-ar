@@ -47,10 +47,14 @@
 
 <div class="container">
     <header>
-        <div class="brand-line">poste.ar</div>
-        <div class="sub-brand">Sitio anónimo, efímero. Ciudadela, Buenos Aires, Argentina.</div>
-        
-        <span class="alerta-espacio" id="contador-reset">Reseteo DB: calculando...</span>
+        <div style="display: flex; gap: 15px; align-items: flex-start; margin-bottom: 15px;">
+            <img src="postear.gif" alt="logo" style="width: 60px; height: 60px; flex-shrink: 0;">
+            <div>
+                <div class="brand-line">poste.ar</div>
+                <div class="sub-brand">Sitio anónimo, efímero. Ciudadela, Buenos Aires, Argentina.</div>
+                <span class="alerta-espacio" id="contador-reset">Reseteo DB: calculando...</span>
+            </div>
+        </div>
 
         <div class="nav-status">
             <span>Tu Marca: <b id="current-marca" style="color:var(--rastro-color)">...</b></span>
@@ -305,6 +309,10 @@
         
         container.style.backgroundColor = colorFondo;
         container.innerText = letras;
+    }
+
+        async function actualizarPosts() {
+        await cargarTimeline();
     }
 
     window.onload = () => {
