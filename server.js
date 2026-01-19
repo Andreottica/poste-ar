@@ -24,6 +24,38 @@ app.get('/api/posts', async (req, res) => {
     }
 });
 
+app.get('/api/buscar', async (req, res) => {
+    try {
+        const query = req.query.q || '';
+        if (!query.trim()) {
+            const rs = await db.execute("SELECT * FROM posteos ORDER BY id DESC LIMIT 50");
+            return res.json(Array.from(rs.rows));
+        }
+
+        // Separar términos por coma
+        const terminos = query.split(',').map(t => t.trim()).filter(t => t);
+        
+        // Construir consulta SQL con LIKE para cada término
+        let sql = "SELECT * FROM posteos WHERE ";
+        const conditions = [];
+        const args = [];
+        
+        terminos.forEach(termino => {
+            conditions.push("(LOWER(etiqueta) LIKE ? OR LOWER(contenido) LIKE ? OR LOWER(fecha) LIKE ?)");
+            const searchTerm = `%${termino.toLowerCase()}%`;
+            args.push(searchTerm, searchTerm, searchTerm);
+        });
+        
+        sql += conditions.join(' AND ') + " ORDER BY id DESC";
+        
+        const rs = await db.execute({ sql, args });
+        res.json(Array.from(rs.rows));
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
 app.post('/api/postear', async (req, res) => {
     const { etiqueta, contenido, color, semilla, contenido_oculto } = req.body;
     
