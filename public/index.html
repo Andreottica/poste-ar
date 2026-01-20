@@ -74,10 +74,12 @@
             <div class="contador" id="char-count">576 espacios restantes</div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 10px;">
                 <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
-                <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver ]</button>
-                <button class="btn" onclick="window.open('/source')">[ download source ]</button>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver ]</button>
+                    <button class="btn" onclick="actualizarPosts()">[ actualizar ]</button>
+                    <button class="btn" onclick="window.open('/source')">[ download source ]</button>
+                </div>
             </div>
-        </div>
     </header>
 
     <div id="timeline"></div>
