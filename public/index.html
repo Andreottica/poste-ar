@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>poste.ar · ciudadela</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         :root { --rastro-color: #2e7d32; --gris-suave: #ddd; --texto: #1a1a1a; }
         body { font-family: 'Courier New', Courier, monospace; background: #fff; color: var(--texto); margin: 0; display: flex; flex-direction: column; align-items: center; font-size: 15px; }
@@ -26,19 +27,27 @@
 
         #manual-box { display: none; background: #fff; border: 1px solid var(--gris-suave); padding: 15px; font-size: 15px; white-space: pre-wrap; margin: 15px 0; }
 
-        textarea { width: 100%; height: 100px; border: 1px solid var(--gris-suave); padding: 10px; font-family: inherit; font-size: 15px; resize: none; outline: none; box-sizing: border-box; }
+        textarea { width: 100%; border: 1px solid var(--gris-suave); padding: 10px; font-family: inherit; font-size: 15px; resize: none; outline: none; box-sizing: border-box; }
         
         .btn { cursor: pointer; font-family: inherit; font-weight: bold; border: 1px solid var(--gris-suave); padding: 5px 12px; background: #fff; color: #444; font-size: 15px; }
-        .btn-postear { cursor: pointer; background: #000; color: #fff; border: 1px solid #000; padding: 5px 25px; font-size: 15px; }
-        .btn-volver { cursor: pointer; background: #f5f5f5; color: #444; border: 1px solid var(--gris-suave); padding: 8px 25px; font-size: 15px; }
+        .btn-postear { cursor: pointer; background: #000; color: #fff; border: 1px solid #000; padding: 5px 12px; font-size: 15px; }
+        .btn-volver { cursor: pointer; background: #f5f5f5; color: #444; border: 1px solid var(--gris-suave); padding: 5px 12px; font-size: 15px; }
         
         .post { display: flex; gap: 20px; border-bottom: 1px solid #eee; padding: 25px 0; align-items: flex-start; }
         .post-body { flex-grow: 1; min-width: 0; }
         .marca-tag { font-size: 15px; font-weight: bold; margin-bottom: 5px; }
         .fecha-tag { font-size: 15px; color: #666; margin-bottom: 8px; }
         
-        .oculto-box { margin-top: 10px; font-size: 15px; border: 1px dashed var(--gris-suave); padding: 8px; }
+        .semilla-box { margin-top: 10px; display: flex; gap: 5px; align-items: center; }
+        .semilla-input { flex: 1; border: none; border-bottom: 1px solid var(--gris-suave); outline: none; font-family: inherit; font-size: 15px; padding: 5px; }
+        .semilla-btn { cursor: pointer; border: none; background: none; font-size: 18px; color: #666; }
+        .semilla-btn:hover { color: #000; }
+        
+        .mensaje-oculto { margin-top: 10px; padding: 10px; background: #f9f9f9; border: 1px solid var(--gris-suave); font-size: 15px; white-space: pre-wrap; }
+        
         .contador { font-size: 15px; color: #888; text-align: right; margin-top: 5px; }
+        
+        .oculto-section { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--gris-suave); display: none; }
         
         .hidden { display: none; }
     </style>
@@ -70,8 +79,30 @@
         <div id="manual-box"></div>
         
         <div style="margin-top: 20px;">
-            <textarea id="editor" maxlength="576" placeholder="Escribe aquí... ((secreto|semilla))"></textarea>
-            <div class="contador" id="char-count">576 espacios restantes</div>
+            <textarea id="editor" rows="4" maxlength="576" placeholder="Mensaje público..."></textarea>
+            <div class="contador" id="char-count">576 caracteres restantes</div>
+            
+            <div style="margin-top: 10px;">
+                <label style="cursor: pointer; font-size: 15px;">
+                    <input type="checkbox" id="checkbox-oculto" onchange="toggleOculto()"> Agregar mensaje oculto
+                </label>
+            </div>
+            
+            <div class="oculto-section" id="oculto-section">
+                <textarea id="editor-oculto" rows="3" maxlength="288" placeholder="Mensaje oculto (288 caracteres)..."></textarea>
+                <div class="contador" id="char-count-oculto">288 caracteres restantes</div>
+                
+                <div style="margin-top: 10px;">
+                    <div style="font-size: 15px; color: #666; margin-bottom: 5px;">
+                        Password (obligatorio):
+                    </div>
+                    <input type="text" id="password-input" placeholder="Ejemplo: perro tiza golf maria" style="width: 100%; padding: 8px; border: 1px solid var(--gris-suave); font-family: inherit; font-size: 15px; outline: none; box-sizing: border-box;">
+                    <div style="font-size: 13px; color: #888; margin-top: 5px;">
+                        1-12 palabras. Más palabras = más seguridad.
+                    </div>
+                </div>
+            </div>
+            
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 10px;">
                 <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
                 <div style="display: flex; gap: 10px;">
@@ -80,6 +111,7 @@
                     <button class="btn" onclick="window.open('/source')">[ download source ]</button>
                 </div>
             </div>
+        </div>
     </header>
 
     <div id="timeline"></div>
@@ -98,8 +130,10 @@
         return `${s()}${s()}.${n()}.${s()}${s()}.${n()}`;
     }
 
-    function generateAvatar(containerId) {
-        generateAvatarFromMarca(containerId, miMarca, miColor);
+    function toggleOculto() {
+        const checkbox = document.getElementById('checkbox-oculto');
+        const section = document.getElementById('oculto-section');
+        section.style.display = checkbox.checked ? 'block' : 'none';
     }
 
     function toggleManual() {
@@ -119,17 +153,30 @@
     }
 
     document.getElementById('editor').oninput = function() {
-        document.getElementById('char-count').innerText = (576 - this.value.length) + " espacios restantes";
+        document.getElementById('char-count').innerText = (576 - this.value.length) + " caracteres restantes";
+    };
+
+    document.getElementById('editor-oculto').oninput = function() {
+        document.getElementById('char-count-oculto').innerText = (288 - this.value.length) + " caracteres restantes";
     };
 
     function validarYPostear() {
-        const text = document.getElementById('editor').value;
-        if(!text) return;
-        if (text.includes("((") && (!text.includes("|") || !text.includes("))"))) {
-            alert("Error: Use ((texto|semilla)) para ocultar contenido.");
+        const textoPublico = document.getElementById('editor').value;
+        const checkboxOculto = document.getElementById('checkbox-oculto').checked;
+        const textoOculto = document.getElementById('editor-oculto').value;
+        const password = document.getElementById('password-input').value.trim();
+        
+        if(!textoPublico && !textoOculto) {
+            alert("Escribe al menos un mensaje (público u oculto).");
             return;
         }
-        postear(text);
+        
+        if(checkboxOculto && textoOculto && !password) {
+            alert("⚠️ Falta password para el mensaje oculto");
+            return;
+        }
+        
+        postear(textoPublico, textoOculto, password);
     }
 
     function formatearFecha(timestamp) {
@@ -184,17 +231,14 @@
         const postDiv = document.createElement('div');
         postDiv.className = 'post';
         
-        const tieneOculto = post.contenido_oculto !== null;
         let htmlContent = post.contenido
             .replace(/\*(.*?)\*/g, '<b>$1</b>')
             .replace(/_(.*?)_/g, '<i>$1</i>')
             .replace(/<(.*?):(.*?)>/g, '<a href="http://$2" target="_blank" style="color:blue">$1</a>');
-        
-        if(tieneOculto) {
-            htmlContent += ' <span style="background:#000; color:#000;">█████</span>';
-        }
 
         const idAv = 'av-' + Math.random().toString(36).substring(7);
+        const idSemilla = 'semilla-' + Math.random().toString(36).substring(7);
+        const idOculto = 'oculto-' + Math.random().toString(36).substring(7);
         const fechaFormateada = formatearFecha(post.fecha);
         
         postDiv.innerHTML = `
@@ -203,15 +247,40 @@
                 <div class="marca-tag" style="color:${post.color}">${post.etiqueta}</div>
                 <div class="fecha-tag">${fechaFormateada}</div>
                 <div style="white-space: pre-wrap; font-size: 15px;">${htmlContent}</div>
-                ${tieneOculto ? `
-                    <div class="oculto-box">
-                        Contenido oculto [x]: 
-                        <input type="text" placeholder="semilla..." style="border:none; border-bottom:1px solid #ddd; outline:none; width:120px; font-family:inherit; font-size:15px;">
-                    </div>` : ''}
+                <div class="semilla-box">
+                    <input type="text" class="semilla-input" id="${idSemilla}" placeholder="semilla..." onkeypress="if(event.key==='Enter') descifrarMensaje('${idSemilla}', '${idOculto}', '${post.contenido_oculto || ''}')">
+                    <button class="semilla-btn" onclick="descifrarMensaje('${idSemilla}', '${idOculto}', '${post.contenido_oculto || ''}')">→</button>
+                </div>
+                <div id="${idOculto}"></div>
             </div>
         `;
         timeline.appendChild(postDiv);
         generateAvatarFromMarca(idAv, post.etiqueta, post.color);
+    }
+
+    function descifrarMensaje(idSemilla, idOculto, contenidoCifrado) {
+        const inputSemilla = document.getElementById(idSemilla);
+        const divOculto = document.getElementById(idOculto);
+        const semilla = inputSemilla.value.trim();
+        
+        if(!semilla) return;
+        if(!contenidoCifrado) {
+            divOculto.innerHTML = '';
+            return;
+        }
+        
+        try {
+            const bytes = CryptoJS.AES.decrypt(contenidoCifrado, semilla);
+            const textoDescifrado = bytes.toString(CryptoJS.enc.Utf8);
+            
+            if(textoDescifrado) {
+                divOculto.innerHTML = `<div class="mensaje-oculto">${textoDescifrado}</div>`;
+            } else {
+                divOculto.innerHTML = '<div style="color: #d32f2f; font-size: 13px; margin-top: 5px;">Password incorrecto</div>';
+            }
+        } catch(e) {
+            divOculto.innerHTML = '<div style="color: #d32f2f; font-size: 13px; margin-top: 5px;">Password incorrecto</div>';
+        }
     }
 
     function buscarConDelay() {
@@ -260,13 +329,23 @@
         buscando = false;
     }
 
-    async function postear(text) {
+    async function actualizarPosts() {
+        await cargarTimeline();
+    }
+
+    async function postear(textoPublico, textoOculto, password) {
+        let contenidoCifrado = null;
+        
+        if(textoOculto && password) {
+            contenidoCifrado = CryptoJS.AES.encrypt(textoOculto, password).toString();
+        }
+        
         const payload = {
             etiqueta: miMarca,
-            contenido: text,
+            contenido: textoPublico,
             color: miColor,
             semilla: null,
-            contenido_oculto: null
+            contenido_oculto: contenidoCifrado
         };
         
         try {
@@ -278,7 +357,12 @@
             
             if(res.ok) {
                 document.getElementById('editor').value = '';
-                document.getElementById('char-count').innerText = "576 espacios restantes";
+                document.getElementById('editor-oculto').value = '';
+                document.getElementById('password-input').value = '';
+                document.getElementById('checkbox-oculto').checked = false;
+                document.getElementById('oculto-section').style.display = 'none';
+                document.getElementById('char-count').innerText = "576 caracteres restantes";
+                document.getElementById('char-count-oculto').innerText = "288 caracteres restantes";
                 await cargarTimeline();
             } else {
                 alert('Error al postear');
@@ -311,10 +395,6 @@
         
         container.style.backgroundColor = colorFondo;
         container.innerText = letras;
-    }
-
-        async function actualizarPosts() {
-        await cargarTimeline();
     }
 
     window.onload = () => {
