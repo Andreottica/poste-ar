@@ -11,6 +11,29 @@ const db = createClient({
   authToken: process.env.TURSO_TOKEN
 });
 
+// Función para verificar si es lunes 00:00
+function esLunesCeroHoras() {
+    const ahora = new Date();
+    return ahora.getDay() === 1 && ahora.getHours() === 0 && ahora.getMinutes() < 5;
+}
+
+// Función para purgar la base de datos
+async function purgarBaseDeDatos() {
+    try {
+        await db.execute("DELETE FROM posteos");
+        console.log('✓ Base de datos purgada - Lunes 00:00');
+    } catch(e) {
+        console.error('Error al purgar base de datos:', e);
+    }
+}
+
+// Verificar cada 5 minutos si es lunes 00:00
+setInterval(async () => {
+    if(esLunesCeroHoras()) {
+        await purgarBaseDeDatos();
+    }
+}, 5 * 60 * 1000); // 5 minutos
+
 app.use(express.json());
 app.use(express.static('public'));
 
@@ -32,10 +55,8 @@ app.get('/api/buscar', async (req, res) => {
             return res.json(Array.from(rs.rows));
         }
 
-        // Separar términos por coma
         const terminos = query.split(',').map(t => t.trim()).filter(t => t);
         
-        // Construir consulta SQL con LIKE para cada término
         let sql = "SELECT * FROM posteos WHERE ";
         const conditions = [];
         const args = [];
@@ -99,4 +120,5 @@ app.get('/keep-alive', (req, res) => res.send('ok'));
 
 app.listen(PORT, () => { 
     console.log(`🚀 Servidor en puerto ${PORT}`); 
+    console.log('⏰ Purga automática configurada para lunes 00:00');
 });
