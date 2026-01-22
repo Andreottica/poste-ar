@@ -15,7 +15,7 @@
         .brand-line { font-weight: bold; font-size: 15px; margin-bottom: 2px; }
         .sub-brand { font-size: 15px; color: #666; }
 
-        .alerta-espacio { color: #e67e22; font-size: 15px; margin: 15px 0; display: block; }
+        .alerta-box { background: #fff3e0; border: 1px solid #e67e22; padding: 10px; color: #e67e22; font-size: 15px; margin-top: 15px; }
 
         .nav-status { display: flex; justify-content: space-between; align-items: center; background: #fdfdfd; padding: 10px; border: 1px solid var(--gris-suave); font-size: 15px; margin-top: 15px; }
         
@@ -27,11 +27,11 @@
 
         #manual-box { display: none; background: #fff; border: 1px solid var(--gris-suave); padding: 15px; font-size: 15px; white-space: pre-wrap; margin: 15px 0; }
 
-        textarea { width: 100%; border: 1px solid var(--gris-suave); padding: 10px; font-family: inherit; font-size: 15px; resize: none; outline: none; box-sizing: border-box; }
+        textarea { width: 100%; border: 1px solid var(--gris-suave); padding: 10px; font-family: inherit; font-size: 15px; resize: vertical; outline: none; box-sizing: border-box; min-height: 80px; }
         
         .btn { cursor: pointer; font-family: inherit; font-weight: bold; border: 1px solid var(--gris-suave); padding: 5px 12px; background: #fff; color: #444; font-size: 15px; }
-        .btn-postear { cursor: pointer; background: #000; color: #fff; border: 1px solid #000; padding: 5px 12px; font-size: 15px; }
-        .btn-volver { cursor: pointer; background: #f5f5f5; color: #444; border: 1px solid var(--gris-suave); padding: 5px 12px; font-size: 15px; }
+        .btn-postear { cursor: pointer; font-family: inherit; font-weight: bold; background: #000; color: #fff; border: 1px solid #000; padding: 5px 12px; font-size: 15px; }
+        .btn-volver { cursor: pointer; font-family: inherit; font-weight: bold; background: #f5f5f5; color: #444; border: 1px solid var(--gris-suave); padding: 5px 12px; font-size: 15px; }
         
         .post { display: flex; gap: 20px; border-bottom: 1px solid #eee; padding: 25px 0; align-items: flex-start; }
         .post-body { flex-grow: 1; min-width: 0; }
@@ -58,15 +58,16 @@
     <header>
         <div style="display: flex; gap: 15px; align-items: flex-start; margin-bottom: 15px;">
             <img src="postear.gif" alt="logo" style="width: 60px; height: 60px; flex-shrink: 0;">
-            <div>
+            <div style="flex: 1;">
                 <div class="brand-line">poste.ar</div>
                 <div class="sub-brand">Sitio anónimo, efímero. Ciudadela, Buenos Aires, Argentina.</div>
-                <span class="alerta-espacio" id="contador-reset">Reseteo DB: calculando...</span>
             </div>
         </div>
 
+        <div class="alerta-box" id="contador-reset">El timeline se borra todos los lunes: calculando...</div>
+
         <div class="nav-status">
-            <span>Tu Marca: <b id="current-marca" style="color:var(--rastro-color)">...</b></span>
+            <span>Etiqueta: <b id="current-marca" style="color:var(--rastro-color)">...</b></span>
             <div>
                 <button class="btn" onclick="reetiquetar()">[ reetiquetar ]</button>
                 <button class="btn" onclick="toggleManual()">[ manual ]</button>
@@ -79,17 +80,17 @@
         <div id="manual-box"></div>
         
         <div style="margin-top: 20px;">
-            <textarea id="editor" rows="4" maxlength="576" placeholder="Mensaje público..."></textarea>
+            <textarea id="editor" maxlength="576" placeholder="Mensaje público..."></textarea>
             <div class="contador" id="char-count">576 caracteres restantes</div>
             
             <div style="margin-top: 10px;">
                 <label style="cursor: pointer; font-size: 15px;">
-                    <input type="checkbox" id="checkbox-oculto" onchange="toggleOculto()"> Agregar mensaje oculto
+                    <input type="checkbox" id="checkbox-oculto" onchange="toggleOculto()"> Agregar mensaje oculto cifrado
                 </label>
             </div>
             
             <div class="oculto-section" id="oculto-section">
-                <textarea id="editor-oculto" rows="3" maxlength="288" placeholder="Mensaje oculto (288 caracteres)..."></textarea>
+                <textarea id="editor-oculto" maxlength="288" placeholder="Mensaje oculto (288 caracteres)..."></textarea>
                 <div class="contador" id="char-count-oculto">288 caracteres restantes</div>
                 
                 <div style="margin-top: 10px;">
@@ -181,28 +182,46 @@
 
     function formatearFecha(timestamp) {
         const fecha = new Date(timestamp);
-        const dia = String(fecha.getDate()).padStart(2, '0');
+        
+        // Convertir a timezone Argentina (UTC-3)
+        const offsetArgentina = -3 * 60; // -3 horas en minutos
+        const offsetLocal = fecha.getTimezoneOffset();
+        const diffMinutos = offsetArgentina - offsetLocal;
+        const fechaArgentina = new Date(fecha.getTime() + diffMinutos * 60 * 1000);
+        
+        const dia = String(fechaArgentina.getDate()).padStart(2, '0');
         const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-        const mes = meses[fecha.getMonth()];
-        const hora = String(fecha.getHours()).padStart(2, '0');
-        const min = String(fecha.getMinutes()).padStart(2, '0');
+        const mes = meses[fechaArgentina.getMonth()];
+        const hora = String(fechaArgentina.getHours()).padStart(2, '0');
+        const min = String(fechaArgentina.getMinutes()).padStart(2, '0');
         return `${dia}-${mes} ${hora}:${min}hs`;
     }
 
     function calcularProximoLunes() {
+        // Usar timezone Argentina
         const ahora = new Date();
-        const diaSemana = ahora.getDay();
+        const offsetArgentina = -3 * 60;
+        const offsetLocal = ahora.getTimezoneOffset();
+        const diffMinutos = offsetArgentina - offsetLocal;
+        const ahoraArgentina = new Date(ahora.getTime() + diffMinutos * 60 * 1000);
+        
+        const diaSemana = ahoraArgentina.getDay();
         const diasHastaLunes = diaSemana === 0 ? 1 : (8 - diaSemana);
-        const proximoLunes = new Date(ahora);
-        proximoLunes.setDate(ahora.getDate() + diasHastaLunes);
+        const proximoLunes = new Date(ahoraArgentina);
+        proximoLunes.setDate(ahoraArgentina.getDate() + diasHastaLunes);
         proximoLunes.setHours(0, 0, 0, 0);
         return proximoLunes;
     }
 
     function actualizarContadorReset() {
         const ahora = new Date();
+        const offsetArgentina = -3 * 60;
+        const offsetLocal = ahora.getTimezoneOffset();
+        const diffMinutos = offsetArgentina - offsetLocal;
+        const ahoraArgentina = new Date(ahora.getTime() + diffMinutos * 60 * 1000);
+        
         const proximoLunes = calcularProximoLunes();
-        const diff = proximoLunes - ahora;
+        const diff = proximoLunes - ahoraArgentina;
         
         const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
         const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
