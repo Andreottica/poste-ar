@@ -15,7 +15,7 @@
         .brand-line { font-weight: bold; font-size: 15px; margin-bottom: 2px; }
         .sub-brand { font-size: 15px; color: #666; }
 
-        .alerta-box { background: #fff3e0; border: 1px solid #e67e22; padding: 10px; color: #e67e22; font-size: 15px; margin-top: 15px; }
+        .alerta-box { background: #fff3e0; border: 1px solid #f0f0f0; padding: 10px; color: #d35400; font-size: 15px; margin-top: 15px; }
 
         .nav-status { display: flex; justify-content: space-between; align-items: center; background: #fdfdfd; padding: 10px; border: 1px solid var(--gris-suave); font-size: 15px; margin-top: 15px; }
         
@@ -182,46 +182,28 @@
 
     function formatearFecha(timestamp) {
         const fecha = new Date(timestamp);
-        
-        // Convertir a timezone Argentina (UTC-3)
-        const offsetArgentina = -3 * 60; // -3 horas en minutos
-        const offsetLocal = fecha.getTimezoneOffset();
-        const diffMinutos = offsetArgentina - offsetLocal;
-        const fechaArgentina = new Date(fecha.getTime() + diffMinutos * 60 * 1000);
-        
-        const dia = String(fechaArgentina.getDate()).padStart(2, '0');
+        const dia = String(fecha.getDate()).padStart(2, '0');
         const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-        const mes = meses[fechaArgentina.getMonth()];
-        const hora = String(fechaArgentina.getHours()).padStart(2, '0');
-        const min = String(fechaArgentina.getMinutes()).padStart(2, '0');
+        const mes = meses[fecha.getMonth()];
+        const hora = String(fecha.getHours()).padStart(2, '0');
+        const min = String(fecha.getMinutes()).padStart(2, '0');
         return `${dia}-${mes} ${hora}:${min}hs`;
     }
 
     function calcularProximoLunes() {
-        // Usar timezone Argentina
         const ahora = new Date();
-        const offsetArgentina = -3 * 60;
-        const offsetLocal = ahora.getTimezoneOffset();
-        const diffMinutos = offsetArgentina - offsetLocal;
-        const ahoraArgentina = new Date(ahora.getTime() + diffMinutos * 60 * 1000);
-        
-        const diaSemana = ahoraArgentina.getDay();
+        const diaSemana = ahora.getDay();
         const diasHastaLunes = diaSemana === 0 ? 1 : (8 - diaSemana);
-        const proximoLunes = new Date(ahoraArgentina);
-        proximoLunes.setDate(ahoraArgentina.getDate() + diasHastaLunes);
+        const proximoLunes = new Date(ahora);
+        proximoLunes.setDate(ahora.getDate() + diasHastaLunes);
         proximoLunes.setHours(0, 0, 0, 0);
         return proximoLunes;
     }
 
     function actualizarContadorReset() {
         const ahora = new Date();
-        const offsetArgentina = -3 * 60;
-        const offsetLocal = ahora.getTimezoneOffset();
-        const diffMinutos = offsetArgentina - offsetLocal;
-        const ahoraArgentina = new Date(ahora.getTime() + diffMinutos * 60 * 1000);
-        
         const proximoLunes = calcularProximoLunes();
-        const diff = proximoLunes - ahoraArgentina;
+        const diff = proximoLunes - ahora;
         
         const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
         const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
