@@ -11,17 +11,32 @@ const db = createClient({
   authToken: process.env.TURSO_TOKEN
 });
 
+// Función para obtener fecha/hora en timezone Argentina
+function obtenerFechaArgentina() {
+    const ahora = new Date();
+    // Convertir a Argentina (UTC-3)
+    const offsetArgentina = -3 * 60; // minutos
+    const offsetLocal = ahora.getTimezoneOffset();
+    const diffMinutos = offsetArgentina - offsetLocal;
+    const fechaArgentina = new Date(ahora.getTime() + diffMinutos * 60 * 1000);
+    return fechaArgentina.toISOString().slice(0, 19).replace('T', ' ');
+}
+
 // Función para verificar si es lunes 00:00
 function esLunesCeroHoras() {
     const ahora = new Date();
-    return ahora.getDay() === 1 && ahora.getHours() === 0 && ahora.getMinutes() < 5;
+    const offsetArgentina = -3 * 60;
+    const offsetLocal = ahora.getTimezoneOffset();
+    const diffMinutos = offsetArgentina - offsetLocal;
+    const fechaArgentina = new Date(ahora.getTime() + diffMinutos * 60 * 1000);
+    return fechaArgentina.getDay() === 1 && fechaArgentina.getHours() === 0 && fechaArgentina.getMinutes() < 5;
 }
 
 // Función para purgar la base de datos
 async function purgarBaseDeDatos() {
     try {
         await db.execute("DELETE FROM posteos");
-        console.log('✓ Base de datos purgada - Lunes 00:00');
+        console.log('✓ Base de datos purgada - Lunes 00:00 Argentina');
     } catch(e) {
         console.error('Error al purgar base de datos:', e);
     }
@@ -32,7 +47,7 @@ setInterval(async () => {
     if(esLunesCeroHoras()) {
         await purgarBaseDeDatos();
     }
-}, 5 * 60 * 1000); // 5 minutos
+}, 5 * 60 * 1000);
 
 app.use(express.json());
 app.use(express.static('public'));
@@ -85,9 +100,10 @@ app.post('/api/postear', async (req, res) => {
     }
     
     try {
+        const fechaArgentina = obtenerFechaArgentina();
         await db.execute({
-            sql: "INSERT INTO posteos (etiqueta, contenido, color, semilla, contenido_oculto) VALUES (?, ?, ?, ?, ?)",
-            args: [etiqueta, contenido, color, semilla || null, contenido_oculto || null]
+            sql: "INSERT INTO posteos (etiqueta, contenido, color, semilla, contenido_oculto, fecha) VALUES (?, ?, ?, ?, ?, ?)",
+            args: [etiqueta, contenido, color, semilla || null, contenido_oculto || null, fechaArgentina]
         });
         res.sendStatus(201);
     } catch (e) { 
@@ -120,5 +136,5 @@ app.get('/keep-alive', (req, res) => res.send('ok'));
 
 app.listen(PORT, () => { 
     console.log(`🚀 Servidor en puerto ${PORT}`); 
-    console.log('⏰ Purga automática configurada para lunes 00:00');
+    console.log('⏰ Purga automática configurada para lunes 00:00 Argentina');
 });
