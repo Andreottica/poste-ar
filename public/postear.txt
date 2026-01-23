@@ -35,8 +35,7 @@ Esto permite:
 REETIQUETAR
 -----------
 Presioná [ reetiquetar ] para cambiar tu etiqueta y comenzar
-una nueva identidad anónima. Tu etiqueta anterior desaparece
-para siempre. No hay forma de recuperarla.
+una nueva identidad anónima. Tu etiqueta siempre es única e irrepetible.
 
 FORMATO DE TEXTO
 ----------------
@@ -146,7 +145,7 @@ Poste.ar NO registra:
 - Historial de navegación
 
 No hay usuarios, no hay cuentas, no hay login.
-Solo existe tu etiqueta temporal, que desaparece al cerrar
+Solo existe tu etiqueta temporal, única e irrepetible, que desaparece al cerrar
 el navegador o al presionar [ reetiquetar ].
 
 INFRAESTRUCTURA
