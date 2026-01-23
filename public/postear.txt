@@ -1,100 +1,401 @@
-======================
-AYUDA - CÓMO USAR POSTE.AR
-======================
+==============================================
+POSTE.AR - MANUAL DE USO
+==============================================
 
-POSTEAR UN MENSAJE
-------------------
-1. Escribí tu mensaje en el cuadro (máximo 576 caracteres)
+INTRODUCCIÓN
+============
+
+Poste.ar es un tablón de comunicación anónima y efímera.
+Publica mensajes sin registro, sin identidad permanente.
+Todo el contenido se borra automáticamente cada lunes a las 00:00hs.
+
+
+CÓMO USAR POSTE.AR
+==================
+
+PUBLICAR UN MENSAJE
+-------------------
+1. Escribí tu mensaje en el cuadro "Mensaje público" (máximo 576 caracteres)
 2. Presioná [ postear ]
-3. Tu mensaje aparecerá con tu marca temporal
+3. Tu mensaje aparece en el timeline con tu etiqueta temporal
 
-TU MARCA
---------
-Es tu identificador anónimo de esta sesión.
+TU ETIQUETA
+-----------
+Es tu identificador anónimo temporal durante esta sesión.
 Formato: nana.12.yija.87 (sílabas + números)
 
-Mientras no cierres la página o presiones [ reetiquetar ], 
-todos tus posts llevarán la misma marca.
+Mientras no cierres la página o presiones [ reetiquetar ],
+todos tus mensajes llevarán la misma etiqueta.
+
+Esto permite:
+- Mantener conversaciones sin revelar identidad
+- Que otros reconozcan tus aportes en un mismo tema
+- Abandonar la identidad cuando quieras con un click
 
 REETIQUETAR
 -----------
-Presioná [ reetiquetar ] para cambiar tu marca y empezar 
-una nueva identidad anónima.
+Presioná [ reetiquetar ] para cambiar tu etiqueta y comenzar
+una nueva identidad anónima. Tu etiqueta anterior desaparece
+para siempre. No hay forma de recuperarla.
 
 FORMATO DE TEXTO
 ----------------
-*texto*           → texto en negrita
-_texto_           → texto en cursiva
-<nombre:url.com>  → crear enlace clickeable
+*texto*              → texto en negrita
+_texto_              → texto en cursiva
+<nombre:url.com>     → crear enlace clickeable
 
 Ejemplo:
 Esto es *importante* y _urgente_.
-Más info en <aquí:ejemplo.com>
+Más información: <aquí:ejemplo.com>
 
 BUSCAR MENSAJES
 ---------------
-Escribí en el cuadro "Buscar..." lo que querés encontrar.
+El buscador encuentra mensajes en toda la base de datos,
+no solo los 50 más recientes visibles.
 
-Ejemplos:
-- Buscar "papeles" → muestra posts con esa palabra
-- Buscar "papeles, Argentina" → muestra posts que tengan 
-  AMBAS palabras (búsqueda con Y)
-- Buscar "23" → encuentra en hora, fecha, texto, marca
+Escribí en "Buscar..." lo que necesites encontrar:
+- Una palabra: "documentos"
+- Varias palabras (deben estar todas): "documentos, firmados"
+- Números: "23" → encuentra en fecha, hora, etiqueta, contenido
+- Frases: "reunión mañana"
 
 La búsqueda NO distingue mayúsculas de minúsculas.
 
-CONTENIDO OCULTO (próximamente)
---------------------------------
-Usá ((secreto|clave123)) para cifrar parte del mensaje.
-Solo quien tenga la clave "clave123" podrá leerlo.
+Ejemplo de búsqueda múltiple:
+"papeles, Argentina" → muestra solo mensajes que tengan
+AMBAS palabras (no uno u otro, sino los dos términos).
 
-NOTA: Esta función estará disponible próximamente.
-
-
-======================
-QUÉ ES POSTE.AR
-======================
-
-DEFINICIÓN
+ACTUALIZAR
 ----------
-Poste.ar es un sitio de comunicación anónima y efímera.
-Un tablón digital donde publicar mensajes sin identidad 
-permanente ni registro de usuarios.
+Presioná [ actualizar ] para ver mensajes nuevos publicados
+por otros usuarios sin necesidad de recargar la página (F5).
 
-FILOSOFÍA
----------
-- Anonimato: No hay cuentas, emails ni contraseñas
-- Efímero: Los mensajes se borran automáticamente
-- Sin rastro: No guardamos IPs ni datos personales
-- Abierto: El código es open source
+MENSAJE OCULTO CIFRADO
+----------------------
+Podés agregar un mensaje secreto que solo puedan leer
+quienes conozcan la contraseña (semilla).
+
+Cómo funcionar:
+1. Marcá la casilla "Agregar mensaje oculto cifrado"
+2. Escribí tu mensaje secreto (máximo 288 caracteres)
+3. Escribí una contraseña en "Password"
+4. Presioná [ postear ]
+
+El mensaje público se verá normalmente.
+El mensaje oculto aparece cifrado (ilegible).
+
+DESCIFRAR MENSAJES OCULTOS
+---------------------------
+Todos los mensajes tienen un campo "semilla..." al pie.
+
+Si conocés la contraseña de un mensaje oculto:
+1. Escribí la contraseña en el campo "semilla..."
+2. Presioná Enter o el botón →
+3. Si la contraseña es correcta, aparece el mensaje oculto
+   con fondo gris claro
+4. Si es incorrecta: "Password incorrecto"
+
+IMPORTANTE: No hay forma de saber qué mensajes tienen
+contenido oculto y cuáles no. Todos se ven iguales.
+Solo quien conozca la semilla puede descubrirlo.
+
+CONTRASEÑAS (SEMILLAS)
+----------------------
+Podés usar entre 1 y 12 palabras como contraseña.
+
+Ejemplos:
+- 1 palabra: "perro" (menos seguro)
+- 3 palabras: "perro tiza golf" (seguro)
+- 12 palabras: "perro tiza golf maria luna casa..." (muy seguro)
+
+Cuantas más palabras uses, más difícil será descifrar
+el mensaje sin conocer la contraseña exacta.
+
+Recomendación: 3-5 palabras fáciles de recordar.
+
+AVATAR
+------
+El cuadrado de colores con dos letras es tu avatar automático.
+Se genera a partir de tu etiqueta y es único.
+
+Ayuda a reconocer visualmente tus mensajes en el timeline
+sin necesidad de leer la etiqueta completa cada vez.
+
+
+ARQUITECTURA Y FUNCIONAMIENTO
+==============================
 
 PERSISTENCIA
 ------------
-Todos los mensajes se eliminan automáticamente cada lunes 
-a las 00:00 hs (hora Argentina).
+Todos los mensajes se borran automáticamente cada lunes
+a las 00:00 hs (hora del usuario que postea).
 
-PRIVACIDAD
-----------
-- No se registran direcciones IP
-- No hay cookies de rastreo
-- No hay análisis de comportamiento
-- Todo el código es auditable
+No importa si un mensaje tiene 5 minutos o 6 días:
+al llegar el lunes, el timeline completo se vacía.
+
+El sitio muestra un contador con los días y horas restantes
+hasta la próxima purga.
+
+ANONIMATO
+---------
+Poste.ar NO registra:
+- Direcciones IP
+- Ubicación geográfica
+- Datos del navegador
+- Cookies de rastreo
+- Historial de navegación
+
+No hay usuarios, no hay cuentas, no hay login.
+Solo existe tu etiqueta temporal, que desaparece al cerrar
+el navegador o al presionar [ reetiquetar ].
+
+INFRAESTRUCTURA
+---------------
+El sistema funciona con dos servidores independientes:
+
+1. SERVIDOR WEB
+   - Aloja la interfaz (lo que ves en pantalla)
+   - Procesa búsquedas
+   - Coordina la purga semanal
+
+2. SERVIDOR DE BASE DE DATOS
+   - Almacena los mensajes públicos (texto plano)
+   - Almacena los mensajes ocultos (cifrados)
+   - NO almacena contraseñas ni claves de descifrado
+
+Esta separación mejora la seguridad y el rendimiento.
+
+CIFRADO LOCAL
+-------------
+Cuando creás un mensaje oculto, el cifrado ocurre
+en TU computadora (localhost), NO en el servidor.
+
+Proceso:
+1. Escribís mensaje + contraseña en tu navegador
+2. Tu navegador cifra el mensaje (AES-256)
+3. Se envía al servidor solo la versión cifrada
+4. El servidor guarda el texto ilegible
+
+El servidor NUNCA ve:
+- Tu contraseña
+- El contenido del mensaje oculto
+
+Solo vos y quienes conozcan la contraseña pueden leerlo.
+
+
+SEGURIDAD Y ENCRIPTACIÓN
+========================
+
+NIVEL DE SEGURIDAD
+------------------
+Poste.ar usa cifrado AES-256, el mismo estándar que:
+- Bancos para transacciones online
+- Aplicaciones de mensajería segura
+- Gobiernos para datos clasificados
+
+Con una contraseña de 3-4 palabras, romper el cifrado
+requeriría años de procesamiento con supercomputadoras.
+
+Con 12 palabras, es prácticamente imposible (siglos).
+
+POR QUÉ ES SEGURO
+-----------------
+1. CIFRADO EN ORIGEN
+   - El mensaje se cifra en tu computadora
+   - Nunca viaja sin cifrar por internet
+   - El servidor solo guarda basura ilegible
+
+2. SIN CLAVES CENTRALES
+   - No hay "llave maestra" que descifre todo
+   - Cada mensaje tiene su propia contraseña única
+   - Si olvidás la contraseña, el mensaje se pierde para siempre
+
+3. SIN REGISTRO DE USUARIOS
+   - No hay bases de datos con contraseñas que hackear
+   - No hay cuentas que comprometer
+   - No hay historiales que rastrear
+
+4. EFÍMERO POR DISEÑO
+   - Aunque alguien descargue toda la base de datos,
+     en 7 días máximo toda esa información desaparece
+   - No hay archivo permanente que atacar
+
+USOS DEL MENSAJE OCULTO
+------------------------
+
+FIRMAR MENSAJES
+Texto público: "Vendo bici rodado 26, buen estado"
+Texto oculto: "Contacto: Juan - Tel: 1234-5678"
+Uso: Solo quien conozca la semilla ve tus datos de contacto.
+
+COORDINAR REUNIONES
+Texto público: "Reunióngrupal miércoles 18hs"
+Texto oculto: "Lugar: Café Central, esquina Mitre y Sarmiento"
+Uso: Anuncio público, detalles privados.
+
+COMPARTIR INFORMACIÓN SENSIBLE
+Texto público: "Disponible info sobre trámites"
+Texto oculto: "Documentación necesaria: DNI, partida, comprobante..."
+Uso: Lista completa solo para interesados con la clave.
+
+JUEGOS DE ADIVINANZAS
+Texto público: "Animal de cuatro patas, ladra y es fiel"
+Texto oculto: "¡Correcto! La respuesta era: perro"
+Semilla: "perro"
+Uso: Solo quien adivine la respuesta puede descifrar la confirmación.
+
+CADENAS DE MENSAJES
+Mensaje 1 (público): "Primer acertijo: siempre corre pero nunca camina"
+Mensaje 1 (oculto): "Respuesta: río. Buscá mensaje con etiqueta nana.45.yija.12"
+Semilla 1: "rio"
+
+Mensaje 2 (público en nana.45.yija.12): "Segundo nivel desbloqueado"
+Mensaje 2 (oculto): "Último desafío: sin fuego da calor, sin boca habla"
+Semilla 2: "rio"
+
+Mensaje 3 (público): "Final del juego"
+Mensaje 3 (oculto): "¡Ganaste! Felicitaciones"
+Semilla 3: "sol"
+
+Uso: Crear experiencias interactivas de múltiples niveles.
+
+COMUNICACIÓN ENTRE DOS PERSONAS
+Texto público: "Respuesta para quien preguntó por libros"
+Texto oculto: "Tengo el que pediste, paso mañana a las 15hs"
+Semilla: (acordada previamente en privado)
+Uso: Conversación pública en apariencia, privada en realidad.
+
+
+FILOSOFÍA DEL PROYECTO
+======================
+
+¿POR QUÉ EXISTE POSTE.AR?
+--------------------------
+Porque no todo necesita ser permanente.
+Porque el anonimato puede ser liberador.
+Porque a veces queremos comunicarnos sin dejar rastro digital.
+
+Este es un experimento sobre comunicación efímera,
+inspirado en los tablones de anuncios del barrio
+y en la idea de que lo fugaz tiene su propio valor.
+
+En un mundo donde todo se registra, se archiva y se vende,
+Poste.ar es un espacio que se borra solo.
+
+Como los carteles en postes de la calle:
+- Alguien pega un aviso
+- Alguien lo lee
+- La lluvia lo borra
+
+No hay algoritmos. No hay perfiles. No hay permanencia.
+Solo comunicación, aquí y ahora.
+
 
 TECNOLOGÍA
-----------
-- Backend: Node.js + Express
-- Base de datos: Turso (libSQL)
-- Frontend: HTML, CSS, JavaScript vanilla
-- Hosting: Render
+==========
 
-UBICACIÓN
----------
-Proyecto experimental desarrollado en Ciudadela, 
-Buenos Aires, Argentina.
+CÓDIGO ABIERTO
+--------------
+El código completo de Poste.ar es público y auditable.
+Cualquiera puede verificar cómo funciona el sistema,
+revisar la seguridad o crear su propia versión.
 
-CÓDIGO FUENTE
+Presioná [ download source ] para más información.
+
+STACK TÉCNICO
 -------------
-Presioná [ download source ] para ver información 
-del repositorio y la licencia del proyecto.
+- Frontend: HTML, CSS, JavaScript vanilla
+- Backend: Node.js + Express
+- Base de datos: LibSQL (SQLite remoto)
+- Cifrado: CryptoJS (AES-256)
+- Hosting: Servidor cloud
 
-Versión: 1.0 Beta
+Todo minimalista, sin dependencias innecesarias.
+
+
+LÍMITES Y RESTRICCIONES
+=======================
+
+CAPACIDAD
+---------
+La base de datos tiene capacidad limitada (1000 mensajes aprox).
+Si se llena antes del lunes, los mensajes más antiguos
+se eliminan automáticamente para dar espacio a los nuevos.
+
+CARACTERES
+----------
+- Mensaje público: 576 caracteres máximo
+- Mensaje oculto: 288 caracteres máximo
+- Contraseña: ilimitada, pero 1-12 palabras es óptimo
+
+SIN EDICIÓN
+-----------
+No se pueden editar ni borrar mensajes una vez publicados.
+Solo desaparecen cuando:
+- Llega el lunes 00:00hs (purga semanal)
+- La base de datos se llena (se borran los más viejos)
+
+SIN MULTIMEDIA
+--------------
+Solo texto. No se pueden publicar:
+- Imágenes
+- Videos
+- Archivos adjuntos
+- Emojis (depende del navegador)
+
+
+PRIVACIDAD Y DATOS
+==================
+
+QUÉ GUARDAMOS
+-------------
+- Contenido de mensajes públicos (texto plano)
+- Contenido de mensajes ocultos (cifrado, ilegible)
+- Etiqueta temporal del mensaje
+- Fecha y hora de publicación
+- Color del avatar (generado automáticamente)
+
+QUÉ NO GUARDAMOS
+----------------
+- Contraseñas de mensajes ocultos
+- Direcciones IP
+- Datos de navegador
+- Cookies de rastreo
+- Ubicación geográfica
+- Historial de búsquedas
+- Identidad del usuario
+
+TIEMPO DE RETENCIÓN
+--------------------
+Máximo 7 días. El lunes siguiente todo se borra.
+
+
+SOPORTE Y CONTACTO
+==================
+
+Este es un proyecto experimental sin fines de lucro.
+No hay equipo de soporte ni servicio al cliente.
+
+El sitio funciona "tal cual es" (as-is).
+
+Para reportar problemas técnicos graves o vulnerabilidades
+de seguridad, utilizá el sistema de búsqueda para encontrar
+información de contacto publicada por la comunidad.
+
+
+ADVERTENCIAS LEGALES
+====================
+
+- Usá Poste.ar bajo tu propia responsabilidad
+- No publiques contenido ilegal
+- No publiques información que viole privacidad de terceros
+- El anonimato no te protege de consecuencias legales
+- Los administradores NO son responsables del contenido publicado
+- Este servicio puede discontinuarse sin previo aviso
+
+
+Versión: 1.0
+Última actualización: Enero 2026
+Ubicación: Ciudadela, Buenos Aires, Argentina
+
+==============================================
