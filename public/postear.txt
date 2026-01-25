@@ -1,12 +1,13 @@
-==============================================
-POSTE.AR - MANUAL DE USO
-==============================================
-
 INTRODUCCIÓN
 ============
 
-Poste.ar es un tablón de comunicación anónima y efímera.
-Publica mensajes sin registro, sin identidad permanente.
+Poste.ar es un tablón de comunicación anónima y efímera
+con cifrado de mensajes de nivel bancario.
+
+Publica mensajes públicos o cifra contenido secreto que solo
+puedan leer quienes conozcan tu contraseña (criptografía AES-256).
+
+Sin registro. Sin identidad permanente. Sin rastros.
 Todo el contenido se borra automáticamente cada lunes a las 00:00hs.
 
 
