@@ -25,6 +25,18 @@
             <button class="btn" onclick="reetiquetar()">[ reetiquetar ]</button>
         </div>
 
+        <div style="display: flex; justify-content: space-between; gap: 10px; margin-top: 15px;">
+            <div style="display: flex; gap: 10px;">
+                <button class="btn" onclick="actualizarPosts()">[ actualizar ]</button>
+                <button class="btn" onclick="window.open('/source')">[ download source ]</button>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn" onclick="toggleManual()">[ manual ]</button>
+                <button class="btn" onclick="cambiarTema()" id="btn-tema">[ tema: default ]</button>
+                <button class="btn" onclick="toggleDiaNoche()" id="btn-modo">[ día ]</button>
+            </div>
+        </div>
+
         <input type="text" class="search-box" id="search-input" placeholder="Buscar..." onkeyup="buscarConDelay()">
         <div class="search-info" id="search-info"></div>
 
@@ -57,18 +69,8 @@
             
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 10px;">
                 <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver ]</button>
-                    <button class="btn" onclick="actualizarPosts()">[ actualizar ]</button>
-                    <button class="btn" onclick="window.open('/source')">[ download source ]</button>
-                </div>
+                <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver ]</button>
             </div>
-        </div>
-        
-        <div style="display: flex; gap: 10px; margin-top: 15px; justify-content: center;">
-            <button class="btn" onclick="toggleManual()">[ manual ]</button>
-            <button class="btn" onclick="cambiarTema()" id="btn-tema">[ tema: default ]</button>
-            <button class="btn" onclick="toggleDiaNoche()" id="btn-modo">[ día ]</button>
         </div>
     </header>
 
