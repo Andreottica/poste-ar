@@ -1,0 +1,335 @@
+/* ============================================
+   POSTE.AR - TEMA DEFAULT
+   ============================================ */
+
+/* Variables globales */
+:root {
+    --rastro-color: #2e7d32;
+    --gris-suave: #ddd;
+    --color-principal: #1a1a1a;
+    --color-secundario: #666;
+    --color-terciario: #888;
+    --color-fondo: #fff;
+    --color-fondo-secundario: #fdfdfd;
+    --color-fondo-alerta: #fff3e0;
+    --color-borde-alerta: #f0f0f0;
+    --color-alerta: #d35400;
+    --color-enlace: blue;
+    --color-error: #d32f2f;
+    --color-oculto-fondo: #f9f9f9;
+}
+
+/* Modo Noche */
+body.modo-noche {
+    --color-principal: #e0e0e0;
+    --color-secundario: #aaa;
+    --color-terciario: #999;
+    --color-fondo: #1a1a1a;
+    --color-fondo-secundario: #252525;
+    --color-fondo-alerta: #2d2416;
+    --color-borde-alerta: #3a3a3a;
+    --color-alerta: #ff8c42;
+    --color-enlace: #64b5f6;
+    --color-error: #ef5350;
+    --color-oculto-fondo: #2a2a2a;
+    --gris-suave: #444;
+}
+
+/* Reset y Base */
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background: var(--color-fondo);
+    color: var(--color-principal);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 15px;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Contenedor principal */
+.container {
+    width: 728px;
+    border-left: 1px solid var(--gris-suave);
+    border-right: 1px solid var(--gris-suave);
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Header */
+header {
+    border-bottom: 1px solid var(--gris-suave);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.brand-line {
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 2px;
+    color: var(--color-principal);
+}
+
+.sub-brand {
+    font-size: 15px;
+    color: var(--color-secundario);
+}
+
+/* Alerta timeline */
+.alerta-box {
+    background: var(--color-fondo-alerta);
+    border: 1px solid var(--color-borde-alerta);
+    padding: 10px;
+    color: var(--color-alerta);
+    font-size: 15px;
+    margin-top: 15px;
+}
+
+/* Navegación y status */
+.nav-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-fondo-secundario);
+    padding: 10px;
+    border: 1px solid var(--gris-suave);
+    font-size: 15px;
+    margin-top: 15px;
+}
+
+/* Buscador */
+.search-box {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--gris-suave);
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+    margin-top: 15px;
+    background: var(--color-fondo);
+    color: var(--color-principal);
+}
+
+.search-info {
+    font-size: 15px;
+    color: var(--color-secundario);
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Avatar */
+.avatar {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 20px;
+    color: #fff;
+    flex-shrink: 0;
+    border: 2px solid var(--gris-suave);
+}
+
+/* Manual */
+#manual-box {
+    display: none;
+    background: var(--color-fondo);
+    border: 1px solid var(--gris-suave);
+    padding: 15px;
+    font-size: 15px;
+    white-space: pre-wrap;
+    margin: 15px 0;
+    color: var(--color-principal);
+}
+
+/* Textareas */
+textarea {
+    width: 100%;
+    border: 1px solid var(--gris-suave);
+    padding: 10px;
+    font-family: inherit;
+    font-size: 15px;
+    resize: vertical;
+    outline: none;
+    box-sizing: border-box;
+    min-height: 80px;
+    background: var(--color-fondo);
+    color: var(--color-principal);
+}
+
+/* Botones */
+.btn {
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+    border: 1px solid var(--gris-suave);
+    padding: 5px 12px;
+    background: var(--color-fondo);
+    color: #444;
+    font-size: 15px;
+}
+
+.btn:hover {
+    background: var(--color-fondo-secundario);
+}
+
+.btn-postear {
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+    background: #000;
+    color: #fff;
+    border: 1px solid #000;
+    padding: 5px 12px;
+    font-size: 15px;
+}
+
+body.modo-noche .btn-postear {
+    background: #fff;
+    color: #000;
+    border: 1px solid #fff;
+}
+
+.btn-volver {
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+    background: #f5f5f5;
+    color: #444;
+    border: 1px solid var(--gris-suave);
+    padding: 5px 12px;
+    font-size: 15px;
+}
+
+body.modo-noche .btn-volver {
+    background: #333;
+    color: #aaa;
+}
+
+/* Posts */
+.post {
+    display: flex;
+    gap: 20px;
+    border-bottom: 1px solid #eee;
+    padding: 25px 0;
+    align-items: flex-start;
+}
+
+body.modo-noche .post {
+    border-bottom: 1px solid #333;
+}
+
+.post-body {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.marca-tag {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.fecha-tag {
+    font-size: 15px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+body.modo-noche .fecha-tag {
+    color: #999;
+}
+
+/* Semilla y mensajes ocultos */
+.semilla-box {
+    margin-top: 10px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.semilla-input {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid var(--gris-suave);
+    outline: none;
+    font-family: inherit;
+    font-size: 15px;
+    padding: 5px;
+    background: transparent;
+    color: var(--color-principal);
+}
+
+.semilla-btn {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 18px;
+    color: var(--color-secundario);
+}
+
+.semilla-btn:hover {
+    color: var(--color-principal);
+}
+
+.mensaje-oculto {
+    margin-top: 10px;
+    padding: 10px;
+    background: var(--color-oculto-fondo);
+    border: 1px solid var(--gris-suave);
+    font-size: 15px;
+    white-space: pre-wrap;
+}
+
+.mensaje-error {
+    color: var(--color-error);
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* Contador */
+.contador {
+    font-size: 15px;
+    color: var(--color-terciario);
+    text-align: right;
+    margin-top: 5px;
+}
+
+/* Sección oculta */
+.oculto-section {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--gris-suave);
+    display: none;
+}
+
+.password-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--gris-suave);
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+    background: var(--color-fondo);
+    color: var(--color-principal);
+}
+
+/* Utilidades */
+.hidden {
+    display: none;
+}
+
+/* Enlaces */
+a {
+    color: var(--color-enlace);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
