@@ -28,7 +28,6 @@
         <div style="display: flex; justify-content: space-between; gap: 10px; margin-top: 15px;">
             <div style="display: flex; gap: 10px;">
                 <button class="btn" onclick="actualizarPosts()">[ actualizar ]</button>
-                <button class="btn" onclick="window.open('/source')">[ download source ]</button>
             </div>
             <div style="display: flex; gap: 10px;">
                 <button class="btn" onclick="toggleManual()">[ manual ]</button>
@@ -69,8 +68,10 @@
             
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 10px;">
                 <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
-                <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver ]</button>
-            </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver ]</button>
+                    <button class="btn" onclick="window.open('/source')">[ download source ]</button>
+                </div>
         </div>
     </header>
 
