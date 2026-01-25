@@ -1,0 +1,341 @@
+/* ============================================
+   POSTE.AR - TEMA CHATGPT
+   ============================================ */
+
+/* Variables globales */
+:root {
+    --rastro-color: #4caf50;
+
+    --gris-suave: #e5e5e5;
+
+    --color-principal: #111;
+    --color-secundario: #555;
+    --color-terciario: #777;
+
+    --color-fondo: #fafafa;
+    --color-fondo-secundario: #ffffff;
+
+    --color-fondo-alerta: #f4f4f4;
+    --color-borde-alerta: #e0e0e0;
+    --color-alerta: #444;
+
+    --color-enlace: #0066cc;
+    --color-error: #c62828;
+
+    --color-oculto-fondo: #f7f7f7;
+}
+
+/* =========================
+   MODO NOCHE
+   ========================= */
+body.modo-noche {
+    --gris-suave: #333;
+
+    --color-principal: #e6e6e6;
+    --color-secundario: #aaa;
+    --color-terciario: #888;
+
+    --color-fondo: #121212;
+    --color-fondo-secundario: #1a1a1a;
+
+    --color-fondo-alerta: #1e1e1e;
+    --color-borde-alerta: #2a2a2a;
+    --color-alerta: #bbb;
+
+    --color-enlace: #6ab0ff;
+    --color-error: #ef5350;
+
+    --color-oculto-fondo: #1d1d1d;
+}
+
+/* =========================
+   BASE
+   ========================= */
+body {
+    font-family: "Courier New", Courier, monospace;
+    background: var(--color-fondo);
+    color: var(--color-principal);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+    line-height: 1.45;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* =========================
+   CONTENEDOR
+   ========================= */
+.container {
+    width: 728px;
+    min-height: 100vh;
+    padding: 24px 20px;
+    box-sizing: border-box;
+    border-left: 1px solid var(--gris-suave);
+    border-right: 1px solid var(--gris-suave);
+    background: var(--color-fondo-secundario);
+}
+
+/* =========================
+   HEADER
+   ========================= */
+header {
+    border-bottom: 1px solid var(--gris-suave);
+    padding-bottom: 18px;
+    margin-bottom: 20px;
+}
+
+.brand-line {
+    font-weight: bold;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+}
+
+.sub-brand {
+    font-size: 14px;
+    color: var(--color-secundario);
+}
+
+/* =========================
+   ALERTA TIMELINE
+   ========================= */
+.alerta-box {
+    background: var(--color-fondo-alerta);
+    border: 1px dashed var(--color-borde-alerta);
+    padding: 10px 12px;
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--color-alerta);
+}
+
+/* =========================
+   NAV / STATUS
+   ========================= */
+.nav-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    border: 1px solid var(--gris-suave);
+    padding: 10px;
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+/* =========================
+   BUSCADOR
+   ========================= */
+.search-box {
+    width: 100%;
+    padding: 10px;
+    margin-top: 18px;
+    border: 1px solid var(--gris-suave);
+    background: var(--color-fondo);
+    color: var(--color-principal);
+    font-family: inherit;
+    font-size: 15px;
+}
+
+.search-box::placeholder {
+    color: var(--color-terciario);
+}
+
+/* =========================
+   TEXTAREAS
+   ========================= */
+textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 10px;
+    margin-top: 12px;
+    border: 1px solid var(--gris-suave);
+    background: var(--color-fondo);
+    color: var(--color-principal);
+    font-family: inherit;
+    font-size: 15px;
+    resize: vertical;
+}
+
+/* =========================
+   CONTADOR
+   ========================= */
+.contador {
+    font-size: 13px;
+    color: var(--color-terciario);
+    text-align: right;
+    margin-top: 4px;
+}
+
+/* =========================
+   BOTONES
+   ========================= */
+.btn {
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    padding: 5px 10px;
+    border: 1px solid var(--gris-suave);
+    background: transparent;
+    color: var(--color-secundario);
+}
+
+.btn:hover {
+    background: var(--color-fondo-secundario);
+}
+
+.btn-postear {
+    background: var(--color-principal);
+    color: var(--color-fondo);
+    border: 1px solid var(--color-principal);
+}
+
+body.modo-noche .btn-postear {
+    background: #e6e6e6;
+    color: #000;
+    border-color: #e6e6e6;
+}
+
+/* =========================
+   POSTS
+   ========================= */
+.post {
+    display: flex;
+    gap: 18px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--gris-suave);
+}
+
+.post-body {
+    flex: 1;
+    min-width: 0;
+}
+
+/* =========================
+   AVATAR
+   ========================= */
+.avatar {
+    width: 56px;
+    height: 56px;
+    border: 1px solid var(--gris-suave);
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* =========================
+   MARCAS Y FECHA
+   ========================= */
+.marca-tag {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.fecha-tag {
+    font-size: 13px;
+    color: var(--color-terciario);
+    margin-bottom: 8px;
+}
+
+/* =========================
+   SEMILLA / OCULTO
+   ========================= */
+.semilla-box {
+    margin-top: 10px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.semilla-input {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid var(--gris-suave);
+    background: transparent;
+    color: var(--color-principal);
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.semilla-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--color-terciario);
+}
+
+.semilla-btn:hover {
+    color: var(--color-principal);
+}
+
+.mensaje-oculto {
+    margin-top: 10px;
+    padding: 10px;
+    background: var(--color-oculto-fondo);
+    border: 1px dashed var(--gris-suave);
+    font-size: 14px;
+}
+
+.mensaje-error {
+    font-size: 13px;
+    color: var(--color-error);
+    margin-top: 6px;
+}
+
+/* =========================
+   OCULTO SECTION
+   ========================= */
+.oculto-section {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--gris-suave);
+    display: none;
+}
+
+.password-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--gris-suave);
+    background: var(--color-fondo);
+    color: var(--color-principal);
+    font-family: inherit;
+}
+
+/* =========================
+   MANUAL
+   ========================= */
+#manual-box {
+    display: none;
+    margin: 16px 0;
+    padding: 14px;
+    border: 1px solid var(--gris-suave);
+    background: var(--color-fondo);
+    font-size: 14px;
+    white-space: pre-wrap;
+}
+
+/* =========================
+   LINKS
+   ========================= */
+a {
+    color: var(--color-enlace);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   UTILIDADES
+   ========================= */
+.hidden {
+    display: none;
+}
