@@ -22,12 +22,7 @@
 
         <div class="nav-status">
             <span>Etiqueta: <b id="current-marca" style="color:var(--rastro-color)">...</b></span>
-            <div>
-                <button class="btn" onclick="reetiquetar()">[ reetiquetar ]</button>
-                <button class="btn" onclick="toggleManual()">[ manual ]</button>
-                <button class="btn" onclick="cambiarTema()" id="btn-tema">[ tema: default ]</button>
-                <button class="btn" onclick="toggleDiaNoche()" id="btn-modo">[ día ]</button>
-            </div>
+            <button class="btn" onclick="reetiquetar()">[ reetiquetar ]</button>
         </div>
 
         <input type="text" class="search-box" id="search-input" placeholder="Buscar..." onkeyup="buscarConDelay()">
@@ -69,6 +64,12 @@
                 </div>
             </div>
         </div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 15px; justify-content: center;">
+            <button class="btn" onclick="toggleManual()">[ manual ]</button>
+            <button class="btn" onclick="cambiarTema()" id="btn-tema">[ tema: default ]</button>
+            <button class="btn" onclick="toggleDiaNoche()" id="btn-modo">[ día ]</button>
+        </div>
     </header>
 
     <div id="timeline"></div>
@@ -80,7 +81,6 @@
     let buscando = false;
     let timeoutBusqueda = null;
     
-    // Sistema de temas
     const temas = ['default', 'retro', 'minimo'];
     let temaActual = localStorage.getItem('tema') || 'default';
     let modoOscuro = localStorage.getItem('modo') === 'noche';
@@ -224,7 +224,7 @@
         let htmlContent = post.contenido
             .replace(/\*(.*?)\*/g, '<b>$1</b>')
             .replace(/_(.*?)_/g, '<i>$1</i>')
-            .replace(/<(.*?):(.*?)>/g, '<a href="http://$2" target="_blank" style="color:var(--color-enlace)">$1</a>');
+            .replace(/<(.*?):(.*?)>/g, '<a href="http://$2" target="_blank">$1</a>');
 
         const idAv = 'av-' + Math.random().toString(36).substring(7);
         const idSemilla = 'semilla-' + Math.random().toString(36).substring(7);
