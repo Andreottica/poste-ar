@@ -4,8 +4,8 @@ INTRODUCCIÓN
 Poste.ar es un tablón de comunicación anónima y efímera
 con cifrado de mensajes de nivel bancario.
 
-Publica mensajes públicos, o cifra contenido secreto, que solo
-puedan leer quienes conozcan la contraseña del mensaje (criptografía AES-256).
+Postea mensajes públicos, o cifra contenido secreto, que solo
+podran leer quienes conozcan la contraseña del mensaje (criptografía AES-256).
 
 Sin registro. Sin identidad permanente. Sin rastros.
 Todo el contenido se borra automáticamente cada lunes a las 00:00hs.
