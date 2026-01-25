@@ -1,0 +1,376 @@
+/* ============================================
+   POSTE.AR - TEMA MÍNIMO
+   Menos es más. Tipografía, espacio, silencio.
+   ============================================ */
+
+/* Variables globales */
+:root {
+    --rastro-color: #000000;
+    --gris-suave: #e8e8e8;
+    --color-principal: #1a1a1a;
+    --color-secundario: #707070;
+    --color-terciario: #a0a0a0;
+    --color-fondo: #ffffff;
+    --color-fondo-secundario: #fafafa;
+    --color-fondo-alerta: #f5f5f5;
+    --color-borde-alerta: #e0e0e0;
+    --color-alerta: #505050;
+    --color-enlace: #1a1a1a;
+    --color-error: #000000;
+    --color-oculto-fondo: #f9f9f9;
+}
+
+/* Modo Noche - Inversión pura */
+body.modo-noche {
+    --color-principal: #e8e8e8;
+    --color-secundario: #a0a0a0;
+    --color-terciario: #707070;
+    --color-fondo: #0a0a0a;
+    --color-fondo-secundario: #151515;
+    --color-fondo-alerta: #1a1a1a;
+    --color-borde-alerta: #303030;
+    --color-alerta: #c0c0c0;
+    --color-enlace: #e8e8e8;
+    --color-error: #ffffff;
+    --color-oculto-fondo: #1a1a1a;
+    --gris-suave: #303030;
+}
+
+/* Reset y Base */
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background: var(--color-fondo);
+    color: var(--color-principal);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 15px;
+    line-height: 1.6;
+    transition: all 0.2s ease;
+}
+
+/* Contenedor - Sin bordes laterales */
+.container {
+    width: 728px;
+    min-height: 100vh;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+/* Header - Aire y espacio */
+header {
+    border-bottom: 1px solid var(--gris-suave);
+    padding-bottom: 30px;
+    margin-bottom: 40px;
+}
+
+.brand-line {
+    font-weight: normal;
+    font-size: 18px;
+    margin-bottom: 4px;
+    color: var(--color-principal);
+    letter-spacing: 2px;
+}
+
+.sub-brand {
+    font-size: 13px;
+    color: var(--color-terciario);
+    letter-spacing: 0.5px;
+}
+
+/* Alerta timeline - Línea simple */
+.alerta-box {
+    background: transparent;
+    border-left: 3px solid var(--color-principal);
+    padding: 8px 0 8px 12px;
+    color: var(--color-secundario);
+    font-size: 13px;
+    margin-top: 20px;
+}
+
+/* Navegación - Línea horizontal */
+.nav-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;
+    padding: 12px 0;
+    border: none;
+    border-top: 1px solid var(--gris-suave);
+    border-bottom: 1px solid var(--gris-suave);
+    font-size: 13px;
+    margin-top: 20px;
+}
+
+/* Buscador - Input limpio */
+.search-box {
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 2px solid var(--gris-suave);
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+    margin-top: 20px;
+    background: transparent;
+    color: var(--color-principal);
+    transition: border-color 0.2s;
+}
+
+.search-box:focus {
+    border-bottom-color: var(--color-principal);
+}
+
+.search-info {
+    font-size: 12px;
+    color: var(--color-terciario);
+    margin-top: 8px;
+    text-align: left;
+    letter-spacing: 0.5px;
+}
+
+/* Avatar - Círculo simple */
+.avatar {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: var(--color-fondo);
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: none;
+    letter-spacing: 1px;
+}
+
+/* Manual - Sin caja */
+#manual-box {
+    display: none;
+    background: transparent;
+    border: none;
+    border-left: 2px solid var(--gris-suave);
+    padding: 20px;
+    font-size: 13px;
+    white-space: pre-wrap;
+    margin: 20px 0;
+    color: var(--color-secundario);
+    line-height: 1.8;
+}
+
+/* Textareas - Ancho fijo, alto variable */
+textarea {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--gris-suave);
+    padding: 12px 0;
+    font-family: inherit;
+    font-size: 15px;
+    resize: vertical;
+    outline: none;
+    box-sizing: border-box;
+    min-height: 80px;
+    max-height: 300px;
+    background: transparent;
+    color: var(--color-principal);
+    transition: border-color 0.2s;
+}
+
+textarea:focus {
+    border-bottom-color: var(--color-principal);
+}
+
+/* Botones - Minimalismo radical */
+.btn {
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: normal;
+    border: none;
+    padding: 6px 0;
+    background: transparent;
+    color: var(--color-secundario);
+    font-size: 13px;
+    transition: color 0.2s;
+    letter-spacing: 0.5px;
+}
+
+.btn:hover {
+    color: var(--color-principal);
+}
+
+.btn-postear {
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+    background: var(--color-principal);
+    color: var(--color-fondo);
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    transition: opacity 0.2s;
+}
+
+.btn-postear:hover {
+    opacity: 0.8;
+}
+
+.btn-volver {
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: normal;
+    background: transparent;
+    color: var(--color-secundario);
+    border: 1px solid var(--gris-suave);
+    padding: 6px 12px;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.btn-volver:hover {
+    background: var(--color-fondo-secundario);
+    color: var(--color-principal);
+}
+
+/* Posts - Espacio respiratorio */
+.post {
+    display: flex;
+    gap: 30px;
+    border-bottom: 1px solid var(--gris-suave);
+    padding: 40px 0;
+    align-items: flex-start;
+}
+
+.post:last-child {
+    border-bottom: none;
+}
+
+.post-body {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.marca-tag {
+    font-size: 12px;
+    font-weight: normal;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.fecha-tag {
+    font-size: 11px;
+    color: var(--color-terciario);
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+/* Semilla - Underline mínimo */
+.semilla-box {
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.semilla-input {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid var(--gris-suave);
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+    padding: 6px 0;
+    background: transparent;
+    color: var(--color-principal);
+    transition: border-color 0.2s;
+}
+
+.semilla-input:focus {
+    border-bottom-color: var(--color-principal);
+}
+
+.semilla-btn {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 16px;
+    color: var(--color-terciario);
+    transition: color 0.2s;
+}
+
+.semilla-btn:hover {
+    color: var(--color-principal);
+}
+
+/* Mensaje oculto - Bloque discreto */
+.mensaje-oculto {
+    margin-top: 16px;
+    padding: 16px;
+    background: var(--color-oculto-fondo);
+    border-left: 3px solid var(--color-principal);
+    font-size: 14px;
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+.mensaje-error {
+    color: var(--color-error);
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+/* Contador - Discreto */
+.contador {
+    font-size: 12px;
+    color: var(--color-terciario);
+    text-align: right;
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+}
+
+/* Sección oculta */
+.oculto-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--gris-suave);
+    display: none;
+}
+
+.password-input {
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 2px solid var(--gris-suave);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    background: transparent;
+    color: var(--color-principal);
+    transition: border-color 0.2s;
+}
+
+.password-input:focus {
+    border-bottom-color: var(--color-principal);
+}
+
+/* Utilidades */
+.hidden {
+    display: none;
+}
+
+/* Enlaces - Underline simple */
+a {
+    color: var(--color-enlace);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-terciario);
+    transition: border-color 0.2s;
+}
+
+a:hover {
+    border-bottom-color: var(--color-principal);
+}
