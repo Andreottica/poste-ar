@@ -11,6 +11,18 @@ const db = createClient({
   authToken: process.env.TURSO_TOKEN
 });
 
+// ============================================
+// MIDDLEWARE DE SEGURIDAD - SOLO CLOUDFLARE
+// ============================================
+app.use((req, res, next) => {
+    const cfIP = req.headers['cf-connecting-ip'];
+    // Permitir localhost para desarrollo
+    if (!cfIP && req.hostname !== 'localhost' && req.hostname !== '127.0.0.1') {
+        return res.status(403).send('Acceso denegado - Solo Cloudflare');
+    }
+    next();
+});
+
 // Función para obtener fecha/hora en timezone Argentina
 function obtenerFechaArgentina() {
     const ahora = new Date();
@@ -136,5 +148,6 @@ app.get('/keep-alive', (req, res) => res.send('ok'));
 
 app.listen(PORT, () => { 
     console.log(`🚀 Servidor en puerto ${PORT}`); 
+    console.log('🔒 Protección Cloudflare activada');
     console.log('⏰ Purga automática configurada para lunes 00:00 Argentina');
 });
