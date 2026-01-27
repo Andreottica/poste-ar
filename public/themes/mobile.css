@@ -7,34 +7,105 @@
         width: 100%;
         border-left: none;
         border-right: none;
-        padding: 15px;
+        padding: 10px;
     }
 
     header {
         padding-bottom: 10px;
     }
 
+    /* Logo y brand más compactos */
+    header > div:first-child img {
+        width: 45px !important;
+        height: 45px !important;
+    }
+
+    .brand-line {
+        font-size: 14px;
+    }
+
+    .sub-brand {
+        font-size: 12px;
+    }
+
+    /* Alerta */
+    .alerta-box {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    /* Nav status */
+    .nav-status {
+        flex-direction: column;
+        gap: 8px;
+        align-items: stretch;
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    /* BOTONES - Diseño táctil para móviles */
+    .btn, .btn-postear, .btn-volver {
+        font-size: 13px;
+        padding: 10px 8px;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Grupos de botones en columna */
+    header > div[style*="display: flex"] {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+
+    /* Posts */
     .post {
         flex-direction: column;
         gap: 10px;
+        padding: 15px 0;
     }
 
     .avatar {
-        width: 50px;
-        height: 50px;
-        font-size: 18px;
+        width: 45px;
+        height: 45px;
+        font-size: 16px;
+        align-self: flex-start;
     }
 
+    .marca-tag {
+        font-size: 13px;
+    }
+
+    .fecha-tag {
+        font-size: 12px;
+    }
+
+    /* Inputs */
     textarea {
         font-size: 16px;
-    }
-
-    .btn, .btn-postear, .btn-volver {
-        font-size: 14px;
-        padding: 8px 12px;
+        min-height: 100px;
     }
 
     .search-box, .password-input {
         font-size: 16px;
+        padding: 8px;
+    }
+
+    .semilla-input {
+        font-size: 14px;
+    }
+
+    /* Contador */
+    .contador {
+        font-size: 13px;
+    }
+
+    /* Manual */
+    #manual-box {
+        font-size: 13px;
+        padding: 10px;
     }
 }
