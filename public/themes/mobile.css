@@ -34,16 +34,43 @@
         padding: 8px;
     }
 
-    /* Nav status */
+    /* Nav status - mover reetiquetar */
     .nav-status {
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
         gap: 8px;
-        align-items: stretch;
         padding: 8px;
         font-size: 13px;
     }
 
-    /* BOTONES - Diseño táctil para móviles */
+    .nav-status span {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-status button {
+        flex: 1;
+    }
+
+    /* Ocultar botón tema en móviles */
+    #btn-tema {
+        display: none !important;
+    }
+
+    /* Contenedor de botones principales - Grid 2x2 */
+    header > div[style*="justify-content: space-between"] {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        margin-top: 10px !important;
+    }
+
+    /* Forzar botones individuales a ocupar una celda */
+    header > div[style*="justify-content: space-between"] > div {
+        display: contents !important;
+    }
+
+    /* BOTONES - Diseño táctil */
     .btn, .btn-postear, .btn-volver {
         font-size: 13px;
         padding: 10px 8px;
@@ -51,14 +78,6 @@
         box-sizing: border-box;
         text-align: center;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    /* Grupos de botones en columna */
-    header > div[style*="display: flex"] {
-        flex-direction: column !important;
-        gap: 8px !important;
     }
 
     /* Posts */
