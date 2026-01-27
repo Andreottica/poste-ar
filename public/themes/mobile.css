@@ -34,22 +34,15 @@
         padding: 8px;
     }
 
-    /* Nav status - mover reetiquetar */
+    /* Nav status - solo mostrar etiqueta */
     .nav-status {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 8px;
         padding: 8px;
         font-size: 13px;
-    }
-
-    .nav-status span {
-        width: 100%;
         text-align: center;
     }
 
     .nav-status button {
-        flex: 1;
+        display: none;
     }
 
     /* Ocultar botón tema en móviles */
@@ -57,17 +50,12 @@
         display: none !important;
     }
 
-    /* Contenedor de botones principales - Grid 2x2 */
-    header > div[style*="justify-content: space-between"] {
+    /* Crear grid 2x2 para botones */
+    .botones-mobile-grid {
         display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 8px !important;
-        margin-top: 10px !important;
-    }
-
-    /* Forzar botones individuales a ocupar una celda */
-    header > div[style*="justify-content: space-between"] > div {
-        display: contents !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 10px;
     }
 
     /* BOTONES - Diseño táctil */
