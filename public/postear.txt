@@ -57,6 +57,7 @@ FORMATO DE TEXTO
 *texto*              → texto en negrita
 _texto_              → texto en cursiva
 <nombre:url.com>     → crear enlace clickeable
+#hashtag             → etiqueta en los mensajes, ejemplo: #examen 
 
 Ejemplo:
 Esto es *importante* y _urgente_.
