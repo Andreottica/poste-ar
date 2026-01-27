@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://poste.ar/</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
+```
+
+---
+
+Guardalo, hacé deploy en Render, y cuando esté subido:
+
+**Volvé a Google Search Console** y en "Añadir un sitemap" escribí:
+```
+sitemap.xml
