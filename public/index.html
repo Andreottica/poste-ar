@@ -13,14 +13,15 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://poste.ar/">
     <meta property="og:title" content="poste.ar · ciudadela">
-    <meta property="og:description" content="Tablón anónimo y efímero con cifrado AES-256. Sin registro, sin rastros.">
+    <meta property="og:description" content="Red social anónima con mensajes públicos y secretos criptografiados (AES-256). Sin usuarios, sin IPs, sin contraseñas guardadas. Todo se borra cada lunes. Cada mensaje oculto tiene su password único, si lo perdés, perdés el mensaje.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary">
     <meta property="twitter:url" content="https://poste.ar/">
     <meta property="twitter:title" content="poste.ar · ciudadela">
-    <meta property="twitter:description" content="Tablón anónimo y efímero con cifrado AES-256. Sin registro, sin rastros.">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <meta property="twitter:description" content="Red social anónima con mensajes públicos y secretos criptografiados (AES-256). Sin usuarios, sin IPs, sin contraseñas guardadas. Todo se borra cada lunes. Cada mensaje oculto tiene su password único, si lo perdés, perdés el mensaje.">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <link rel="stylesheet" id="theme-stylesheet" href="themes/default.css">
     <link rel="stylesheet" href="themes/mobile.css">
 </head>
@@ -246,6 +247,7 @@
         let htmlContent = post.contenido
             .replace(/\*([^\*]+)\*/g, '<b>$1</b>')
             .replace(/_(.*?)_/g, '<i>$1</i>')
+            .replace(/#(\w+)/g, '<span style="color: #d32f2f; font-weight: bold;">#$1</span>')
             .replace(/<(.*?):(.*?)>/g, '<a href="http://$2" target="_blank">$1</a>');
 
         const idAv = 'av-' + Math.random().toString(36).substring(7);
@@ -409,12 +411,45 @@
         container.innerText = letras;
     }
 
+    // Reorganizar botones solo en móviles
+    function reorganizarBotonesMobile() {
+        if (window.innerWidth <= 768) {
+            const navStatus = document.querySelector('.nav-status');
+            const btnReetiquetar = navStatus.querySelector('button');
+            const contenedorBotones = document.querySelector('header > div[style*="justify-content: space-between"]');
+            
+            if (!contenedorBotones.classList.contains('botones-mobile-reorganizado')) {
+                // Crear grid mobile
+                contenedorBotones.style.display = 'grid';
+                contenedorBotones.style.gridTemplateColumns = '1fr 1fr';
+                contenedorBotones.style.gap = '8px';
+                contenedorBotones.style.justifyContent = 'unset';
+                
+                // Clonar botón reetiquetar
+                const btnReetiquetatClone = btnReetiquetar.cloneNode(true);
+                btnReetiquetatClone.onclick = reetiquetar;
+                
+                // Insertar al principio del contenedor de botones
+                contenedorBotones.insertBefore(btnReetiquetatClone, contenedorBotones.firstChild);
+                
+                // Ocultar reetiquetar original
+                btnReetiquetar.style.display = 'none';
+                
+                // Marcar como reorganizado
+                contenedorBotones.classList.add('botones-mobile-reorganizado');
+            }
+        }
+    }
+
+    window.addEventListener('resize', reorganizarBotonesMobile);
+
     window.onload = () => {
         cargarTema();
         reetiquetar();
         cargarTimeline();
         actualizarContadorReset();
         setInterval(actualizarContadorReset, 60000);
+        reorganizarBotonesMobile();
     };
 </script>
 </body>
