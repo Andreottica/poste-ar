@@ -244,7 +244,7 @@
         postDiv.className = 'post';
         
         let htmlContent = post.contenido
-            .replace(/\*(.*?)\*/g, '<b>$1</b>')
+            .replace(/\*([^\*]+)\*/g, '<b>$1</b>')
             .replace(/_(.*?)_/g, '<i>$1</i>')
             .replace(/<(.*?):(.*?)>/g, '<a href="http://$2" target="_blank">$1</a>');
 
