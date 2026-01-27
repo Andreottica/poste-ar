@@ -16,10 +16,18 @@ const db = createClient({
 // ============================================
 app.use((req, res, next) => {
     const cfIP = req.headers['cf-connecting-ip'];
-    // Permitir localhost para desarrollo
-    if (!cfIP && req.hostname !== 'localhost' && req.hostname !== '127.0.0.1') {
-        return res.status(403).send('Acceso denegado - Solo Cloudflare');
+    const host = req.get('host') || '';
+    
+    // Permitir solo localhost en desarrollo
+    if (host.includes('localhost') || host.includes('127.0.0.1')) {
+        return next();
     }
+    
+    // Bloquear si NO viene de Cloudflare
+    if (!cfIP) {
+        return res.status(403).send('Acceso denegado - Solo disponible via poste.ar');
+    }
+    
     next();
 });
 
@@ -148,6 +156,6 @@ app.get('/keep-alive', (req, res) => res.send('ok'));
 
 app.listen(PORT, () => { 
     console.log(`🚀 Servidor en puerto ${PORT}`); 
-    console.log('🔒 Protección Cloudflare activada');
+    console.log('🔒 Protección Cloudflare activada - Solo acceso via poste.ar');
     console.log('⏰ Purga automática configurada para lunes 00:00 Argentina');
 });
