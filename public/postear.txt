@@ -1,14 +1,28 @@
 INTRODUCCIÓN
 ============
 
-Poste.ar es un tablón de comunicación anónima y efímera
-con cifrado de mensajes de nivel bancario.
+Poste.ar es una red social anónima y efímera donde podés publicar dos tipos de mensajes:
 
-Postea mensajes públicos, o cifra contenido secreto, que solo
-podran leer quienes conozcan la contraseña del mensaje (criptografía AES-256).
+MENSAJES PÚBLICOS: visibles para todos en el timeline.
 
-Sin registro. Sin identidad permanente. Sin rastros.
-Todo el contenido se borra automáticamente cada lunes a las 00:00hs.
+MENSAJES OCULTOS: cifrados con criptografía de nivel bancario (AES-256).
+Solo pueden leerlos quienes conozcan el password. Cada mensaje tiene su propia contraseña, que cifra todo el contenido: aunque alguien accediera al texto, no podría entenderlo.
+
+El servidor NO guarda:
+- Direcciones IP
+- Ningún tipo de dato personal (no hay usuarios)
+- Passwords (se generan en el navegador)
+
+El servidor solo almacena mensajes públicos y textos cifrados.
+Los mensajes ocultos son incomprensibles porque permanecen cifrados de forma criptográfica.
+
+Todos los mensajes se borran automáticamente cada lunes a las 00:00 hs.
+
+Sin registro. Sin identidad permanente. Sin rastros digitales.
+Comunicación pública anónima y mensajes ocultos, totalmente encriptados.
+
+A diferencia de las redes y chats tradicionales, donde se cifra solo el tránsito del mensaje y las plataformas pueden acceder al contenido por requerimientos legales, en poste.ar el mensaje se cifra directamente en el navegador con sus propias librerías criptográficas.
+Solo el usuario conoce el password. El servidor y poste.ar no pueden acceder al contenido.
 
 
 CÓMO USAR POSTE.AR
