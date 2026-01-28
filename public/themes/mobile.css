@@ -8,6 +8,7 @@
         border-left: none;
         border-right: none;
         padding: 10px;
+        line-height: 1.3;
     }
 
     header {
@@ -15,6 +16,11 @@
     }
 
     /* Logo y brand más compactos */
+    header > div:first-child {
+        gap: 10px !important;
+        margin-bottom: 10px !important;
+    }
+
     header > div:first-child img {
         width: 45px !important;
         height: 45px !important;
@@ -22,23 +28,28 @@
 
     .brand-line {
         font-size: 14px;
+        line-height: 1.2;
     }
 
     .sub-brand {
         font-size: 12px;
+        line-height: 1.2;
+        margin-top: 2px;
     }
 
     /* Alerta */
     .alerta-box {
         font-size: 13px;
-        padding: 8px;
+        padding: 6px 8px;
+        line-height: 1.3;
     }
 
-    /* Nav status - solo mostrar etiqueta */
+    /* Nav status - solo mostrar etiqueta centrada */
     .nav-status {
-        padding: 8px;
+        padding: 6px 8px;
         font-size: 13px;
         text-align: center;
+        line-height: 1.3;
     }
 
     .nav-status button {
@@ -50,29 +61,53 @@
         display: none !important;
     }
 
-    /* Crear grid 2x2 para botones */
-    .botones-mobile-grid {
+    /* Contenedor de botones - Grid 2x2 */
+    header > div[style*="justify-content: space-between"] {
         display: grid !important;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        margin-top: 10px;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 6px !important;
+        margin-top: 8px !important;
     }
 
-    /* BOTONES - Diseño táctil */
+    header > div[style*="justify-content: space-between"] > div {
+        display: contents !important;
+    }
+
+    /* BOTONES - Más compactos */
     .btn, .btn-postear, .btn-volver {
         font-size: 13px;
-        padding: 10px 8px;
+        padding: 8px 6px;
         width: 100%;
         box-sizing: border-box;
         text-align: center;
         white-space: nowrap;
+        line-height: 1.2;
     }
 
-    /* Posts */
+    /* Buscador */
+    .search-box {
+        margin-top: 10px;
+        padding: 8px;
+        font-size: 15px;
+    }
+
+    .search-info {
+        font-size: 13px;
+        margin-top: 6px;
+        line-height: 1.3;
+    }
+
+    /* Posts - más compactos y filetes marcados */
     .post {
         flex-direction: column;
-        gap: 10px;
-        padding: 15px 0;
+        gap: 8px;
+        padding: 12px 0;
+        border-bottom: 2px solid #ddd;
+        line-height: 1.4;
+    }
+
+    body.modo-noche .post {
+        border-bottom: 2px solid #444;
     }
 
     .avatar {
@@ -82,37 +117,85 @@
         align-self: flex-start;
     }
 
+    .post-body {
+        line-height: 1.4;
+    }
+
     .marca-tag {
         font-size: 13px;
+        margin-bottom: 3px;
+        line-height: 1.2;
     }
 
     .fecha-tag {
         font-size: 12px;
+        margin-bottom: 6px;
+        line-height: 1.2;
     }
 
-    /* Inputs */
-    textarea {
-        font-size: 16px;
-        min-height: 100px;
+    .post-body > div[style*="white-space"] {
+        font-size: 14px !important;
+        line-height: 1.4 !important;
     }
 
-    .search-box, .password-input {
-        font-size: 16px;
-        padding: 8px;
+    /* Semilla y mensajes ocultos */
+    .semilla-box {
+        margin-top: 8px;
     }
 
     .semilla-input {
         font-size: 14px;
+        padding: 6px;
+    }
+
+    .mensaje-oculto {
+        font-size: 14px;
+        padding: 8px;
+        margin-top: 8px;
+        line-height: 1.4;
+    }
+
+    /* Inputs */
+    textarea {
+        font-size: 15px;
+        min-height: 90px;
+        padding: 8px;
+        line-height: 1.4;
+    }
+
+    .password-input {
+        font-size: 15px;
+        padding: 8px;
     }
 
     /* Contador */
     .contador {
-        font-size: 13px;
+        font-size: 12px;
+        margin-top: 4px;
+        line-height: 1.2;
+    }
+
+    /* Sección oculta */
+    .oculto-section {
+        margin-top: 10px;
+        padding-top: 10px;
     }
 
     /* Manual */
     #manual-box {
         font-size: 13px;
         padding: 10px;
+        margin: 10px 0;
+        line-height: 1.4;
+    }
+
+    /* Botones postear/volver/download */
+    div[style*="justify-content: space-between"][style*="margin-top: 10px"] {
+        margin-top: 8px !important;
+        gap: 6px !important;
+    }
+
+    div[style*="justify-content: space-between"][style*="margin-top: 10px"] > div {
+        gap: 6px !important;
     }
 }
