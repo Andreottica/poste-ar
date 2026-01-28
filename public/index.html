@@ -91,6 +91,7 @@
                     <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver ]</button>
                     <button class="btn" onclick="window.open('/source')">[ download source ]</button>
                 </div>
+            </div>
         </div>
     </header>
 
@@ -239,7 +240,7 @@
         posts.forEach(post => mostrarPost(post));
     }
 
-function mostrarPost(post) {
+    function mostrarPost(post) {
         const timeline = document.getElementById('timeline');
         const postDiv = document.createElement('div');
         postDiv.className = 'post';
