@@ -135,13 +135,8 @@ body.modo-noche {
     }
 
     /* ========================================
-       ACTION BUTTONS - 2x2 GRID
+       ACTION BUTTONS - 2x2 GRID (ALL BUTTONS)
        ======================================== */
-    
-    /* Hide theme button */
-    #btn-tema {
-        display: none !important;
-    }
 
     /* Button container */
     header > div[style*="justify-content: space-between"] {
@@ -155,7 +150,8 @@ body.modo-noche {
         display: contents !important;
     }
 
-    header > div[style*="justify-content: space-between"] .btn {
+    header > div[style*="justify-content: space-between"] .btn,
+    header > div[style*="justify-content: space-between"] #btn-tema {
         width: 100% !important;
         min-height: 50px !important;
         background: var(--card-bg) !important;
@@ -173,11 +169,13 @@ body.modo-noche {
         letter-spacing: 0.2px;
     }
 
-    body.modo-noche header > div[style*="justify-content: space-between"] .btn {
+    body.modo-noche header > div[style*="justify-content: space-between"] .btn,
+    body.modo-noche header > div[style*="justify-content: space-between"] #btn-tema {
         border-color: rgba(255,255,255,0.12) !important;
     }
 
-    header > div[style*="justify-content: space-between"] .btn:active {
+    header > div[style*="justify-content: space-between"] .btn:active,
+    header > div[style*="justify-content: space-between"] #btn-tema:active {
         transform: scale(0.96) !important;
         box-shadow: inset 0 2px 4px rgba(0,0,0,0.1) !important;
     }
@@ -205,6 +203,30 @@ body.modo-noche {
         background: linear-gradient(135deg, var(--accent-purple) 0%, #cdb0ff 100%) !important;
         color: white !important;
         border: none !important;
+    }
+
+    /* Manual button (5th position) */
+    header > div[style*="justify-content: space-between"] .btn:nth-child(5) {
+        background: var(--card-bg) !important;
+        color: var(--text-primary) !important;
+        border: 2px solid rgba(0,0,0,0.08) !important;
+    }
+
+    body.modo-noche header > div[style*="justify-content: space-between"] .btn:nth-child(5) {
+        border-color: rgba(255,255,255,0.12) !important;
+    }
+
+    /* Theme button (día/noche) - 6th position or #btn-tema */
+    header > div[style*="justify-content: space-between"] .btn:nth-child(6),
+    header > div[style*="justify-content: space-between"] #btn-tema {
+        background: var(--card-bg) !important;
+        color: var(--text-primary) !important;
+        border: 2px solid rgba(0,0,0,0.08) !important;
+    }
+
+    body.modo-noche header > div[style*="justify-content: space-between"] .btn:nth-child(6),
+    body.modo-noche header > div[style*="justify-content: space-between"] #btn-tema {
+        border-color: rgba(255,255,255,0.12) !important;
     }
 
     /* ========================================
@@ -268,11 +290,11 @@ body.modo-noche {
         box-shadow: var(--shadow-md);
     }
 
-    /* Post header with avatar */
+    /* Post header with avatar - COMPACT LAYOUT */
     .post > div:first-child {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
     }
 
     .avatar {
@@ -290,20 +312,30 @@ body.modo-noche {
         flex-shrink: 0;
     }
 
-    /* Metadata */
+    /* Metadata container - inline layout */
+    .post-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
     .marca-tag {
         font-size: 15px;
         font-weight: 700;
         color: var(--text-primary);
-        margin-bottom: 2px;
+        margin: 0;
         letter-spacing: -0.3px;
+        line-height: 1.2;
     }
 
     .fecha-tag {
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 500;
         color: var(--text-secondary);
         letter-spacing: 0.2px;
+        margin: 0;
+        line-height: 1.2;
     }
 
     /* Post content */
@@ -313,6 +345,35 @@ body.modo-noche {
         color: var(--text-primary) !important;
         font-weight: 400 !important;
         margin-top: 8px;
+    }
+
+    /* ========================================
+       HASHTAGS - RED STYLING
+       ======================================== */
+    /* All hashtag variations */
+    span[style*="color"][style*="rgb(255, 0, 0)"],
+    span[style*="color"][style*="rgb(255,0,0)"],
+    span[style*="color: red"],
+    span.hashtag,
+    .hashtag,
+    [class*="hashtag"] {
+        color: #ff3b30 !important;
+        font-weight: 600 !important;
+    }
+
+    /* If hashtags have specific class or data attribute */
+    [data-hashtag],
+    .post-body span[style*="#"],
+    .post-body a[href*="hashtag"] {
+        color: #ff3b30 !important;
+        font-weight: 600 !important;
+    }
+
+    /* Dark mode hashtags */
+    body.modo-noche span[style*="color"][style*="rgb(255, 0, 0)"],
+    body.modo-noche span[style*="color: red"],
+    body.modo-noche .hashtag {
+        color: #ff453a !important;
     }
 
     /* ========================================
@@ -460,7 +521,7 @@ body.modo-noche {
        ======================================== */
     .btn-postear {
         width: 100%;
-        min-height: 54px;
+        min-height: 50px;
         background: linear-gradient(135deg, var(--accent-coral) 0%, #ff9580 100%);
         color: white;
         border: none;
@@ -479,7 +540,8 @@ body.modo-noche {
     }
 
     .btn-volver {
-        min-height: 48px;
+        width: 100%;
+        min-height: 50px;
         background: var(--card-bg);
         color: var(--text-primary);
         border: 2px solid rgba(0,0,0,0.08);
