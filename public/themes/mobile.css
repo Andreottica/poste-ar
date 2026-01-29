@@ -1,84 +1,133 @@
 /* ============================================
-   RESPONSIVE - MÓVILES
-   Diseño basado en: Nielsen Heuristics, Material Design,
-   iOS HIG, principios de ergonomía y empatía UX
+   CLAUDE.CSS - MOBILE MODERN DESIGN
+   Inspired by: Contemporary subscription UIs,
+   Card-based layouts, iOS design language
    ============================================ */
+
+:root {
+    --primary-bg: #f5f3ef;
+    --card-bg: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --accent-coral: #ff7b6b;
+    --accent-blue: #5b9eff;
+    --accent-yellow: #ffd966;
+    --accent-mint: #8ed8c9;
+    --accent-purple: #b794f6;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 20px;
+}
+
+body.modo-noche {
+    --primary-bg: #1a1a1a;
+    --card-bg: #2a2a2a;
+    --text-primary: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+}
 
 @media (max-width: 768px) {
     
     /* ========================================
-       CONTENEDOR BASE
+       GLOBAL RESET & BASE
        ======================================== */
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background: var(--primary-bg);
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
     .container {
         width: 100%;
-        border-left: none;
-        border-right: none;
-        padding: 12px;
-        line-height: 1.45;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        max-width: 100%;
+        padding: 16px;
+        border: none;
+        background: var(--primary-bg);
     }
 
     /* ========================================
-       HEADER
+       HEADER - PROFILE STYLE
        ======================================== */
     header {
-        padding-bottom: 12px;
+        background: var(--card-bg);
+        border-radius: var(--radius-lg);
+        padding: 20px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow-sm);
     }
 
-    /* Logo y brand */
+    /* Profile section */
     header > div:first-child {
+        display: flex !important;
+        align-items: center !important;
         gap: 12px !important;
-        margin-bottom: 12px !important;
+        margin-bottom: 16px !important;
     }
 
     header > div:first-child img {
-        width: 42px !important;
-        height: 42px !important;
+        width: 48px !important;
+        height: 48px !important;
+        border-radius: 50% !important;
+        border: 3px solid var(--accent-coral);
+        box-shadow: var(--shadow-sm);
     }
 
     .brand-line {
-        font-size: 16px;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-primary);
+        letter-spacing: -0.5px;
+        margin: 0;
         line-height: 1.2;
-        color: #0a0a0a;
-        font-family: 'Courier New', Courier, monospace;
-        font-weight: bold;
-    }
-
-    body.modo-noche .brand-line {
-        color: #e8e8e8;
     }
 
     .sub-brand {
         font-size: 13px;
-        line-height: 1.3;
-        margin-top: 3px;
-        color: #4a4a4a;
-    }
-
-    body.modo-noche .sub-brand {
-        color: #a8a8a8;
+        color: var(--text-secondary);
+        font-weight: 500;
+        margin-top: 2px;
+        letter-spacing: 0.2px;
     }
 
     /* ========================================
-       ALERTA TIMELINE
+       ALERT/STATUS BANNER
        ======================================== */
     .alerta-box {
-        font-size: 14px;
-        padding: 10px 12px;
+        background: linear-gradient(135deg, var(--accent-coral) 0%, #ff9580 100%);
+        color: white;
+        border-radius: var(--radius-md);
+        padding: 16px 18px;
+        margin-bottom: 16px;
+        font-size: 15px;
+        font-weight: 600;
         line-height: 1.4;
-        border-radius: 6px;
-        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        box-shadow: var(--shadow-md);
+        border: none;
     }
 
-    /* ========================================
-       NAVEGACIÓN Y STATUS
-       ======================================== */
     .nav-status {
-        padding: 10px 12px;
-        font-size: 14px;
+        background: var(--card-bg);
+        border-radius: var(--radius-md);
+        padding: 12px 16px;
         text-align: center;
-        line-height: 1.3;
-        font-family: 'Courier New', Courier, monospace;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-bottom: 16px;
+        box-shadow: var(--shadow-sm);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
     }
 
     .nav-status button {
@@ -86,238 +135,470 @@
     }
 
     /* ========================================
-       BOTONES - DISEÑO TÁCTIL OPTIMIZADO
-       Grid 2x2 con 50% width exacto
+       ACTION BUTTONS - 2x2 GRID
        ======================================== */
     
-    /* Ocultar botón tema */
+    /* Hide theme button */
     #btn-tema {
         display: none !important;
     }
 
-    /* Contenedor de botones principales */
+    /* Button container */
     header > div[style*="justify-content: space-between"] {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        gap: 8px !important;
-        margin-top: 12px !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+        margin-top: 16px !important;
     }
 
-    /* Forzar que divs internos no interfieran */
     header > div[style*="justify-content: space-between"] > div {
         display: contents !important;
     }
 
-    /* Todos los botones ocupan exactamente 50% - 4px (gap/2) */
     header > div[style*="justify-content: space-between"] .btn {
-        width: calc(50% - 4px) !important;
-        min-height: 44px !important;
-        padding: 0 !important;
+        width: 100% !important;
+        min-height: 50px !important;
+        background: var(--card-bg) !important;
+        color: var(--text-primary) !important;
+        border: 2px solid rgba(0,0,0,0.08) !important;
+        border-radius: var(--radius-md) !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        padding: 0 12px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        box-sizing: border-box !important;
-        flex-shrink: 0 !important;
+        transition: all 0.2s ease !important;
+        box-shadow: var(--shadow-sm) !important;
+        letter-spacing: 0.2px;
     }
 
-    /* Estilos generales de botones */
-    .btn, .btn-postear, .btn-volver {
-        font-size: 14px;
-        font-family: 'Courier New', Courier, monospace;
-        text-align: center;
-        white-space: nowrap;
-        line-height: 1.2;
-        border-radius: 6px;
-        transition: background 0.15s ease;
-        -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+    body.modo-noche header > div[style*="justify-content: space-between"] .btn {
+        border-color: rgba(255,255,255,0.12) !important;
     }
 
-    .btn:active {
-        transform: scale(0.98);
+    header > div[style*="justify-content: space-between"] .btn:active {
+        transform: scale(0.96) !important;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.1) !important;
+    }
+
+    /* Individual button colors */
+    header > div[style*="justify-content: space-between"] .btn:nth-child(1) {
+        background: linear-gradient(135deg, var(--accent-blue) 0%, #7bb4ff 100%) !important;
+        color: white !important;
+        border: none !important;
+    }
+
+    header > div[style*="justify-content: space-between"] .btn:nth-child(2) {
+        background: linear-gradient(135deg, var(--accent-yellow) 0%, #ffe285 100%) !important;
+        color: #1a1a1a !important;
+        border: none !important;
+    }
+
+    header > div[style*="justify-content: space-between"] .btn:nth-child(3) {
+        background: linear-gradient(135deg, var(--accent-mint) 0%, #a8e6d7 100%) !important;
+        color: #1a1a1a !important;
+        border: none !important;
+    }
+
+    header > div[style*="justify-content: space-between"] .btn:nth-child(4) {
+        background: linear-gradient(135deg, var(--accent-purple) 0%, #cdb0ff 100%) !important;
+        color: white !important;
+        border: none !important;
     }
 
     /* ========================================
-       BUSCADOR
+       SEARCH BOX
        ======================================== */
     .search-box {
-        margin-top: 12px;
-        padding: 12px;
-        font-size: 16px;
-        line-height: 1.4;
-        border-radius: 8px;
-        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        background: var(--card-bg);
+        border-radius: var(--radius-md);
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow-sm);
+        border: 2px solid rgba(0,0,0,0.04);
+    }
+
+    body.modo-noche .search-box {
+        border-color: rgba(255,255,255,0.08);
+    }
+
+    .search-box input {
+        width: 100%;
+        background: var(--primary-bg);
+        border: none;
+        border-radius: 10px;
+        padding: 12px 16px;
+        font-size: 15px;
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+
+    .search-box input::placeholder {
+        color: var(--text-secondary);
+        font-weight: 400;
     }
 
     .search-info {
-        font-size: 14px;
-        margin-top: 8px;
-        line-height: 1.3;
-        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+        font-weight: 500;
+        letter-spacing: 0.2px;
     }
 
     /* ========================================
-       POSTS - OPTIMIZADO PARA LECTURA
+       POSTS - CARD STYLE
        ======================================== */
     .post {
+        background: var(--card-bg);
+        border-radius: var(--radius-md);
+        padding: 18px;
+        margin-bottom: 12px;
+        box-shadow: var(--shadow-sm);
+        border: none;
+        display: flex;
         flex-direction: column;
-        gap: 10px;
-        padding: 16px 0;
-        border-bottom: 3px solid rgba(0,0,0,0.06);
-        line-height: 1.45;
+        gap: 12px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    body.modo-noche .post {
-        border-bottom: 3px solid rgba(255,255,255,0.08);
+    .post:active {
+        transform: scale(0.99);
+        box-shadow: var(--shadow-md);
     }
 
-    /* Avatar compacto */
+    /* Post header with avatar */
+    .post > div:first-child {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
     .avatar {
-        width: 38px;
-        height: 38px;
-        font-size: 15px;
-        align-self: flex-start;
-        border-radius: 6px;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        font-size: 16px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--accent-coral), var(--accent-purple));
+        color: white;
+        box-shadow: var(--shadow-sm);
+        flex-shrink: 0;
     }
 
-    .post-body {
-        line-height: 1.45;
-    }
-
-    /* Metadatos */
+    /* Metadata */
     .marca-tag {
-        font-size: 12px;
-        margin-bottom: 4px;
-        line-height: 1.2;
-        font-family: 'Courier New', Courier, monospace;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 2px;
         letter-spacing: -0.3px;
     }
 
     .fecha-tag {
         font-size: 12px;
-        margin-bottom: 8px;
-        line-height: 1.2;
-        color: #666;
-        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 500;
+        color: var(--text-secondary);
+        letter-spacing: 0.2px;
     }
 
-    body.modo-noche .fecha-tag {
-        color: #999;
-    }
-
-    /* Contenido del post - SYSTEM FONT para legibilidad */
+    /* Post content */
     .post-body > div[style*="white-space"] {
-        font-size: 16px !important;
+        font-size: 15px !important;
         line-height: 1.5 !important;
-        color: #0a0a0a !important;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-    }
-
-    body.modo-noche .post-body > div[style*="white-space"] {
-        color: #e8e8e8 !important;
+        color: var(--text-primary) !important;
+        font-weight: 400 !important;
+        margin-top: 8px;
     }
 
     /* ========================================
-       SEMILLA Y MENSAJES OCULTOS
+       SUBSCRIPTION-STYLE CARDS (for posts)
+       ======================================== */
+    .post:nth-child(3n+1) {
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    }
+
+    .post:nth-child(3n+2) {
+        background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+    }
+
+    .post:nth-child(3n) {
+        background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+    }
+
+    body.modo-noche .post:nth-child(3n+1),
+    body.modo-noche .post:nth-child(3n+2),
+    body.modo-noche .post:nth-child(3n) {
+        background: var(--card-bg);
+    }
+
+    /* ========================================
+       HIDDEN MESSAGE / SEED BOX
        ======================================== */
     .semilla-box {
-        margin-top: 10px;
+        background: var(--card-bg);
+        border-radius: var(--radius-md);
+        padding: 14px;
+        margin-top: 12px;
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        gap: 8px;
     }
 
     .semilla-input {
-        font-size: 15px;
-        padding: 8px;
-        line-height: 1.4;
-        border-radius: 6px;
-        font-family: 'Courier New', Courier, monospace;
+        flex: 1;
+        background: var(--primary-bg);
+        border: none;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-size: 14px;
+        font-family: 'SF Mono', 'Courier New', monospace;
+        color: var(--text-primary);
+        font-weight: 500;
     }
 
     .semilla-btn {
-        min-width: 44px;
+        min-width: 50px;
         min-height: 44px;
+        background: linear-gradient(135deg, var(--accent-blue) 0%, #7bb4ff 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 14px;
+        box-shadow: var(--shadow-sm);
     }
 
     .mensaje-oculto {
-        font-size: 15px;
-        padding: 12px;
-        margin-top: 10px;
-        line-height: 1.45;
-        border-radius: 8px;
-        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+        border-radius: var(--radius-md);
+        padding: 16px;
+        margin-top: 12px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #4a148c;
+        font-weight: 500;
+        box-shadow: var(--shadow-sm);
+        border: 2px solid #ce93d8;
+    }
+
+    body.modo-noche .mensaje-oculto {
+        background: var(--card-bg);
+        color: var(--accent-purple);
+        border-color: var(--accent-purple);
     }
 
     .mensaje-error {
-        font-size: 13px;
-        margin-top: 6px;
+        font-size: 12px;
+        color: var(--accent-coral);
+        margin-top: 8px;
+        font-weight: 600;
+        letter-spacing: 0.2px;
     }
 
     /* ========================================
-       INPUTS Y FORMULARIOS
+       FORMS & INPUTS
        ======================================== */
     textarea {
-        font-size: 16px;
-        min-height: 100px;
-        padding: 12px;
-        line-height: 1.45;
-        border-radius: 8px;
+        width: 100%;
+        background: var(--card-bg);
+        border: 2px solid rgba(0,0,0,0.08);
+        border-radius: var(--radius-md);
+        padding: 16px;
+        font-size: 15px;
+        line-height: 1.5;
+        color: var(--text-primary);
         font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        resize: vertical;
+        min-height: 120px;
+        box-shadow: var(--shadow-sm);
+    }
+
+    body.modo-noche textarea {
+        border-color: rgba(255,255,255,0.12);
+    }
+
+    textarea:focus {
+        outline: none;
+        border-color: var(--accent-blue);
+        box-shadow: 0 0 0 3px rgba(91, 158, 255, 0.1);
     }
 
     .password-input {
-        font-size: 16px;
-        padding: 12px;
-        line-height: 1.4;
-        border-radius: 8px;
-        font-family: 'Courier New', Courier, monospace;
+        width: 100%;
+        background: var(--card-bg);
+        border: 2px solid rgba(0,0,0,0.08);
+        border-radius: var(--radius-md);
+        padding: 14px 16px;
+        font-size: 15px;
+        font-family: 'SF Mono', 'Courier New', monospace;
+        color: var(--text-primary);
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        box-shadow: var(--shadow-sm);
+    }
+
+    body.modo-noche .password-input {
+        border-color: rgba(255,255,255,0.12);
     }
 
     .contador {
-        font-size: 13px;
-        margin-top: 6px;
-        line-height: 1.2;
-        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 12px;
+        color: var(--text-secondary);
+        text-align: right;
+        margin-top: 8px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
     }
 
     /* ========================================
-       SECCIÓN OCULTA
+       ACTION BUTTONS (Post, Back, etc.)
        ======================================== */
-    .oculto-section {
-        margin-top: 12px;
-        padding-top: 12px;
-    }
-
-    /* ========================================
-       MANUAL
-       ======================================== */
-    #manual-box {
-        font-size: 14px;
-        padding: 12px;
-        margin: 12px 0;
-        line-height: 1.5;
-        border-radius: 8px;
-        font-family: 'Courier New', Courier, monospace;
-    }
-
-    /* ========================================
-       BOTONES INFERIORES
-       ======================================== */
-    div[style*="justify-content: space-between"][style*="margin-top: 10px"] {
-        margin-top: 12px !important;
-        gap: 8px !important;
-    }
-
-    div[style*="justify-content: space-between"][style*="margin-top: 10px"] > div {
-        gap: 8px !important;
-    }
-
     .btn-postear {
-        min-height: 48px;
-        font-size: 15px;
-        border-radius: 8px;
-        font-weight: bold;
+        width: 100%;
+        min-height: 54px;
+        background: linear-gradient(135deg, var(--accent-coral) 0%, #ff9580 100%);
+        color: white;
+        border: none;
+        border-radius: var(--radius-md);
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        box-shadow: var(--shadow-md);
+        transition: all 0.2s ease;
+        text-transform: uppercase;
+    }
+
+    .btn-postear:active {
+        transform: scale(0.98);
+        box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
     }
 
     .btn-volver {
-        min-height: 44px;
-        border-radius: 6px;
+        min-height: 48px;
+        background: var(--card-bg);
+        color: var(--text-primary);
+        border: 2px solid rgba(0,0,0,0.08);
+        border-radius: var(--radius-md);
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.2s ease;
+    }
+
+    body.modo-noche .btn-volver {
+        border-color: rgba(255,255,255,0.12);
+    }
+
+    .btn-volver:active {
+        transform: scale(0.98);
+    }
+
+    /* Button container at bottom */
+    div[style*="justify-content: space-between"][style*="margin-top: 10px"] {
+        margin-top: 16px !important;
+        gap: 10px !important;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* ========================================
+       MANUAL / INFO BOX
+       ======================================== */
+    #manual-box {
+        background: var(--card-bg);
+        border-radius: var(--radius-md);
+        padding: 18px;
+        margin: 16px 0;
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--text-primary);
+        box-shadow: var(--shadow-sm);
+        border: 2px solid rgba(0,0,0,0.04);
+        font-family: 'SF Mono', 'Courier New', monospace;
+    }
+
+    body.modo-noche #manual-box {
+        border-color: rgba(255,255,255,0.08);
+    }
+
+    /* ========================================
+       HIDDEN SECTION
+       ======================================== */
+    .oculto-section {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 2px solid rgba(0,0,0,0.06);
+    }
+
+    body.modo-noche .oculto-section {
+        border-top-color: rgba(255,255,255,0.1);
+    }
+
+    /* ========================================
+       ANIMATIONS & INTERACTIONS
+       ======================================== */
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .post {
+        animation: slideIn 0.3s ease;
+    }
+
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Touch feedback */
+    button, .btn, .btn-postear, .btn-volver, .semilla-btn {
+        -webkit-tap-highlight-color: transparent;
+        cursor: pointer;
+    }
+
+    /* ========================================
+       BOTTOM NAVIGATION (if exists)
+       ======================================== */
+    nav[style*="bottom"] {
+        background: var(--card-bg);
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+        padding: 12px 20px;
+    }
+
+    /* ========================================
+       UTILITIES
+       ======================================== */
+    .text-gradient {
+        background: linear-gradient(135deg, var(--accent-coral), var(--accent-purple));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .glass-effect {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    body.modo-noche .glass-effect {
+        background: rgba(42, 42, 42, 0.8);
     }
 }
+
+/* ============================================
+   END OF CLAUDE.CSS
+   ============================================ */
