@@ -14,8 +14,11 @@ const db = createClient({
 // ============================================
 // MIDDLEWARE DE SEGURIDAD - SOLO CLOUDFLARE
 // ============================================
+app.set('trust proxy', true);
+
 app.use((req, res, next) => {
     const cfIP = req.headers['cf-connecting-ip'];
+    const cfRay = req.headers['cf-ray'];
     const host = req.get('host') || '';
     
     // Permitir solo localhost en desarrollo
@@ -23,8 +26,9 @@ app.use((req, res, next) => {
         return next();
     }
     
-    // Bloquear si NO viene de Cloudflare
-    if (!cfIP) {
+    // Bloquear si NO viene de Cloudflare (verificar ambos headers)
+    if (!cfIP || !cfRay) {
+        console.log(`🚫 Acceso bloqueado - Host: ${host}, CF-IP: ${cfIP}, CF-Ray: ${cfRay}`);
         return res.status(403).send('Acceso denegado - Solo disponible via poste.ar');
     }
     
