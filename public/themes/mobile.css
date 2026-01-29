@@ -1,116 +1,56 @@
-/* ============================================
-   MOBILE.CSS - TEMA ADAPTATIVO (DÍA/NOCHE)
-   ============================================ */
-
 @media (max-width: 768px) {
     :root {
-        /* Paleta DÍA (Default) */
+        /* Colores dinámicos */
         --bg-principal: #ffffff;
-        --bg-secundario: #f0f2f5;
         --color-texto: #1c1e21;
-        --color-secundario: #65676b; /* Texto debajo de poste.ar */
-        --color-terciario: #bcc0c4;
+        --color-secundario: #65676b; 
         --border-color: #dadde1;
-        --accent: #238636;
         --btn-bg: #e4e6eb;
-        --input-bg: #ffffff;
-        --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        --font-mono: 'JetBrains Mono', monospace;
     }
 
-    /* Clase que activa el botón de index.html */
     body.modo-noche {
         --bg-principal: #0d1117;
-        --bg-secundario: #161b22;
         --color-texto: #c9d1d9;
-        --color-secundario: #8b949e; /* Mejorado para legibilidad en oscuro */
-        --color-terciario: #484f58;
+        --color-secundario: #8b949e; /* ¡Legibilidad recuperada! */
         --border-color: #30363d;
         --btn-bg: #21262d;
-        --input-bg: #010409;
     }
 
-    body {
-        background-color: var(--bg-principal) !important;
-        color: var(--color-texto) !important;
-        transition: background 0.3s ease;
-    }
-
-    .container {
-        width: 100%;
-        padding: 12px;
-        box-sizing: border-box;
-    }
-
-    /* Mejora de legibilidad en Header */
-    .brand-line {
-        color: var(--color-texto) !important;
-        font-family: var(--font-mono);
-        font-weight: 800;
-    }
-
-    .sub-brand {
-        color: var(--color-secundario) !important; /* Ahora se lee en ambos modos */
-        font-size: 11px;
-    }
-
-    /* SOLUCIÓN A BOTONES ENCIMADOS */
+    /* 1. Resetear el contenedor de botones */
     header > div[style*="justify-content: space-between"] {
         display: flex !important;
-        flex-direction: column !important; /* Stack vertical para grupos */
+        flex-direction: column !important; /* Stack vertical de las filas */
         gap: 10px !important;
+        margin-top: 15px !important;
     }
 
-    /* Contenedor de [ manual ], [ tema ], [ día ] */
+    /* 2. Forzar que cada fila ocupe el 100% y se reparta */
     header div[style*="display: flex; gap: 10px"] {
         display: grid !important;
-        grid-template-columns: 1fr 1fr 1fr !important; /* Tres columnas iguales al ancho */
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)) !important;
+        width: 100% !important;
         gap: 8px !important;
-        width: 100%;
     }
 
-    .btn, .btn-postear {
+    /* 3. Estilo de los botones */
+    .btn {
+        width: 100% !important;
+        padding: 12px 2px !important;
+        font-size: 12px !important;
+        text-align: center !important;
         background-color: var(--btn-bg) !important;
-        border: 1px solid var(--border-color) !important;
         color: var(--color-texto) !important;
-        font-family: var(--font-mono);
-        padding: 12px 5px !important;
-        font-size: 12px;
-        border-radius: 6px;
-        text-align: center;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .btn-postear {
-        background-color: var(--accent) !important;
-        color: white !important;
-        font-weight: bold;
-        margin-top: 10px;
-    }
-
-    /* Inputs y Buscador */
-    textarea, .search-box, .password-input {
-        background-color: var(--input-bg) !important;
         border: 1px solid var(--border-color) !important;
-        color: var(--color-texto) !important;
-        font-size: 16px !important; /* Evita zoom en iOS */
-        padding: 12px;
-        border-radius: 8px;
+        font-family: var(--font-mono) !important;
+        border-radius: 6px !important;
+        display: block !important;
     }
 
-    .alerta-box {
-        background: var(--bg-secundario) !important;
-        border: 1px solid var(--accent) !important;
-        color: var(--accent) !important;
-        font-family: var(--font-mono);
-        font-size: 12px;
-    }
-
-    /* Posts en el timeline */
-    .post {
-        border-bottom: 1px solid var(--border-color);
-        padding: 15px 0;
-        display: flex;
-        gap: 12px;
+    /* 4. Texto debajo de poste.ar */
+    .sub-brand {
+        color: var(--color-secundario) !important;
+        font-size: 11px !important;
+        line-height: 1.3 !important;
     }
 }
