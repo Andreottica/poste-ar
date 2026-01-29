@@ -1,231 +1,323 @@
 /* ============================================
    RESPONSIVE - MÓVILES
+   Diseño basado en: Nielsen Heuristics, Material Design,
+   iOS HIG, principios de ergonomía y empatía UX
    ============================================ */
 
 @media (max-width: 768px) {
+    
+    /* ========================================
+       CONTENEDOR BASE
+       ======================================== */
     .container {
         width: 100%;
         border-left: none;
         border-right: none;
-        padding: 10px;
-        line-height: 1.25;
+        padding: 12px;
+        line-height: 1.45;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
+    /* ========================================
+       HEADER
+       ======================================== */
     header {
-        padding-bottom: 10px;
+        padding-bottom: 12px;
     }
 
-    /* Logo y brand más compactos */
+    /* Logo y brand */
     header > div:first-child {
-        gap: 10px !important;
-        margin-bottom: 10px !important;
+        gap: 12px !important;
+        margin-bottom: 12px !important;
     }
 
     header > div:first-child img {
-        width: 45px !important;
-        height: 45px !important;
+        width: 42px !important;
+        height: 42px !important;
     }
 
     .brand-line {
-        font-size: 14px;
-        line-height: 1.15;
-        color: #000;
+        font-size: 16px;
+        line-height: 1.2;
+        color: #0a0a0a;
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
     }
 
     body.modo-noche .brand-line {
-        color: #e0e0e0;
+        color: #e8e8e8;
     }
 
     .sub-brand {
-        font-size: 12px;
-        line-height: 1.15;
-        margin-top: 2px;
-        color: #444;
+        font-size: 13px;
+        line-height: 1.3;
+        margin-top: 3px;
+        color: #4a4a4a;
     }
 
     body.modo-noche .sub-brand {
-        color: #aaa;
+        color: #a8a8a8;
     }
 
-    /* Alerta */
+    /* ========================================
+       ALERTA TIMELINE
+       ======================================== */
     .alerta-box {
-        font-size: 13px;
-        padding: 6px 8px;
-        line-height: 1.25;
+        font-size: 14px;
+        padding: 10px 12px;
+        line-height: 1.4;
+        border-radius: 6px;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* Nav status - solo mostrar etiqueta centrada */
+    /* ========================================
+       NAVEGACIÓN Y STATUS
+       ======================================== */
     .nav-status {
-        padding: 6px 8px;
-        font-size: 13px;
+        padding: 10px 12px;
+        font-size: 14px;
         text-align: center;
-        line-height: 1.25;
+        line-height: 1.3;
+        font-family: 'Courier New', Courier, monospace;
     }
 
     .nav-status button {
         display: none;
     }
 
-    /* Ocultar botón tema en móviles */
+    /* ========================================
+       BOTONES - DISEÑO TÁCTIL OPTIMIZADO
+       Grid 2x2 con 50% width exacto
+       ======================================== */
+    
+    /* Ocultar botón tema */
     #btn-tema {
         display: none !important;
     }
 
-    /* Contenedor de botones - Grid 2x2 forzado */
+    /* Contenedor de botones principales */
     header > div[style*="justify-content: space-between"] {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        grid-template-rows: auto auto !important;
-        gap: 6px !important;
-        margin-top: 8px !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        margin-top: 12px !important;
     }
 
-    /* Forzar que cada div interno se expanda en grid */
+    /* Forzar que divs internos no interfieran */
     header > div[style*="justify-content: space-between"] > div {
         display: contents !important;
     }
 
-    /* Cada botón ocupa 1 celda del grid */
-    header > div[style*="justify-content: space-between"] button {
-        width: 100% !important;
+    /* Todos los botones ocupan exactamente 50% - 4px (gap/2) */
+    header > div[style*="justify-content: space-between"] .btn {
+        width: calc(50% - 4px) !important;
+        min-height: 44px !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+        flex-shrink: 0 !important;
     }
 
-    /* BOTONES - Más compactos */
+    /* Estilos generales de botones */
     .btn, .btn-postear, .btn-volver {
-        font-size: 13px;
-        padding: 8px 6px;
-        width: 100%;
-        box-sizing: border-box;
+        font-size: 14px;
+        font-family: 'Courier New', Courier, monospace;
         text-align: center;
         white-space: nowrap;
         line-height: 1.2;
+        border-radius: 6px;
+        transition: background 0.15s ease;
+        -webkit-tap-highlight-color: rgba(0,0,0,0.1);
     }
 
-    /* Buscador */
+    .btn:active {
+        transform: scale(0.98);
+    }
+
+    /* ========================================
+       BUSCADOR
+       ======================================== */
     .search-box {
-        margin-top: 10px;
-        padding: 8px;
-        font-size: 15px;
-        line-height: 1.3;
+        margin-top: 12px;
+        padding: 12px;
+        font-size: 16px;
+        line-height: 1.4;
+        border-radius: 8px;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     .search-info {
-        font-size: 13px;
-        margin-top: 6px;
-        line-height: 1.25;
+        font-size: 14px;
+        margin-top: 8px;
+        line-height: 1.3;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* Posts - más compactos, texto más oscuro, interlineado cerrado */
+    /* ========================================
+       POSTS - OPTIMIZADO PARA LECTURA
+       ======================================== */
     .post {
         flex-direction: column;
-        gap: 8px;
-        padding: 12px 0;
-        border-bottom: 2px solid #ddd;
-        line-height: 1.35;
+        gap: 10px;
+        padding: 16px 0;
+        border-bottom: 3px solid rgba(0,0,0,0.06);
+        line-height: 1.45;
     }
 
     body.modo-noche .post {
-        border-bottom: 2px solid #444;
+        border-bottom: 3px solid rgba(255,255,255,0.08);
     }
 
+    /* Avatar compacto */
     .avatar {
-        width: 45px;
-        height: 45px;
-        font-size: 16px;
+        width: 38px;
+        height: 38px;
+        font-size: 15px;
         align-self: flex-start;
+        border-radius: 6px;
     }
 
     .post-body {
-        line-height: 1.35;
+        line-height: 1.45;
     }
 
+    /* Metadatos */
     .marca-tag {
-        font-size: 13px;
-        margin-bottom: 3px;
-        line-height: 1.15;
+        font-size: 12px;
+        margin-bottom: 4px;
+        line-height: 1.2;
+        font-family: 'Courier New', Courier, monospace;
+        letter-spacing: -0.3px;
     }
 
     .fecha-tag {
         font-size: 12px;
-        margin-bottom: 6px;
-        line-height: 1.15;
-        color: #444;
+        margin-bottom: 8px;
+        line-height: 1.2;
+        color: #666;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     body.modo-noche .fecha-tag {
         color: #999;
     }
 
+    /* Contenido del post - SYSTEM FONT para legibilidad */
     .post-body > div[style*="white-space"] {
-        font-size: 14px !important;
-        line-height: 1.35 !important;
-        color: #1a1a1a !important;
+        font-size: 16px !important;
+        line-height: 1.5 !important;
+        color: #0a0a0a !important;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
     }
 
     body.modo-noche .post-body > div[style*="white-space"] {
-        color: #e0e0e0 !important;
+        color: #e8e8e8 !important;
     }
 
-    /* Semilla y mensajes ocultos */
+    /* ========================================
+       SEMILLA Y MENSAJES OCULTOS
+       ======================================== */
     .semilla-box {
-        margin-top: 8px;
+        margin-top: 10px;
     }
 
     .semilla-input {
-        font-size: 14px;
-        padding: 6px;
-        line-height: 1.3;
+        font-size: 15px;
+        padding: 8px;
+        line-height: 1.4;
+        border-radius: 6px;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .semilla-btn {
+        min-width: 44px;
+        min-height: 44px;
     }
 
     .mensaje-oculto {
-        font-size: 14px;
-        padding: 8px;
-        margin-top: 8px;
-        line-height: 1.35;
+        font-size: 15px;
+        padding: 12px;
+        margin-top: 10px;
+        line-height: 1.45;
+        border-radius: 8px;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* Inputs */
+    .mensaje-error {
+        font-size: 13px;
+        margin-top: 6px;
+    }
+
+    /* ========================================
+       INPUTS Y FORMULARIOS
+       ======================================== */
     textarea {
-        font-size: 15px;
-        min-height: 90px;
-        padding: 8px;
-        line-height: 1.35;
+        font-size: 16px;
+        min-height: 100px;
+        padding: 12px;
+        line-height: 1.45;
+        border-radius: 8px;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     .password-input {
-        font-size: 15px;
-        padding: 8px;
-        line-height: 1.3;
+        font-size: 16px;
+        padding: 12px;
+        line-height: 1.4;
+        border-radius: 8px;
+        font-family: 'Courier New', Courier, monospace;
     }
 
-    /* Contador */
     .contador {
-        font-size: 12px;
-        margin-top: 4px;
-        line-height: 1.15;
-    }
-
-    /* Sección oculta */
-    .oculto-section {
-        margin-top: 10px;
-        padding-top: 10px;
-    }
-
-    /* Manual */
-    #manual-box {
         font-size: 13px;
-        padding: 10px;
-        margin: 10px 0;
-        line-height: 1.35;
+        margin-top: 6px;
+        line-height: 1.2;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* Botones postear/volver/download */
+    /* ========================================
+       SECCIÓN OCULTA
+       ======================================== */
+    .oculto-section {
+        margin-top: 12px;
+        padding-top: 12px;
+    }
+
+    /* ========================================
+       MANUAL
+       ======================================== */
+    #manual-box {
+        font-size: 14px;
+        padding: 12px;
+        margin: 12px 0;
+        line-height: 1.5;
+        border-radius: 8px;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    /* ========================================
+       BOTONES INFERIORES
+       ======================================== */
     div[style*="justify-content: space-between"][style*="margin-top: 10px"] {
-        margin-top: 8px !important;
-        gap: 6px !important;
+        margin-top: 12px !important;
+        gap: 8px !important;
     }
 
     div[style*="justify-content: space-between"][style*="margin-top: 10px"] > div {
-        gap: 6px !important;
+        gap: 8px !important;
+    }
+
+    .btn-postear {
+        min-height: 48px;
+        font-size: 15px;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+    .btn-volver {
+        min-height: 44px;
+        border-radius: 6px;
     }
 }
