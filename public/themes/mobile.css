@@ -1,21 +1,38 @@
 /* ============================================
-   NUEVO MOBILE.CSS - ESTILO UNIVERSITARIO/DEV
+   MOBILE.CSS - TEMA ADAPTATIVO (DÍA/NOCHE)
    ============================================ */
 
 @media (max-width: 768px) {
     :root {
-        --bg-dark: #0d1117;
-        --bg-card: #161b22;
-        --accent-green: #238636;
-        --dev-blue: #58a6ff;
+        /* Paleta DÍA (Default) */
+        --bg-principal: #ffffff;
+        --bg-secundario: #f0f2f5;
+        --color-texto: #1c1e21;
+        --color-secundario: #65676b; /* Texto debajo de poste.ar */
+        --color-terciario: #bcc0c4;
+        --border-color: #dadde1;
+        --accent: #238636;
+        --btn-bg: #e4e6eb;
+        --input-bg: #ffffff;
+        --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    /* Clase que activa el botón de index.html */
+    body.modo-noche {
+        --bg-principal: #0d1117;
+        --bg-secundario: #161b22;
+        --color-texto: #c9d1d9;
+        --color-secundario: #8b949e; /* Mejorado para legibilidad en oscuro */
+        --color-terciario: #484f58;
         --border-color: #30363d;
-        --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        --btn-bg: #21262d;
+        --input-bg: #010409;
     }
 
     body {
-        background-color: var(--bg-dark) !important;
-        color: #c9d1d9 !important;
-        font-family: -apple-system, sans-serif;
+        background-color: var(--bg-principal) !important;
+        color: var(--color-texto) !important;
+        transition: background 0.3s ease;
     }
 
     .container {
@@ -24,112 +41,76 @@
         box-sizing: border-box;
     }
 
-    /* Header Compacto y Moderno */
-    header {
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 15px;
-        margin-bottom: 15px;
-    }
-
+    /* Mejora de legibilidad en Header */
     .brand-line {
+        color: var(--color-texto) !important;
         font-family: var(--font-mono);
-        font-weight: bold;
-        color: var(--dev-blue) !important;
-        font-size: 1.1rem;
+        font-weight: 800;
     }
 
     .sub-brand {
+        color: var(--color-secundario) !important; /* Ahora se lee en ambos modos */
         font-size: 11px;
-        opacity: 0.7;
-        text-transform: uppercase;
     }
 
-    /* Botones estilo GitHub/Terminal */
-    .btn, .btn-postear, .btn-volver {
-        background-color: var(--bg-card) !important;
+    /* SOLUCIÓN A BOTONES ENCIMADOS */
+    header > div[style*="justify-content: space-between"] {
+        display: flex !important;
+        flex-direction: column !important; /* Stack vertical para grupos */
+        gap: 10px !important;
+    }
+
+    /* Contenedor de [ manual ], [ tema ], [ día ] */
+    header div[style*="display: flex; gap: 10px"] {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr !important; /* Tres columnas iguales al ancho */
+        gap: 8px !important;
+        width: 100%;
+    }
+
+    .btn, .btn-postear {
+        background-color: var(--btn-bg) !important;
         border: 1px solid var(--border-color) !important;
-        color: #c9d1d9 !important;
+        color: var(--color-texto) !important;
         font-family: var(--font-mono);
-        border-radius: 6px;
-        padding: 10px;
+        padding: 12px 5px !important;
         font-size: 12px;
-        transition: 0.1s ease-in-out;
-    }
-
-    .btn:active, .btn-postear:active {
-        transform: scale(0.97);
-        background-color: var(--border-color) !important;
+        border-radius: 6px;
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .btn-postear {
-        background-color: var(--accent-green) !important;
-        border: none !important;
+        background-color: var(--accent) !important;
         color: white !important;
         font-weight: bold;
+        margin-top: 10px;
     }
 
-    /* Inputs optimizados para dedos y sin zoom molesto */
-    textarea, .search-box, .password-input, .semilla-input {
-        background-color: #010409 !important;
+    /* Inputs y Buscador */
+    textarea, .search-box, .password-input {
+        background-color: var(--input-bg) !important;
         border: 1px solid var(--border-color) !important;
-        color: white !important;
-        font-size: 16px !important; /* Evita zoom automático en iOS */
-        border-radius: 6px;
+        color: var(--color-texto) !important;
+        font-size: 16px !important; /* Evita zoom en iOS */
         padding: 12px;
+        border-radius: 8px;
     }
 
-    /* Timeline minimalista */
-    .post {
-        background: transparent;
-        border-bottom: 1px solid var(--border-color);
-        padding: 16px 0;
-        margin-bottom: 0;
-        display: flex;
-        flex-direction: row !important; /* Mantenemos avatar al lado */
-        gap: 12px;
-    }
-
-    .avatar {
-        width: 38px !important;
-        height: 38px !important;
-        border-radius: 4px !important; /* Cuadrado suavizado, más técnico */
-        font-size: 14px;
-        flex-shrink: 0;
-    }
-
-    .marca-tag {
+    .alerta-box {
+        background: var(--bg-secundario) !important;
+        border: 1px solid var(--accent) !important;
+        color: var(--accent) !important;
         font-family: var(--font-mono);
         font-size: 12px;
-        font-weight: bold;
     }
 
-    .fecha-tag {
-        font-size: 11px;
-        color: #8b949e;
-    }
-
-    /* Caja de descifrado estilo "Terminal" */
-    .semilla-box {
-        background: #000;
-        border: 1px solid var(--border-color);
-        border-radius: 4px;
-        margin-top: 10px;
+    /* Posts en el timeline */
+    .post {
+        border-bottom: 1px solid var(--border-color);
+        padding: 15px 0;
         display: flex;
-    }
-
-    .semilla-btn {
-        background: var(--border-color);
-        border: none;
-        color: white;
-        padding: 0 15px;
-    }
-
-    /* Alerta/Contador */
-    .alerta-box {
-        background: rgba(35, 134, 54, 0.1) !important;
-        color: var(--accent-green) !important;
-        border: 1px solid rgba(35, 134, 54, 0.3) !important;
-        font-family: var(--font-mono);
-        font-size: 11px;
+        gap: 12px;
     }
 }
