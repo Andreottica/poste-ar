@@ -141,28 +141,31 @@
     let buscando = false;
     let timeoutBusqueda = null;
     
-    let temas = ['default']; // Fallback inicial
+    let temas = ['default', 'retro', 'minimo', 'ascii']; // Lista de temas disponibles
     let temaActual = localStorage.getItem('tema') || 'default';
     let modoOscuro = localStorage.getItem('modo') === 'noche';
 
-    // Cargar lista de temas automáticamente desde el servidor
+    // Función para cargar temas desde servidor (opcional, usa fallback si falla)
     async function cargarListaTemas() {
         try {
-            const response = await fetch('/api/temas'); // Endpoint que debe listar archivos .css en /themes/
+            const response = await fetch('/api/temas');
             if (response.ok) {
                 const temasDisponibles = await response.json();
                 // Filtrar para excluir mobile.css
-                temas = temasDisponibles.filter(t => t !== 'mobile');
-                
-                // Si el tema actual no existe en la lista, volver a default
-                if (!temas.includes(temaActual)) {
-                    temaActual = 'default';
-                    localStorage.setItem('tema', temaActual);
+                const temasFiltrados = temasDisponibles.filter(t => t !== 'mobile');
+                if (temasFiltrados.length > 0) {
+                    temas = temasFiltrados;
                 }
             }
         } catch(e) {
-            console.log('No se pudo cargar lista de temas, usando: default, retro, minimo, ascii');
-            temas = ['default', 'retro', 'minimo', 'ascii'];
+            // Usar lista hardcodeada si no hay endpoint
+            console.log('Usando lista de temas por defecto');
+        }
+        
+        // Validar que el tema actual existe
+        if (!temas.includes(temaActual)) {
+            temaActual = 'default';
+            localStorage.setItem('tema', temaActual);
         }
     }
 
@@ -184,8 +187,6 @@
     }
 
     function cambiarTema() {
-        if (temas.length === 0) return; // Esperar a que carguen los temas
-        
         const indiceActual = temas.indexOf(temaActual);
         const siguienteIndice = (indiceActual + 1) % temas.length;
         temaActual = temas[siguienteIndice];
