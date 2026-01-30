@@ -35,7 +35,18 @@
         
         /* Hover effect for web version */
         @media (hover: hover) {
-            /* Only apply brightness to buttons with background color (not white/default) */
+            /* Soft gray hover for regular buttons */
+            .btn:hover, .btn-volver:hover {
+                background: rgba(0, 0, 0, 0.05) !important;
+                transition: background 0.2s ease;
+            }
+            
+            body.modo-noche .btn:hover,
+            body.modo-noche .btn-volver:hover {
+                background: rgba(255, 255, 255, 0.08) !important;
+            }
+            
+            /* Postear button - brightness effect */
             .btn-postear:hover {
                 filter: brightness(1.1);
                 transition: filter 0.2s ease;
@@ -173,6 +184,8 @@
     }
 
     function cambiarTema() {
+        if (temas.length === 0) return; // Esperar a que carguen los temas
+        
         const indiceActual = temas.indexOf(temaActual);
         const siguienteIndice = (indiceActual + 1) % temas.length;
         temaActual = temas[siguienteIndice];
