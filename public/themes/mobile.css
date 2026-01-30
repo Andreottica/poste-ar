@@ -305,6 +305,9 @@ body.modo-noche {
         color: #ffffff !important;
         box-shadow: var(--shadow-sm);
         flex-shrink: 0;
+        line-height: 1 !important;
+        padding: 0 !important;
+        text-align: center !important;
     }
 
     body.modo-noche .avatar {
