@@ -35,13 +35,16 @@
         
         /* Hover effect for web version */
         @media (hover: hover) {
-            .btn:hover, .btn-volver:hover {
+            /* Only apply brightness to buttons with background color (not white/default) */
+            .btn-postear:hover {
                 filter: brightness(1.1);
                 transition: filter 0.2s ease;
             }
-            .btn-postear:hover {
-                filter: brightness(1.05);
-                transition: filter 0.2s ease;
+            
+            /* Dark mode: postear button turns soft gray */
+            body.modo-noche .btn-postear:hover {
+                background: rgba(128, 128, 128, 0.3) !important;
+                filter: none;
             }
         }
         
