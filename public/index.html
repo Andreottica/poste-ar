@@ -69,8 +69,6 @@
             <button class="btn" onclick="toggleDiaNoche()" id="btn-modo">[ día ]</button>
             <button class="btn" onclick="toggleManual()">[ manual ]</button>
             <button class="btn" onclick="window.open('/source')">[ download source ]</button>
-            <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
-            <button class="btn" onclick="actualizarPosts()">[ actualizar ]</button>
         </div>
 
         <input type="text" class="search-box" id="search-input" placeholder="Buscar..." onkeyup="buscarConDelay()">
@@ -98,6 +96,11 @@
                     <input type="text" id="password-input" placeholder="Ejemplo: perro tiza golf maria" class="password-input">
                     <div class="password-hint">1-12 palabras. Más palabras = más seguridad.</div>
                 </div>
+            </div>
+
+            <div class="button-container button-container-bottom">
+                <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
+                <button class="btn" onclick="actualizarPosts()">[ actualizar ]</button>
             </div>
         </div>
     </header>
