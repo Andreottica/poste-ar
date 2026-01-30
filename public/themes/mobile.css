@@ -136,8 +136,13 @@ body.modo-noche {
 
     /* ========================================
        ACTION BUTTONS - TOP 2x2 GRID (2 PAIRS)
-       Pairs: reetiquetar+día, manual+download
+       Pairs: reetiquetar+día, manual+source (tema hidden on mobile)
        ======================================== */
+
+    /* Hide tema button on mobile */
+    #btn-tema {
+        display: none !important;
+    }
 
     /* Top button container - 2 columns grid */
     .button-container {
