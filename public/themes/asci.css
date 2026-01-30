@@ -1,155 +1,88 @@
 /* ============================================
-   ASCII.CSS - Versión Refinada (Estilo PULSO 2025)
+   ASCII.CSS - VERSIÓN REFORZADA (ESTILO 2025)
    ============================================ */
 
 :root {
-    --ascii-bg: #ffffff;
-    --ascii-text: #000000;
-    --ascii-link: #0000ee;
-    --ascii-gray: #555555;
-    --ascii-border: #000000; /* Negro sólido para los guiones */
+    --ascii-bg: #ffffff !important;
+    --ascii-text: #000000 !important;
+    --ascii-link: #0000ee !important;
+    --ascii-gray: #555555 !important;
+    --ascii-border: #000000 !important;
 }
 
-body {
-    background: var(--ascii-bg);
-    color: var(--ascii-text);
-    font-family: 'Courier New', 'Courier', monospace;
-    font-size: 14px;
-    line-height: 1.2; /* Más compacto, tipo terminal */
+/* Forzar fondo blanco y quitar estilos previos */
+body, html {
+    background-color: var(--ascii-bg) !important;
+    color: var(--ascii-text) !important;
+    font-family: 'Courier New', Courier, monospace !important;
 }
 
-/* Contenedor principal sin bordes externos pesados */
-.container {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 10px;
-}
-
-/* Separadores de sección como en la captura 2025 */
-.separator {
-    color: var(--ascii-gray);
-    margin: 5px 0;
-}
-
-.separator::before {
-    content: "--------------------------------------------------------------------------------";
-    display: block;
-    letter-spacing: -1px;
-}
-
-/* ========================================
-   HEADER & NAV
-   ======================================== */
-header {
-    margin-bottom: 20px;
-    text-transform: uppercase;
-}
-
-/* Estilo de los links del menú: PÚBLICO RED AYUDA... */
-.button-container {
-    display: flex;
-    gap: 15px;
-    border-top: 1px dashed var(--ascii-gray);
-    border-bottom: 1px dashed var(--ascii-gray);
-    padding: 5px 0;
-    margin: 10px 0;
-}
-
-.btn, .btn-postear, .btn-volver {
-    background: none;
-    border: none;
-    color: var(--ascii-link);
-    text-decoration: underline;
-    font-weight: bold;
-    padding: 0;
-    cursor: pointer;
-    text-transform: uppercase;
-}
-
-/* Quitar los corchetes [ ] si prefieres el estilo link puro de 2025 */
-.btn::before, .btn::after { content: ""; } 
-
-/* ========================================
-   INPUTS Y TEXTAREA
-   ======================================== */
-.label-ascii {
-    margin: 10px 0;
-}
-.label-ascii::before {
-    content: "| ";
-    font-weight: bold;
-}
-
-textarea, .search-box, .password-input {
-    width: 100%;
-    border: 1px solid var(--ascii-gray);
-    background: #fff;
-    font-family: monospace;
-    padding: 8px;
-    margin-top: 5px;
-    outline: none;
-}
-
-/* ========================================
-   POSTS (LÍNEA DE TIEMPO)
-   ======================================== */
-#timeline {
-    margin-top: 30px;
-}
-
-.post {
-    border: none !important; /* Quitamos el borde de caja */
+/* ELIMINAR LAS BARRAS DE COLORES (Azul, Verde, Violeta) */
+.post, 
+.post:nth-child(3n+1), 
+.post:nth-child(3n+2), 
+.post:nth-child(3n) {
     background: none !important;
-    padding: 10px 0;
-    margin-bottom: 5px;
+    background-color: transparent !important;
+    border: none !important;
+    margin-bottom: 0 !important;
+    padding: 10px 0 !important;
 }
 
-/* El separador superior del post */
+/* Línea de guiones superior del post (estilo 2025) */
 .post::before {
-    content: "--------------------------------------------------------------------------------";
-    color: var(--ascii-gray);
-    display: block;
-    margin-bottom: 10px;
+    content: "--------------------------------------------------------------------------------" !important;
+    color: var(--ascii-gray) !important;
+    display: block !important;
+    margin-bottom: 10px !important;
+    white-space: pre !important;
 }
 
-/* Metadata del post: AN | @usuario Creación... */
+/* Metadata: Iniciales en rojo y nombre de usuario */
 .avatar {
-    color: #cc0000 !important; /* Rojo para las iniciales */
-    font-weight: bold;
-    display: inline;
+    color: #cc0000 !important;
+    font-weight: bold !important;
+    background: none !important;
+    border: none !important;
+    display: inline !important;
+    padding: 0 !important;
 }
 
 .avatar::after {
-    content: " | ";
-    color: var(--ascii-text);
+    content: " | " !important;
+    color: var(--ascii-text) !important;
 }
 
 .marca-tag {
-    font-weight: bold;
-    color: var(--ascii-text);
+    font-weight: bold !important;
+    color: var(--ascii-text) !important;
 }
 
-/* Contenido del post con la barra lateral | */
+/* El cuerpo del mensaje con la barra vertical lateral */
 .post-body {
-    margin-top: 8px;
-    padding-left: 15px;
-    border-left: 1px solid var(--ascii-text); /* La línea vertical | */
-    white-space: pre-wrap;
+    border-left: 1px solid var(--ascii-text) !important;
+    margin-left: 5px !important;
+    padding-left: 15px !important;
+    margin-top: 5px !important;
 }
 
-/* Semilla y acciones */
-.semilla-box {
-    border: none;
-    background: none;
-    padding-left: 15px;
+/* Reset de inputs para que parezcan terminal */
+textarea, .search-box, .password-input {
+    width: 100% !important;
+    border: 1px solid var(--ascii-gray) !important;
+    background-color: #fff !important;
+    font-family: monospace !important;
+    color: #000 !important;
 }
 
-.semilla-input {
-    border: 1px solid var(--ascii-gray);
-    font-size: 11px;
+/* Botones como links (Menú superior) */
+.btn, .btn-postear, .btn-volver {
+    background: none !important;
+    border: none !important;
+    color: var(--ascii-link) !important;
+    text-decoration: underline !important;
+    text-transform: uppercase !important;
+    padding: 0 5px !important;
 }
 
-/* Ocultar elementos innecesarios */
-.header-profile img, .header-profile .avatar-circle {
-    display: none;
-}
+.btn::before, .btn::after { content: "" !important; }
