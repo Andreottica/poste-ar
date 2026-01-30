@@ -175,6 +175,16 @@ body.modo-noche {
         box-shadow: inset 0 2px 4px rgba(0,0,0,0.1) !important;
     }
 
+    /* Hover effect for desktop */
+    @media (hover: hover) {
+        .button-container .btn:hover,
+        .button-container .btn-postear:hover,
+        .button-container #btn-modo:hover {
+            filter: brightness(0.95);
+            box-shadow: var(--shadow-md) !important;
+        }
+    }
+
     /* TOP CONTAINER - Individual button colors */
     /* Pair 1: reetiquetar (blue) + día/noche (yellow) */
     .button-container:not(.button-container-bottom) .btn:nth-child(1) {
@@ -523,6 +533,17 @@ body.modo-noche {
 
     .btn-volver:active {
         transform: scale(0.98);
+    }
+
+    /* Hover effect for desktop */
+    @media (hover: hover) {
+        .btn-volver:hover {
+            background: rgba(0, 0, 0, 0.02);
+            box-shadow: var(--shadow-md);
+        }
+        body.modo-noche .btn-volver:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
     }
 
     /* ========================================
