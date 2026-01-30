@@ -147,13 +147,13 @@ body.modo-noche {
         margin-top: 16px !important;
     }
 
-    /* All buttons same height and style */
+    /* All buttons same height and style - THINNER */
     .button-container .btn,
     .button-container .btn-postear,
     .button-container #btn-modo {
         width: 100% !important;
-        min-height: 50px !important;
-        max-height: 50px !important;
+        min-height: 42px !important;
+        max-height: 42px !important;
         border-radius: var(--radius-md) !important;
         font-size: 14px !important;
         font-weight: 600 !important;
@@ -301,10 +301,15 @@ body.modo-noche {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, var(--accent-coral), var(--accent-purple));
-        color: white;
+        background: #1a1a1a !important;
+        color: #ffffff !important;
         box-shadow: var(--shadow-sm);
         flex-shrink: 0;
+    }
+
+    body.modo-noche .avatar {
+        background: #2a2a2a !important;
+        color: #ffffff !important;
     }
 
     /* Metadata container - name and date stacked vertically */
@@ -515,7 +520,7 @@ body.modo-noche {
        ======================================== */
     .btn-volver {
         width: 100%;
-        min-height: 50px;
+        min-height: 42px;
         background: var(--card-bg);
         color: var(--text-primary);
         border: 2px solid rgba(0,0,0,0.08);
