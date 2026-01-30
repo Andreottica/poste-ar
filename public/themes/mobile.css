@@ -135,28 +135,25 @@ body.modo-noche {
     }
 
     /* ========================================
-       ACTION BUTTONS - 2x2 GRID (ALL BUTTONS)
+       ACTION BUTTONS - 2x2 GRID (3 PAIRS)
+       Pairs: reetiquetar+día, manual+download, postear+actualizar
        ======================================== */
 
-    /* Button container */
-    header > div[style*="justify-content: space-between"] {
+    /* Button container - 2 columns grid */
+    .button-container {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
         gap: 10px !important;
         margin-top: 16px !important;
     }
 
-    header > div[style*="justify-content: space-between"] > div {
-        display: contents !important;
-    }
-
-    header > div[style*="justify-content: space-between"] .btn,
-    header > div[style*="justify-content: space-between"] #btn-tema {
+    /* All buttons same height and style */
+    .button-container .btn,
+    .button-container .btn-postear,
+    .button-container #btn-modo {
         width: 100% !important;
         min-height: 50px !important;
-        background: var(--card-bg) !important;
-        color: var(--text-primary) !important;
-        border: 2px solid rgba(0,0,0,0.08) !important;
+        max-height: 50px !important;
         border-radius: var(--radius-md) !important;
         font-size: 14px !important;
         font-weight: 600 !important;
@@ -167,66 +164,50 @@ body.modo-noche {
         transition: all 0.2s ease !important;
         box-shadow: var(--shadow-sm) !important;
         letter-spacing: 0.2px;
+        border: none !important;
     }
 
-    body.modo-noche header > div[style*="justify-content: space-between"] .btn,
-    body.modo-noche header > div[style*="justify-content: space-between"] #btn-tema {
-        border-color: rgba(255,255,255,0.12) !important;
-    }
-
-    header > div[style*="justify-content: space-between"] .btn:active,
-    header > div[style*="justify-content: space-between"] #btn-tema:active {
+    /* Active state for all buttons */
+    .button-container .btn:active,
+    .button-container .btn-postear:active,
+    .button-container #btn-modo:active {
         transform: scale(0.96) !important;
         box-shadow: inset 0 2px 4px rgba(0,0,0,0.1) !important;
     }
 
-    /* Individual button colors */
-    header > div[style*="justify-content: space-between"] .btn:nth-child(1) {
+    /* Individual button colors by position */
+    /* Pair 1: reetiquetar (blue) + día/noche (yellow) */
+    .button-container .btn:nth-child(1) {
         background: linear-gradient(135deg, var(--accent-blue) 0%, #7bb4ff 100%) !important;
         color: white !important;
-        border: none !important;
     }
 
-    header > div[style*="justify-content: space-between"] .btn:nth-child(2) {
+    .button-container #btn-modo {
         background: linear-gradient(135deg, var(--accent-yellow) 0%, #ffe285 100%) !important;
         color: #1a1a1a !important;
-        border: none !important;
     }
 
-    header > div[style*="justify-content: space-between"] .btn:nth-child(3) {
+    /* Pair 2: manual (mint) + download (purple) */
+    .button-container .btn:nth-child(3) {
         background: linear-gradient(135deg, var(--accent-mint) 0%, #a8e6d7 100%) !important;
         color: #1a1a1a !important;
-        border: none !important;
     }
 
-    header > div[style*="justify-content: space-between"] .btn:nth-child(4) {
+    .button-container .btn:nth-child(4) {
         background: linear-gradient(135deg, var(--accent-purple) 0%, #cdb0ff 100%) !important;
         color: white !important;
-        border: none !important;
     }
 
-    /* Manual button (5th position) */
-    header > div[style*="justify-content: space-between"] .btn:nth-child(5) {
-        background: var(--card-bg) !important;
-        color: var(--text-primary) !important;
-        border: 2px solid rgba(0,0,0,0.08) !important;
+    /* Pair 3: postear (coral) + actualizar (blue-green mix) */
+    .button-container .btn-postear {
+        background: linear-gradient(135deg, var(--accent-coral) 0%, #ff9580 100%) !important;
+        color: white !important;
+        font-weight: 700 !important;
     }
 
-    body.modo-noche header > div[style*="justify-content: space-between"] .btn:nth-child(5) {
-        border-color: rgba(255,255,255,0.12) !important;
-    }
-
-    /* Theme button (día/noche) - 6th position or #btn-tema */
-    header > div[style*="justify-content: space-between"] .btn:nth-child(6),
-    header > div[style*="justify-content: space-between"] #btn-tema {
-        background: var(--card-bg) !important;
-        color: var(--text-primary) !important;
-        border: 2px solid rgba(0,0,0,0.08) !important;
-    }
-
-    body.modo-noche header > div[style*="justify-content: space-between"] .btn:nth-child(6),
-    body.modo-noche header > div[style*="justify-content: space-between"] #btn-tema {
-        border-color: rgba(255,255,255,0.12) !important;
+    .button-container .btn:nth-child(6) {
+        background: linear-gradient(135deg, #5b9eff 0%, var(--accent-mint) 100%) !important;
+        color: white !important;
     }
 
     /* ========================================
@@ -290,11 +271,11 @@ body.modo-noche {
         box-shadow: var(--shadow-md);
     }
 
-    /* Post header with avatar - COMPACT LAYOUT */
+    /* Post header - Avatar + Metadata side by side */
     .post > div:first-child {
         display: flex;
-        align-items: center;
-        gap: 10px;
+        align-items: flex-start;
+        gap: 12px;
     }
 
     .avatar {
@@ -312,12 +293,10 @@ body.modo-noche {
         flex-shrink: 0;
     }
 
-    /* Metadata container - inline layout */
+    /* Metadata container - name and date stacked vertically */
     .post-body {
         flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
+        min-width: 0;
     }
 
     .marca-tag {
@@ -326,7 +305,7 @@ body.modo-noche {
         color: var(--text-primary);
         margin: 0;
         letter-spacing: -0.3px;
-        line-height: 1.2;
+        line-height: 1.3;
     }
 
     .fecha-tag {
@@ -334,17 +313,18 @@ body.modo-noche {
         font-weight: 500;
         color: var(--text-secondary);
         letter-spacing: 0.2px;
-        margin: 0;
+        margin: 2px 0 0 0;
         line-height: 1.2;
     }
 
-    /* Post content */
+    /* Post content - full width below header */
     .post-body > div[style*="white-space"] {
         font-size: 15px !important;
         line-height: 1.5 !important;
         color: var(--text-primary) !important;
         font-weight: 400 !important;
-        margin-top: 8px;
+        margin-top: 8px !important;
+        width: 100%;
     }
 
     /* ========================================
@@ -517,28 +497,8 @@ body.modo-noche {
     }
 
     /* ========================================
-       ACTION BUTTONS (Post, Back, etc.)
+       VOLVER BUTTON (below search)
        ======================================== */
-    .btn-postear {
-        width: 100%;
-        min-height: 50px;
-        background: linear-gradient(135deg, var(--accent-coral) 0%, #ff9580 100%);
-        color: white;
-        border: none;
-        border-radius: var(--radius-md);
-        font-size: 16px;
-        font-weight: 700;
-        letter-spacing: 0.3px;
-        box-shadow: var(--shadow-md);
-        transition: all 0.2s ease;
-        text-transform: uppercase;
-    }
-
-    .btn-postear:active {
-        transform: scale(0.98);
-        box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
-    }
-
     .btn-volver {
         width: 100%;
         min-height: 50px;
@@ -550,6 +510,7 @@ body.modo-noche {
         font-weight: 600;
         box-shadow: var(--shadow-sm);
         transition: all 0.2s ease;
+        margin-top: 12px;
     }
 
     body.modo-noche .btn-volver {
@@ -558,14 +519,6 @@ body.modo-noche {
 
     .btn-volver:active {
         transform: scale(0.98);
-    }
-
-    /* Button container at bottom */
-    div[style*="justify-content: space-between"][style*="margin-top: 10px"] {
-        margin-top: 16px !important;
-        gap: 10px !important;
-        display: flex;
-        flex-direction: column;
     }
 
     /* ========================================
