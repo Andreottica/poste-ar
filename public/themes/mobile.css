@@ -135,11 +135,11 @@ body.modo-noche {
     }
 
     /* ========================================
-       ACTION BUTTONS - 2x2 GRID (3 PAIRS)
-       Pairs: reetiquetar+día, manual+download, postear+actualizar
+       ACTION BUTTONS - TOP 2x2 GRID (2 PAIRS)
+       Pairs: reetiquetar+día, manual+download
        ======================================== */
 
-    /* Button container - 2 columns grid */
+    /* Top button container - 2 columns grid */
     .button-container {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
@@ -175,37 +175,41 @@ body.modo-noche {
         box-shadow: inset 0 2px 4px rgba(0,0,0,0.1) !important;
     }
 
-    /* Individual button colors by position */
+    /* TOP CONTAINER - Individual button colors */
     /* Pair 1: reetiquetar (blue) + día/noche (yellow) */
-    .button-container .btn:nth-child(1) {
+    .button-container:not(.button-container-bottom) .btn:nth-child(1) {
         background: linear-gradient(135deg, var(--accent-blue) 0%, #7bb4ff 100%) !important;
         color: white !important;
     }
 
-    .button-container #btn-modo {
+    .button-container:not(.button-container-bottom) #btn-modo {
         background: linear-gradient(135deg, var(--accent-yellow) 0%, #ffe285 100%) !important;
         color: #1a1a1a !important;
     }
 
     /* Pair 2: manual (mint) + download (purple) */
-    .button-container .btn:nth-child(3) {
+    .button-container:not(.button-container-bottom) .btn:nth-child(3) {
         background: linear-gradient(135deg, var(--accent-mint) 0%, #a8e6d7 100%) !important;
         color: #1a1a1a !important;
     }
 
-    .button-container .btn:nth-child(4) {
+    .button-container:not(.button-container-bottom) .btn:nth-child(4) {
         background: linear-gradient(135deg, var(--accent-purple) 0%, #cdb0ff 100%) !important;
         color: white !important;
     }
 
-    /* Pair 3: postear (coral) + actualizar (blue-green mix) */
-    .button-container .btn-postear {
+    /* BOTTOM CONTAINER - Pair 3: postear (coral) + actualizar (blue-green) */
+    .button-container-bottom {
+        margin-top: 16px !important;
+    }
+
+    .button-container-bottom .btn-postear {
         background: linear-gradient(135deg, var(--accent-coral) 0%, #ff9580 100%) !important;
         color: white !important;
         font-weight: 700 !important;
     }
 
-    .button-container .btn:nth-child(6) {
+    .button-container-bottom .btn:nth-child(2) {
         background: linear-gradient(135deg, #5b9eff 0%, var(--accent-mint) 100%) !important;
         color: white !important;
     }
