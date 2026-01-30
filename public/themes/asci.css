@@ -1,533 +1,155 @@
 /* ============================================
-   ASCII.CSS - Terminal/ASCII Art Theme
-   Inspired by retro BBS and text-based interfaces
+   ASCII.CSS - Versión Refinada (Estilo PULSO 2025)
    ============================================ */
 
 :root {
     --ascii-bg: #ffffff;
     --ascii-text: #000000;
     --ascii-link: #0000ee;
-    --ascii-gray: #808080;
-    --ascii-border: #cccccc;
-    --ascii-input-bg: #f5f5f5;
+    --ascii-gray: #555555;
+    --ascii-border: #000000; /* Negro sólido para los guiones */
 }
 
-body.modo-noche {
-    --ascii-bg: #1a1a1a;
-    --ascii-text: #00ff00;
-    --ascii-link: #00ffff;
-    --ascii-gray: #808080;
-    --ascii-border: #333333;
-    --ascii-input-bg: #0a0a0a;
-}
-
-/* ========================================
-   GLOBAL STYLES
-   ======================================== */
 body {
     background: var(--ascii-bg);
     color: var(--ascii-text);
     font-family: 'Courier New', 'Courier', monospace;
     font-size: 14px;
-    line-height: 1.4;
+    line-height: 1.2; /* Más compacto, tipo terminal */
 }
 
+/* Contenedor principal sin bordes externos pesados */
 .container {
-    max-width: 800px;
+    max-width: 700px;
     margin: 0 auto;
-    padding: 20px;
-    border: 1px solid var(--ascii-border);
-    background: var(--ascii-bg);
+    padding: 10px;
+}
+
+/* Separadores de sección como en la captura 2025 */
+.separator {
+    color: var(--ascii-gray);
+    margin: 5px 0;
+}
+
+.separator::before {
+    content: "--------------------------------------------------------------------------------";
+    display: block;
+    letter-spacing: -1px;
 }
 
 /* ========================================
-   HEADER
+   HEADER & NAV
    ======================================== */
 header {
-    border-bottom: 1px dashed var(--ascii-border);
-    padding-bottom: 15px;
-    margin-bottom: 15px;
-}
-
-.header-profile {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.header-profile img {
-    display: none; /* Hide logo in ASCII theme */
-}
-
-.brand-line {
-    font-size: 16px;
-    font-weight: bold;
-    color: var(--ascii-text);
+    margin-bottom: 20px;
     text-transform: uppercase;
 }
 
-.brand-line::before {
-    content: '| ';
-}
-
-.brand-line::after {
-    content: ' |';
-}
-
-.sub-brand {
-    font-size: 12px;
-    color: var(--ascii-gray);
-    margin-top: 5px;
-}
-
-.sub-brand::before {
-    content: '------------------------------------------------------------\A';
-    white-space: pre;
-    color: var(--ascii-border);
-}
-
-.sub-brand::after {
-    content: '\A------------------------------------------------------------';
-    white-space: pre;
-    color: var(--ascii-border);
-}
-
-/* ========================================
-   ALERT BOX
-   ======================================== */
-.alerta-box {
-    border: 1px solid var(--ascii-border);
-    padding: 10px;
-    margin: 10px 0;
-    background: var(--ascii-input-bg);
-    position: relative;
-}
-
-.alerta-box::before {
-    content: '|';
-    position: absolute;
-    left: 5px;
-    color: var(--ascii-gray);
-}
-
-.alerta-box::after {
-    content: '|';
-    position: absolute;
-    right: 5px;
-    color: var(--ascii-gray);
-}
-
-/* ========================================
-   NAV STATUS
-   ======================================== */
-.nav-status {
-    border: 1px dashed var(--ascii-border);
-    padding: 8px;
-    text-align: center;
-    margin: 10px 0;
-    background: var(--ascii-input-bg);
-}
-
-.nav-status::before {
-    content: '| ';
-}
-
-.nav-status::after {
-    content: ' |';
-}
-
-/* ========================================
-   BUTTONS
-   ======================================== */
+/* Estilo de los links del menú: PÚBLICO RED AYUDA... */
 .button-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 15px 0;
-    padding: 10px 0;
-    border-top: 1px dashed var(--ascii-border);
-    border-bottom: 1px dashed var(--ascii-border);
+    gap: 15px;
+    border-top: 1px dashed var(--ascii-gray);
+    border-bottom: 1px dashed var(--ascii-gray);
+    padding: 5px 0;
+    margin: 10px 0;
 }
 
 .btn, .btn-postear, .btn-volver {
-    background: var(--ascii-bg);
+    background: none;
+    border: none;
     color: var(--ascii-link);
-    border: 1px solid var(--ascii-border);
-    padding: 5px 15px;
-    font-family: 'Courier New', monospace;
-    font-size: 13px;
+    text-decoration: underline;
+    font-weight: bold;
+    padding: 0;
     cursor: pointer;
     text-transform: uppercase;
-    transition: all 0.1s;
 }
 
-.btn:hover, .btn-postear:hover, .btn-volver:hover {
-    background: var(--ascii-input-bg);
-    color: var(--ascii-text);
-}
-
-.btn:active, .btn-postear:active, .btn-volver:active {
-    background: var(--ascii-border);
-}
-
-.btn::before, .btn-postear::before, .btn-volver::before {
-    content: '[ ';
-}
-
-.btn::after, .btn-postear::after, .btn-volver::after {
-    content: ' ]';
-}
-
-/* Hide theme button on mobile */
-@media (max-width: 768px) {
-    #btn-tema {
-        display: none;
-    }
-}
+/* Quitar los corchetes [ ] si prefieres el estilo link puro de 2025 */
+.btn::before, .btn::after { content: ""; } 
 
 /* ========================================
-   SEARCH
+   INPUTS Y TEXTAREA
    ======================================== */
-.search-box {
-    width: 100%;
-    background: var(--ascii-input-bg);
-    border: 1px solid var(--ascii-border);
-    padding: 8px;
-    font-family: 'Courier New', monospace;
-    font-size: 13px;
-    color: var(--ascii-text);
+.label-ascii {
     margin: 10px 0;
 }
-
-.search-box::placeholder {
-    color: var(--ascii-gray);
+.label-ascii::before {
+    content: "| ";
+    font-weight: bold;
 }
 
-.search-info {
-    color: var(--ascii-gray);
-    font-size: 12px;
-    margin-top: 5px;
-}
-
-.search-info::before {
-    content: '| ';
-}
-
-/* ========================================
-   MANUAL BOX
-   ======================================== */
-#manual-box {
-    border: 1px solid var(--ascii-border);
-    padding: 15px;
-    margin: 15px 0;
-    background: var(--ascii-input-bg);
-    white-space: pre-wrap;
-}
-
-#manual-box::before {
-    content: '------------------------------------------------------------\A';
-    white-space: pre;
-    color: var(--ascii-border);
-}
-
-#manual-box::after {
-    content: '\A------------------------------------------------------------';
-    white-space: pre;
-    color: var(--ascii-border);
-}
-
-/* ========================================
-   EDITOR SECTION
-   ======================================== */
-.editor-section {
-    margin: 20px 0;
-    border: 1px dashed var(--ascii-border);
-    padding: 15px;
-}
-
-textarea, .password-input {
+textarea, .search-box, .password-input {
     width: 100%;
-    background: var(--ascii-input-bg);
-    border: 1px solid var(--ascii-border);
-    padding: 10px;
-    font-family: 'Courier New', monospace;
-    font-size: 13px;
-    color: var(--ascii-text);
-    resize: vertical;
-}
-
-textarea::placeholder, .password-input::placeholder {
-    color: var(--ascii-gray);
-}
-
-.contador {
-    color: var(--ascii-gray);
-    font-size: 11px;
-    text-align: right;
+    border: 1px solid var(--ascii-gray);
+    background: #fff;
+    font-family: monospace;
+    padding: 8px;
     margin-top: 5px;
-}
-
-.checkbox-label {
-    color: var(--ascii-text);
-    cursor: pointer;
-}
-
-.oculto-section {
-    border-top: 1px dashed var(--ascii-border);
-    padding-top: 15px;
-    margin-top: 15px;
-}
-
-.password-label {
-    color: var(--ascii-gray);
-    font-size: 12px;
-    margin-bottom: 5px;
-}
-
-.password-hint {
-    color: var(--ascii-gray);
-    font-size: 11px;
-    margin-top: 5px;
-}
-
-.password-hint::before {
-    content: '| ';
+    outline: none;
 }
 
 /* ========================================
-   POSTS - ASCII STYLE
+   POSTS (LÍNEA DE TIEMPO)
    ======================================== */
 #timeline {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .post {
-    border: 1px solid var(--ascii-border);
-    padding: 15px;
-    margin-bottom: 15px;
-    background: var(--ascii-bg);
-    display: block;
+    border: none !important; /* Quitamos el borde de caja */
+    background: none !important;
+    padding: 10px 0;
+    margin-bottom: 5px;
 }
 
+/* El separador superior del post */
 .post::before {
-    content: '------------------------------------------------------------';
+    content: "--------------------------------------------------------------------------------";
+    color: var(--ascii-gray);
     display: block;
-    color: var(--ascii-border);
     margin-bottom: 10px;
 }
 
-.post::after {
-    content: '------------------------------------------------------------';
-    display: block;
-    color: var(--ascii-border);
-    margin-top: 10px;
-}
-
-/* Avatar - Simple initials without circle */
+/* Metadata del post: AN | @usuario Creación... */
 .avatar {
-    display: inline-block;
-    width: auto !important;
-    height: auto !important;
-    background: none !important;
-    color: var(--ascii-text) !important;
+    color: #cc0000 !important; /* Rojo para las iniciales */
     font-weight: bold;
-    font-size: 14px;
-    border: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    margin-right: 5px;
-}
-
-.avatar::before {
-    content: '| ';
-    color: var(--ascii-gray);
+    display: inline;
 }
 
 .avatar::after {
-    content: ' |';
-    color: var(--ascii-gray);
-}
-
-/* Post metadata */
-.marca-tag {
-    display: inline;
+    content: " | ";
     color: var(--ascii-text);
+}
+
+.marca-tag {
     font-weight: bold;
-    font-size: 13px;
+    color: var(--ascii-text);
 }
 
-.fecha-tag {
-    display: inline;
-    color: var(--ascii-gray);
-    font-size: 12px;
-    margin-left: 10px;
+/* Contenido del post con la barra lateral | */
+.post-body {
+    margin-top: 8px;
+    padding-left: 15px;
+    border-left: 1px solid var(--ascii-text); /* La línea vertical | */
+    white-space: pre-wrap;
 }
 
-.fecha-tag::before {
-    content: 'Creación: ';
-}
-
-/* Post content */
-.post-body > div[style*="white-space"] {
-    margin-top: 10px;
-    padding-left: 20px;
-    border-left: 2px solid var(--ascii-border);
-    color: var(--ascii-text) !important;
-    font-size: 13px !important;
-    line-height: 1.5 !important;
-}
-
-.post-body > div[style*="white-space"]::before {
-    content: '| ';
-    color: var(--ascii-gray);
-    margin-left: -15px;
-}
-
-/* Links in posts */
-.post-body a {
-    color: var(--ascii-link);
-    text-decoration: underline;
-}
-
-/* Hashtags */
-.post-body span[style*="color"] {
-    color: var(--ascii-link) !important;
-    font-weight: bold;
-}
-
-/* ========================================
-   SEMILLA BOX - ASCII STYLE
-   ======================================== */
+/* Semilla y acciones */
 .semilla-box {
-    margin-top: 15px;
-    border: 1px dashed var(--ascii-border);
-    padding: 10px;
-    display: flex;
-    gap: 5px;
-    background: var(--ascii-input-bg);
-}
-
-.semilla-box::before {
-    content: '| SEMILLA:';
-    position: absolute;
-    margin-top: -25px;
-    color: var(--ascii-gray);
-    font-size: 11px;
+    border: none;
+    background: none;
+    padding-left: 15px;
 }
 
 .semilla-input {
-    flex: 1;
-    background: var(--ascii-bg);
-    border: 1px solid var(--ascii-border);
-    padding: 5px;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    color: var(--ascii-text);
-}
-
-.semilla-btn {
-    background: var(--ascii-bg);
-    border: 1px solid var(--ascii-border);
-    color: var(--ascii-link);
-    padding: 5px 15px;
-    cursor: pointer;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-}
-
-.semilla-btn:hover {
-    background: var(--ascii-input-bg);
-}
-
-/* ========================================
-   MENSAJE OCULTO
-   ======================================== */
-.mensaje-oculto {
-    border: 1px solid var(--ascii-border);
-    background: var(--ascii-input-bg);
-    padding: 10px;
-    margin-top: 10px;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.mensaje-oculto::before {
-    content: '| MENSAJE DESCIFRADO:\A';
-    white-space: pre;
-    color: var(--ascii-gray);
+    border: 1px solid var(--ascii-gray);
     font-size: 11px;
 }
 
-.mensaje-error {
-    color: #cc0000;
-    font-size: 12px;
-    margin-top: 5px;
-}
-
-.mensaje-error::before {
-    content: '| ERROR: ';
-    color: var(--ascii-gray);
-}
-
-/* ========================================
-   SUBSCRIPTION CARD COLORS - REMOVED
-   ======================================== */
-.post:nth-child(3n+1),
-.post:nth-child(3n+2),
-.post:nth-child(3n) {
-    background: var(--ascii-bg);
-}
-
-/* ========================================
-   MOBILE RESPONSIVE
-   ======================================== */
-@media (max-width: 768px) {
-    .container {
-        padding: 10px;
-        border: none;
-    }
-
-    .button-container {
-        flex-direction: column;
-    }
-
-    .btn, .btn-postear, .btn-volver {
-        width: 100%;
-    }
-
-    .post-body > div[style*="white-space"] {
-        padding-left: 10px;
-    }
-}
-
-/* ========================================
-   DARK MODE ADJUSTMENTS
-   ======================================== */
-body.modo-noche {
-    background: var(--ascii-bg);
-}
-
-body.modo-noche .container {
-    border-color: var(--ascii-border);
-}
-
-body.modo-noche .btn,
-body.modo-noche .btn-postear,
-body.modo-noche .btn-volver {
-    background: var(--ascii-bg);
-    border-color: var(--ascii-border);
-}
-
-body.modo-noche .btn:hover,
-body.modo-noche .btn-postear:hover,
-body.modo-noche .btn-volver:hover {
-    background: var(--ascii-input-bg);
-}
-
-/* ========================================
-   HIDDEN UTILITIES
-   ======================================== */
-.hidden {
-    display: none !important;
+/* Ocultar elementos innecesarios */
+.header-profile img, .header-profile .avatar-circle {
+    display: none;
 }
