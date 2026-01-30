@@ -33,6 +33,18 @@
         .button-container { display: flex; justify-content: space-between; gap: 10px; margin-top: 15px; }
         .button-group { display: flex; gap: 10px; }
         
+        /* Hover effect for web version */
+        @media (hover: hover) {
+            .btn:hover, .btn-postear:hover, .btn-volver:hover {
+                background: rgba(0, 0, 0, 0.03) !important;
+            }
+            body.modo-noche .btn:hover, 
+            body.modo-noche .btn-postear:hover, 
+            body.modo-noche .btn-volver:hover {
+                background: rgba(255, 255, 255, 0.05) !important;
+            }
+        }
+        
         .editor-section { margin-top: 20px; }
         .checkbox-label { cursor: pointer; font-size: 15px; }
         .checkbox-container { margin-top: 10px; }
@@ -121,7 +133,10 @@
     function cargarTema() {
         const link = document.getElementById('theme-stylesheet');
         link.href = `themes/${temaActual}.css`;
-        document.getElementById('btn-tema').innerText = `[ tema: ${temaActual} ]`;
+        const btnTema = document.getElementById('btn-tema');
+        if(btnTema) {
+            btnTema.innerText = `[ tema: ${temaActual} ]`;
+        }
         
         if(modoOscuro) {
             document.body.classList.add('modo-noche');
