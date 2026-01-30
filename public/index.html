@@ -62,22 +62,20 @@
 
         <div class="nav-status">
             <span>Etiqueta: <b id="current-marca" style="color:var(--rastro-color)">...</b></span>
-            <button class="btn" onclick="reetiquetar()">[ reetiquetar ]</button>
         </div>
 
         <div class="button-container">
-            <div class="button-group">
-                <button class="btn" onclick="actualizarPosts()">[ actualizar ]</button>
-            </div>
-            <div class="button-group">
-                <button class="btn" onclick="toggleManual()">[ manual ]</button>
-                <button class="btn" onclick="cambiarTema()" id="btn-tema">[ tema: default ]</button>
-                <button class="btn" onclick="toggleDiaNoche()" id="btn-modo">[ día ]</button>
-            </div>
+            <button class="btn" onclick="reetiquetar()">[ reetiquetar ]</button>
+            <button class="btn" onclick="toggleDiaNoche()" id="btn-modo">[ día ]</button>
+            <button class="btn" onclick="toggleManual()">[ manual ]</button>
+            <button class="btn" onclick="window.open('/source')">[ download source ]</button>
+            <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
+            <button class="btn" onclick="actualizarPosts()">[ actualizar ]</button>
         </div>
 
         <input type="text" class="search-box" id="search-input" placeholder="Buscar..." onkeyup="buscarConDelay()">
         <div class="search-info" id="search-info"></div>
+        <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver ]</button>
 
         <div id="manual-box"></div>
         
@@ -99,14 +97,6 @@
                     <div class="password-label">Password (obligatorio):</div>
                     <input type="text" id="password-input" placeholder="Ejemplo: perro tiza golf maria" class="password-input">
                     <div class="password-hint">1-12 palabras. Más palabras = más seguridad.</div>
-                </div>
-            </div>
-            
-            <div class="bottom-actions">
-                <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
-                <div class="button-group">
-                    <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver ]</button>
-                    <button class="btn" onclick="window.open('/source')">[ download source ]</button>
                 </div>
             </div>
         </div>
