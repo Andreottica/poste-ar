@@ -24,14 +24,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <link rel="stylesheet" id="theme-stylesheet" href="themes/default.css">
     <link rel="stylesheet" href="themes/mobile.css">
+    <style>
+        /* Estilos base que no interfieren con mobile/theme CSS */
+        .header-profile { display: flex; gap: 15px; align-items: flex-start; margin-bottom: 15px; }
+        .header-profile img { width: 60px; height: 60px; flex-shrink: 0; }
+        .header-profile-info { flex: 1; }
+        
+        .button-container { display: flex; justify-content: space-between; gap: 10px; margin-top: 15px; }
+        .button-group { display: flex; gap: 10px; }
+        
+        .editor-section { margin-top: 20px; }
+        .checkbox-label { cursor: pointer; font-size: 15px; }
+        .checkbox-container { margin-top: 10px; }
+        
+        .password-section { margin-top: 10px; }
+        .password-label { font-size: 15px; color: var(--color-secundario); margin-bottom: 5px; }
+        .password-hint { font-size: 13px; color: var(--color-terciario); margin-top: 5px; }
+        
+        .bottom-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 10px; }
+        
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <div style="display: flex; gap: 15px; align-items: flex-start; margin-bottom: 15px;">
-            <img src="postear.gif" alt="logo" style="width: 60px; height: 60px; flex-shrink: 0;">
-            <div style="flex: 1;">
+        <div class="header-profile">
+            <img src="postear.gif" alt="logo">
+            <div class="header-profile-info">
                 <div class="brand-line">poste.ar</div>
                 <div class="sub-brand">Sitio anónimo, efímero. Ciudadela, Buenos Aires, Argentina.</div>
             </div>
@@ -44,11 +65,11 @@
             <button class="btn" onclick="reetiquetar()">[ reetiquetar ]</button>
         </div>
 
-        <div style="display: flex; justify-content: space-between; gap: 10px; margin-top: 15px;">
-            <div style="display: flex; gap: 10px;">
+        <div class="button-container">
+            <div class="button-group">
                 <button class="btn" onclick="actualizarPosts()">[ actualizar ]</button>
             </div>
-            <div style="display: flex; gap: 10px;">
+            <div class="button-group">
                 <button class="btn" onclick="toggleManual()">[ manual ]</button>
                 <button class="btn" onclick="cambiarTema()" id="btn-tema">[ tema: default ]</button>
                 <button class="btn" onclick="toggleDiaNoche()" id="btn-modo">[ día ]</button>
@@ -60,12 +81,12 @@
 
         <div id="manual-box"></div>
         
-        <div style="margin-top: 20px;">
+        <div class="editor-section">
             <textarea id="editor" maxlength="576" placeholder="Mensaje público..."></textarea>
             <div class="contador" id="char-count">576 caracteres restantes</div>
             
-            <div style="margin-top: 10px;">
-                <label style="cursor: pointer; font-size: 15px;">
+            <div class="checkbox-container">
+                <label class="checkbox-label">
                     <input type="checkbox" id="checkbox-oculto" onchange="toggleOculto()"> Agregar mensaje oculto cifrado
                 </label>
             </div>
@@ -74,22 +95,18 @@
                 <textarea id="editor-oculto" maxlength="288" placeholder="Mensaje oculto (288 caracteres)..."></textarea>
                 <div class="contador" id="char-count-oculto">288 caracteres restantes</div>
                 
-                <div style="margin-top: 10px;">
-                    <div style="font-size: 15px; color: var(--color-secundario); margin-bottom: 5px;">
-                        Password (obligatorio):
-                    </div>
+                <div class="password-section">
+                    <div class="password-label">Password (obligatorio):</div>
                     <input type="text" id="password-input" placeholder="Ejemplo: perro tiza golf maria" class="password-input">
-                    <div style="font-size: 13px; color: var(--color-terciario); margin-top: 5px;">
-                        1-12 palabras. Más palabras = más seguridad.
-                    </div>
+                    <div class="password-hint">1-12 palabras. Más palabras = más seguridad.</div>
                 </div>
             </div>
             
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 10px;">
+            <div class="bottom-actions">
                 <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
-                <div style="display: flex; gap: 10px;">
+                <div class="button-group">
                     <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver ]</button>
-                    <button class="btn" onclick="alert('Próximamente disponible en GitHub')">[ código fuente ]</button>
+                    <button class="btn" onclick="window.open('/source')">[ download source ]</button>
                 </div>
             </div>
         </div>
@@ -412,45 +429,12 @@
         container.innerText = letras;
     }
 
-    // Reorganizar botones solo en móviles
-    function reorganizarBotonesMobile() {
-        if (window.innerWidth <= 768) {
-            const navStatus = document.querySelector('.nav-status');
-            const btnReetiquetar = navStatus.querySelector('button');
-            const contenedorBotones = document.querySelector('header > div[style*="justify-content: space-between"]');
-            
-            if (!contenedorBotones.classList.contains('botones-mobile-reorganizado')) {
-                // Crear grid mobile
-                contenedorBotones.style.display = 'grid';
-                contenedorBotones.style.gridTemplateColumns = '1fr 1fr';
-                contenedorBotones.style.gap = '8px';
-                contenedorBotones.style.justifyContent = 'unset';
-                
-                // Clonar botón reetiquetar
-                const btnReetiquetatClone = btnReetiquetar.cloneNode(true);
-                btnReetiquetatClone.onclick = reetiquetar;
-                
-                // Insertar al principio del contenedor de botones
-                contenedorBotones.insertBefore(btnReetiquetatClone, contenedorBotones.firstChild);
-                
-                // Ocultar reetiquetar original
-                btnReetiquetar.style.display = 'none';
-                
-                // Marcar como reorganizado
-                contenedorBotones.classList.add('botones-mobile-reorganizado');
-            }
-        }
-    }
-
-    window.addEventListener('resize', reorganizarBotonesMobile);
-
     window.onload = () => {
         cargarTema();
         reetiquetar();
         cargarTimeline();
         actualizarContadorReset();
         setInterval(actualizarContadorReset, 60000);
-        reorganizarBotonesMobile();
     };
 </script>
 </body>
