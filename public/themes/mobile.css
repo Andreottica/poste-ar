@@ -280,7 +280,8 @@ body.modo-noche {
         box-shadow: var(--shadow-sm);
         border: none;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
         gap: 12px;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
@@ -290,18 +291,12 @@ body.modo-noche {
         box-shadow: var(--shadow-md);
     }
 
-    /* Post header - Avatar + Metadata side by side */
-    .post > div:first-child {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-    }
-
+    /* Avatar - fixed width, vertically centered */
     .avatar {
         width: 42px;
         height: 42px;
         border-radius: 50%;
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 700;
         display: flex;
         align-items: center;
@@ -313,6 +308,7 @@ body.modo-noche {
         line-height: 1 !important;
         padding: 0 !important;
         text-align: center !important;
+        align-self: flex-start;
     }
 
     body.modo-noche .avatar {
@@ -320,10 +316,13 @@ body.modo-noche {
         color: #ffffff !important;
     }
 
-    /* Metadata container - name and date stacked vertically */
+    /* Post-body container - metadata only, no content */
     .post-body {
         flex: 1;
         min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
     }
 
     .marca-tag {
@@ -340,18 +339,25 @@ body.modo-noche {
         font-weight: 500;
         color: var(--text-secondary);
         letter-spacing: 0.2px;
-        margin: 2px 0 0 0;
+        margin: 0;
         line-height: 1.2;
     }
 
-    /* Post content - full width below header */
+    /* Post content - MUST be direct child of .post-body and take full width */
     .post-body > div[style*="white-space"] {
         font-size: 15px !important;
         line-height: 1.5 !important;
         color: var(--text-primary) !important;
         font-weight: 400 !important;
-        margin-top: 8px !important;
+        margin-top: 4px !important;
         width: 100%;
+        flex-basis: 100%;
+    }
+
+    /* Semilla box should be full width on new line */
+    .post-body .semilla-box {
+        width: 100%;
+        margin-top: 8px;
     }
 
     /* ========================================
