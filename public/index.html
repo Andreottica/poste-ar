@@ -130,9 +130,30 @@
     let buscando = false;
     let timeoutBusqueda = null;
     
-    const temas = ['default', 'retro', 'minimo'];
+    let temas = ['default']; // Fallback inicial
     let temaActual = localStorage.getItem('tema') || 'default';
     let modoOscuro = localStorage.getItem('modo') === 'noche';
+
+    // Cargar lista de temas automáticamente desde el servidor
+    async function cargarListaTemas() {
+        try {
+            const response = await fetch('/api/temas'); // Endpoint que debe listar archivos .css en /themes/
+            if (response.ok) {
+                const temasDisponibles = await response.json();
+                // Filtrar para excluir mobile.css
+                temas = temasDisponibles.filter(t => t !== 'mobile');
+                
+                // Si el tema actual no existe en la lista, volver a default
+                if (!temas.includes(temaActual)) {
+                    temaActual = 'default';
+                    localStorage.setItem('tema', temaActual);
+                }
+            }
+        } catch(e) {
+            console.log('No se pudo cargar lista de temas, usando: default, retro, minimo, ascii');
+            temas = ['default', 'retro', 'minimo', 'ascii'];
+        }
+    }
 
     function cargarTema() {
         const link = document.getElementById('theme-stylesheet');
@@ -441,7 +462,8 @@
         container.innerText = letras;
     }
 
-    window.onload = () => {
+    window.onload = async () => {
+        await cargarListaTemas();
         cargarTema();
         reetiquetar();
         cargarTimeline();
