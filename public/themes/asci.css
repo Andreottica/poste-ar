@@ -1,180 +1,118 @@
 /* ============================================
-   PULSO - Tema ASCII/Terminal
-   Basado en redes sociales P2P estilo BBS
+   ASCI.CSS - Tema Terminal/ASCII
+   Versión REALISTA - estiliza HTML existente
    ============================================ */
 
 :root {
-    --pulso-bg: #ffffff;
-    --pulso-text: #000000;
-    --pulso-border: #000000;
-    --pulso-link: #0000ee;
-    --pulso-gray: #666666;
-    --pulso-input-bg: #ffffff;
+    --ascii-bg: #ffffff;
+    --ascii-text: #000000;
+    --ascii-link: #0000ee;
+    --ascii-gray: #666666;
+    --ascii-border: #000000;
+    --ascii-input-bg: #f5f5f5;
 }
 
 body.modo-noche {
-    --pulso-bg: #000000;
-    --pulso-text: #00ff00;
-    --pulso-border: #00ff00;
-    --pulso-link: #00ffff;
-    --pulso-gray: #008800;
-    --pulso-input-bg: #000000;
+    --ascii-bg: #000000;
+    --ascii-text: #00ff00;
+    --ascii-link: #00ffff;
+    --ascii-gray: #00aa00;
+    --ascii-border: #00ff00;
+    --ascii-input-bg: #001100;
 }
 
 /* ========================================
-   RESET Y BASE
+   BASE
    ======================================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    background: var(--pulso-bg);
-    color: var(--pulso-text);
+    background: var(--ascii-bg);
+    color: var(--ascii-text);
     font-family: 'Courier New', 'Courier', monospace;
-    font-size: 14px;
-    line-height: 1.4;
-    margin: 0;
-    padding: 20px;
+    font-size: 13px;
+    line-height: 1.5;
 }
 
-/* ========================================
-   CONTAINER - 728px como PULSO
-   ======================================== */
 .container {
     max-width: 728px;
     margin: 0 auto;
-    padding: 0;
-    border: none;
-    background: var(--pulso-bg);
-}
-
-/* ========================================
-   LÍNEAS SEPARADORAS ESTILO PULSO
-   ======================================== */
-.separator-line {
-    content: '';
-    display: block;
-    border-top: 1px dashed var(--pulso-border);
-    margin: 15px 0;
+    padding: 20px;
+    border-left: 1px solid var(--ascii-border);
+    border-right: 1px solid var(--ascii-border);
+    background: var(--ascii-bg);
 }
 
 /* ========================================
    HEADER
    ======================================== */
 header {
-    border-bottom: 1px dashed var(--pulso-border);
+    border-bottom: 1px dashed var(--ascii-border);
     padding-bottom: 15px;
     margin-bottom: 20px;
 }
 
-header::before {
-    content: 'PULS0 - Red Social P2P\A--------------------------------------------------------------------------------\ACaseros / Buenos Aires / Argentina\A';
-    white-space: pre;
-    display: block;
-    margin-bottom: 10px;
-    font-size: 14px;
-}
-
-.header-profile {
-    display: none; /* Ocultar logo en tema ASCII */
+.header-profile img {
+    filter: grayscale(1) contrast(2);
+    border: 1px solid var(--ascii-border);
 }
 
 .brand-line {
-    display: none;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--ascii-text);
 }
 
 .sub-brand {
-    display: none;
+    font-size: 12px;
+    color: var(--ascii-gray);
 }
 
 /* ========================================
-   TÍTULOS DE SECCIÓN CON PIPE
-   ======================================== */
-.editor-section::before {
-    content: '--------------------------------------------------------------------------------\A| PUBLICAR\A--------------------------------------------------------------------------------';
-    white-space: pre;
-    display: block;
-    margin-bottom: 15px;
-    font-weight: bold;
-}
-
-/* ========================================
-   ALERTA BOX
+   ALERTA
    ======================================== */
 .alerta-box {
-    border: none;
-    padding: 10px 0;
-    margin: 15px 0;
     background: transparent;
-    color: var(--pulso-text);
-}
-
-.alerta-box::before {
-    content: none;
-}
-
-.alerta-box::after {
-    content: none;
+    border: 1px dashed var(--ascii-border);
+    padding: 10px;
+    color: var(--ascii-text);
+    margin: 15px 0;
 }
 
 /* ========================================
    NAV STATUS
    ======================================== */
 .nav-status {
-    border: none;
-    padding: 10px 0;
-    margin: 15px 0;
     background: transparent;
+    border: 1px dashed var(--ascii-border);
+    padding: 10px;
     text-align: left;
 }
 
-.nav-status::before {
-    content: none;
-}
-
-.nav-status::after {
-    content: none;
-}
-
 /* ========================================
-   BOTONES
+   BOTONES - Estilo terminal
    ======================================== */
 .button-container {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin: 15px 0;
-    padding: 0;
-    border: none;
 }
 
 .btn, .btn-postear, .btn-volver {
-    background: var(--pulso-bg);
-    color: var(--pulso-link);
-    border: none;
-    padding: 5px 10px;
+    background: var(--ascii-bg);
+    color: var(--ascii-link);
+    border: 1px solid var(--ascii-border);
+    padding: 5px 15px;
     font-family: 'Courier New', monospace;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
-    text-decoration: underline;
-    text-transform: uppercase;
+    text-transform: none;
+    font-weight: normal;
 }
 
 .btn:hover, .btn-postear:hover, .btn-volver:hover {
-    background: var(--pulso-bg);
-    color: var(--pulso-text);
-    filter: brightness(1.2);
-}
-
-.btn::before, .btn-postear::before, .btn-volver::before {
-    content: '';
-}
-
-.btn::after, .btn-postear::after, .btn-volver::after {
-    content: '';
+    background: var(--ascii-input-bg);
+    color: var(--ascii-text);
 }
 
 /* ========================================
@@ -182,56 +120,34 @@ header::before {
    ======================================== */
 .search-box {
     width: 100%;
-    background: var(--pulso-input-bg);
-    border: 1px solid var(--pulso-border);
+    background: var(--ascii-input-bg);
+    border: 1px solid var(--ascii-border);
     padding: 8px;
     font-family: 'Courier New', monospace;
-    font-size: 14px;
-    color: var(--pulso-text);
+    font-size: 13px;
+    color: var(--ascii-text);
     margin: 15px 0;
 }
 
 .search-box::placeholder {
-    color: var(--pulso-gray);
-}
-
-/* Sección BUSCAR */
-.search-box::before {
-    content: '--------------------------------------------------------------------------------\A| BUSCAR\A--------------------------------------------------------------------------------';
-    white-space: pre;
-    display: block;
-    margin-bottom: 15px;
-    font-weight: bold;
+    color: var(--ascii-gray);
 }
 
 .search-info {
-    color: var(--pulso-gray);
-    font-size: 14px;
-    margin-top: 5px;
+    color: var(--ascii-gray);
+    font-size: 12px;
 }
 
 /* ========================================
    MANUAL
    ======================================== */
 #manual-box {
-    border: none;
-    padding: 15px 0;
-    margin: 15px 0;
+    border: 1px dashed var(--ascii-border);
     background: transparent;
+    padding: 15px;
+    margin: 15px 0;
     white-space: pre-wrap;
-}
-
-#manual-box::before {
-    content: '--------------------------------------------------------------------------------';
-    display: block;
-    margin-bottom: 10px;
-}
-
-#manual-box::after {
-    content: '\A--------------------------------------------------------------------------------';
-    white-space: pre;
-    display: block;
-    margin-top: 10px;
+    color: var(--ascii-text);
 }
 
 /* ========================================
@@ -239,170 +155,118 @@ header::before {
    ======================================== */
 .editor-section {
     margin: 20px 0;
-    padding: 0;
-    border: none;
 }
 
 textarea, .password-input {
     width: 100%;
-    background: var(--pulso-input-bg);
-    border: 1px solid var(--pulso-border);
+    background: var(--ascii-input-bg);
+    border: 1px solid var(--ascii-border);
     padding: 10px;
     font-family: 'Courier New', monospace;
-    font-size: 14px;
-    color: var(--pulso-text);
+    font-size: 13px;
+    color: var(--ascii-text);
     resize: vertical;
-    min-height: 100px;
 }
 
 textarea::placeholder, .password-input::placeholder {
-    color: var(--pulso-gray);
+    color: var(--ascii-gray);
 }
 
 .contador {
-    color: var(--pulso-gray);
-    font-size: 12px;
+    color: var(--ascii-gray);
+    font-size: 11px;
     text-align: left;
-    margin-top: 5px;
 }
 
 .checkbox-label {
-    color: var(--pulso-text);
-    cursor: pointer;
-    font-size: 14px;
+    color: var(--ascii-text);
+    font-size: 13px;
 }
 
 .oculto-section {
-    border: none;
-    border-top: 1px dashed var(--pulso-border);
+    border-top: 1px dashed var(--ascii-border);
     padding-top: 15px;
     margin-top: 15px;
 }
 
 .password-label {
-    color: var(--pulso-gray);
-    font-size: 14px;
-    margin-bottom: 5px;
+    color: var(--ascii-gray);
+    font-size: 12px;
 }
 
 .password-hint {
-    color: var(--pulso-gray);
-    font-size: 12px;
-    margin-top: 5px;
+    color: var(--ascii-gray);
+    font-size: 11px;
 }
 
 /* ========================================
-   TIMELINE - | LINEA DE TIEMPO
-   ======================================== */
-#timeline::before {
-    content: '--------------------------------------------------------------------------------\A| LINEA DE TIEMPO\A--------------------------------------------------------------------------------';
-    white-space: pre;
-    display: block;
-    margin: 20px 0 15px 0;
-    font-weight: bold;
-}
-
-/* ========================================
-   POSTS - Estilo PULSO
+   POSTS - Estilo minimalista terminal
    ======================================== */
 .post {
     border: none;
-    border-top: 1px dashed var(--pulso-border);
-    border-bottom: 1px dashed var(--pulso-border);
+    border-top: 1px dashed var(--ascii-border);
+    border-bottom: 1px dashed var(--ascii-border);
     padding: 15px 0;
-    margin: 15px 0;
+    margin: 20px 0;
     background: transparent;
-    display: block;
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
 }
 
-.post::before {
-    content: none;
-}
-
-.post::after {
-    content: none;
-}
-
-/* Avatar - Solo iniciales con pipe */
+/* Avatar - cuadrado simple */
 .avatar {
-    display: inline !important;
-    width: auto !important;
-    height: auto !important;
-    background: none !important;
-    color: var(--pulso-text) !important;
+    width: 50px !important;
+    height: 50px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     font-weight: bold !important;
-    font-size: 14px !important;
-    border: none !important;
+    font-size: 16px !important;
+    color: #fff !important;
+    border: 2px solid var(--ascii-border) !important;
     border-radius: 0 !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-.avatar::before {
-    content: '';
-}
-
-.avatar::after {
-    content: ' | ';
-    color: var(--pulso-text);
-    font-weight: normal;
-}
-
-/* Post body layout */
-.post {
-    display: block !important;
+    flex-shrink: 0 !important;
 }
 
 .post-body {
-    display: block !important;
+    flex: 1;
+    min-width: 0;
 }
 
-/* Metadata en una línea */
+/* Metadata */
 .marca-tag {
-    display: inline !important;
-    color: var(--pulso-text) !important;
+    font-size: 13px !important;
     font-weight: bold !important;
-    font-size: 14px !important;
+    color: var(--ascii-text) !important;
+    display: inline !important;
 }
 
 .fecha-tag {
+    font-size: 12px !important;
+    color: var(--ascii-gray) !important;
     display: inline !important;
-    color: var(--pulso-gray) !important;
-    font-size: 14px !important;
-    margin-left: 0 !important;
+    margin-left: 10px !important;
 }
 
-.fecha-tag::before {
-    content: 'Creación: ';
-}
-
-/* Contenido del post con pipe */
+/* Contenido */
 .post-body > div[style*="white-space"] {
     margin-top: 10px !important;
-    padding-left: 20px !important;
-    border-left: 2px solid var(--pulso-border) !important;
-    color: var(--pulso-text) !important;
-    font-size: 14px !important;
-    line-height: 1.5 !important;
-    white-space: pre-wrap !important;
+    color: var(--ascii-text) !important;
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+    font-family: 'Courier New', monospace !important;
 }
 
-.post-body > div[style*="white-space"]::before {
-    content: '| ';
-    color: var(--pulso-gray);
-    margin-left: -15px;
-}
-
-/* Links en posts */
+/* Links */
 .post-body a {
-    color: var(--pulso-link);
-    text-decoration: underline;
+    color: var(--ascii-link) !important;
+    text-decoration: underline !important;
 }
 
 /* Hashtags */
 .post-body span[style*="color"] {
-    color: var(--pulso-link) !important;
+    color: var(--ascii-link) !important;
     font-weight: bold !important;
 }
 
@@ -411,31 +275,32 @@ textarea::placeholder, .password-input::placeholder {
    ======================================== */
 .semilla-box {
     margin-top: 15px;
-    border: 1px solid var(--pulso-border);
-    padding: 10px;
     display: flex;
-    gap: 10px;
-    background: var(--pulso-input-bg);
+    gap: 5px;
+    border: 1px solid var(--ascii-border);
+    padding: 5px;
+    background: var(--ascii-input-bg);
 }
 
 .semilla-input {
     flex: 1;
-    background: var(--pulso-bg);
-    border: 1px solid var(--pulso-border);
+    background: var(--ascii-bg);
+    border: 1px solid var(--ascii-border);
     padding: 5px;
     font-family: 'Courier New', monospace;
-    font-size: 14px;
-    color: var(--pulso-text);
+    font-size: 12px;
+    color: var(--ascii-text);
+    outline: none;
 }
 
 .semilla-input::placeholder {
-    color: var(--pulso-gray);
+    color: var(--ascii-gray);
 }
 
 .semilla-btn {
-    background: var(--pulso-bg);
-    border: 1px solid var(--pulso-border);
-    color: var(--pulso-text);
+    background: var(--ascii-bg);
+    border: 1px solid var(--ascii-border);
+    color: var(--ascii-text);
     padding: 5px 15px;
     cursor: pointer;
     font-family: 'Courier New', monospace;
@@ -443,44 +308,34 @@ textarea::placeholder, .password-input::placeholder {
 }
 
 .semilla-btn:hover {
-    background: var(--pulso-gray);
-    color: var(--pulso-bg);
+    background: var(--ascii-input-bg);
 }
 
 /* ========================================
    MENSAJE OCULTO
    ======================================== */
 .mensaje-oculto {
-    border: 1px solid var(--pulso-border);
-    background: var(--pulso-input-bg);
+    border: 1px solid var(--ascii-border);
+    background: var(--ascii-input-bg);
     padding: 10px;
     margin-top: 10px;
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 13px;
     white-space: pre-wrap;
-}
-
-.mensaje-oculto::before {
-    content: '| MENSAJE DESCIFRADO:\A';
-    white-space: pre;
-    color: var(--pulso-gray);
-    font-size: 12px;
-    display: block;
-    margin-bottom: 10px;
+    color: var(--ascii-text);
 }
 
 .mensaje-error {
     color: #cc0000;
-    font-size: 14px;
+    font-size: 12px;
     margin-top: 5px;
 }
 
-.mensaje-error::before {
-    content: '| ERROR: ';
+body.modo-noche .mensaje-error {
+    color: #ff4444;
 }
 
 /* ========================================
-   BOTÓN PULSAR
+   BOTTOM ACTIONS
    ======================================== */
 .bottom-actions {
     display: flex;
@@ -488,24 +343,13 @@ textarea::placeholder, .password-input::placeholder {
     margin-top: 15px;
 }
 
-.btn-postear {
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-.btn-postear::before {
-    content: '';
-}
-
 /* ========================================
-   MOBILE RESPONSIVE
+   MOBILE
    ======================================== */
 @media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-
     .container {
+        border-left: none;
+        border-right: none;
         padding: 10px;
     }
 
@@ -515,7 +359,16 @@ textarea::placeholder, .password-input::placeholder {
 
     .btn, .btn-postear, .btn-volver {
         width: 100%;
-        text-align: left;
+    }
+
+    .post {
+        flex-direction: column;
+    }
+
+    .avatar {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 14px !important;
     }
 }
 
@@ -526,9 +379,8 @@ textarea::placeholder, .password-input::placeholder {
     display: none !important;
 }
 
-/* Eliminar colores de suscripción */
-.post:nth-child(3n+1),
-.post:nth-child(3n+2),
-.post:nth-child(3n) {
-    background: transparent;
+/* Eliminar colores alternados de posts */
+.post:nth-child(odd),
+.post:nth-child(even) {
+    background: transparent !important;
 }
