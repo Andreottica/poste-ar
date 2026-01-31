@@ -1,188 +1,180 @@
 /* ============================================
-   ASCII.CSS - Terminal/ASCII Art Theme
-   Inspired by retro BBS and text-based interfaces
+   PULSO - Tema ASCII/Terminal
+   Basado en redes sociales P2P estilo BBS
    ============================================ */
 
 :root {
-    --ascii-bg: #ffffff;
-    --ascii-text: #000000;
-    --ascii-link: #0000ee;
-    --ascii-gray: #808080;
-    --ascii-border: #cccccc;
-    --ascii-input-bg: #f5f5f5;
+    --pulso-bg: #ffffff;
+    --pulso-text: #000000;
+    --pulso-border: #000000;
+    --pulso-link: #0000ee;
+    --pulso-gray: #666666;
+    --pulso-input-bg: #ffffff;
 }
 
 body.modo-noche {
-    --ascii-bg: #1a1a1a;
-    --ascii-text: #00ff00;
-    --ascii-link: #00ffff;
-    --ascii-gray: #808080;
-    --ascii-border: #333333;
-    --ascii-input-bg: #0a0a0a;
+    --pulso-bg: #000000;
+    --pulso-text: #00ff00;
+    --pulso-border: #00ff00;
+    --pulso-link: #00ffff;
+    --pulso-gray: #008800;
+    --pulso-input-bg: #000000;
 }
 
 /* ========================================
-   GLOBAL STYLES
+   RESET Y BASE
    ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    background: var(--ascii-bg);
-    color: var(--ascii-text);
+    background: var(--pulso-bg);
+    color: var(--pulso-text);
     font-family: 'Courier New', 'Courier', monospace;
     font-size: 14px;
     line-height: 1.4;
+    margin: 0;
+    padding: 20px;
 }
 
+/* ========================================
+   CONTAINER - 728px como PULSO
+   ======================================== */
 .container {
-    max-width: 800px;
+    max-width: 728px;
     margin: 0 auto;
-    padding: 20px;
-    border: 1px solid var(--ascii-border);
-    background: var(--ascii-bg);
+    padding: 0;
+    border: none;
+    background: var(--pulso-bg);
+}
+
+/* ========================================
+   LÍNEAS SEPARADORAS ESTILO PULSO
+   ======================================== */
+.separator-line {
+    content: '';
+    display: block;
+    border-top: 1px dashed var(--pulso-border);
+    margin: 15px 0;
 }
 
 /* ========================================
    HEADER
    ======================================== */
 header {
-    border-bottom: 1px dashed var(--ascii-border);
+    border-bottom: 1px dashed var(--pulso-border);
     padding-bottom: 15px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+header::before {
+    content: 'PULS0 - Red Social P2P\A--------------------------------------------------------------------------------\ACaseros / Buenos Aires / Argentina\A';
+    white-space: pre;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
 }
 
 .header-profile {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.header-profile img {
-    display: none; /* Hide logo in ASCII theme */
+    display: none; /* Ocultar logo en tema ASCII */
 }
 
 .brand-line {
-    font-size: 16px;
-    font-weight: bold;
-    color: var(--ascii-text);
-    text-transform: uppercase;
-}
-
-.brand-line::before {
-    content: '| ';
-}
-
-.brand-line::after {
-    content: ' |';
+    display: none;
 }
 
 .sub-brand {
-    font-size: 12px;
-    color: var(--ascii-gray);
-    margin-top: 5px;
-}
-
-.sub-brand::before {
-    content: '------------------------------------------------------------\A';
-    white-space: pre;
-    color: var(--ascii-border);
-}
-
-.sub-brand::after {
-    content: '\A------------------------------------------------------------';
-    white-space: pre;
-    color: var(--ascii-border);
+    display: none;
 }
 
 /* ========================================
-   ALERT BOX
+   TÍTULOS DE SECCIÓN CON PIPE
+   ======================================== */
+.editor-section::before {
+    content: '--------------------------------------------------------------------------------\A| PUBLICAR\A--------------------------------------------------------------------------------';
+    white-space: pre;
+    display: block;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* ========================================
+   ALERTA BOX
    ======================================== */
 .alerta-box {
-    border: 1px solid var(--ascii-border);
-    padding: 10px;
-    margin: 10px 0;
-    background: var(--ascii-input-bg);
-    position: relative;
+    border: none;
+    padding: 10px 0;
+    margin: 15px 0;
+    background: transparent;
+    color: var(--pulso-text);
 }
 
 .alerta-box::before {
-    content: '|';
-    position: absolute;
-    left: 5px;
-    color: var(--ascii-gray);
+    content: none;
 }
 
 .alerta-box::after {
-    content: '|';
-    position: absolute;
-    right: 5px;
-    color: var(--ascii-gray);
+    content: none;
 }
 
 /* ========================================
    NAV STATUS
    ======================================== */
 .nav-status {
-    border: 1px dashed var(--ascii-border);
-    padding: 8px;
-    text-align: center;
-    margin: 10px 0;
-    background: var(--ascii-input-bg);
+    border: none;
+    padding: 10px 0;
+    margin: 15px 0;
+    background: transparent;
+    text-align: left;
 }
 
 .nav-status::before {
-    content: '| ';
+    content: none;
 }
 
 .nav-status::after {
-    content: ' |';
+    content: none;
 }
 
 /* ========================================
-   BUTTONS
+   BOTONES
    ======================================== */
 .button-container {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin: 15px 0;
-    padding: 10px 0;
-    border-top: 1px dashed var(--ascii-border);
-    border-bottom: 1px dashed var(--ascii-border);
+    padding: 0;
+    border: none;
 }
 
 .btn, .btn-postear, .btn-volver {
-    background: var(--ascii-bg);
-    color: var(--ascii-link);
-    border: 1px solid var(--ascii-border);
-    padding: 5px 15px;
+    background: var(--pulso-bg);
+    color: var(--pulso-link);
+    border: none;
+    padding: 5px 10px;
     font-family: 'Courier New', monospace;
-    font-size: 13px;
+    font-size: 14px;
     cursor: pointer;
+    text-decoration: underline;
     text-transform: uppercase;
-    transition: all 0.1s;
 }
 
 .btn:hover, .btn-postear:hover, .btn-volver:hover {
-    background: var(--ascii-input-bg);
-    color: var(--ascii-text);
-}
-
-.btn:active, .btn-postear:active, .btn-volver:active {
-    background: var(--ascii-border);
+    background: var(--pulso-bg);
+    color: var(--pulso-text);
+    filter: brightness(1.2);
 }
 
 .btn::before, .btn-postear::before, .btn-volver::before {
-    content: '[ ';
+    content: '';
 }
 
 .btn::after, .btn-postear::after, .btn-volver::after {
-    content: ' ]';
-}
-
-/* Hide theme button on mobile */
-@media (max-width: 768px) {
-    #btn-tema {
-        display: none;
-    }
+    content: '';
 }
 
 /* ========================================
@@ -190,246 +182,260 @@ header {
    ======================================== */
 .search-box {
     width: 100%;
-    background: var(--ascii-input-bg);
-    border: 1px solid var(--ascii-border);
+    background: var(--pulso-input-bg);
+    border: 1px solid var(--pulso-border);
     padding: 8px;
     font-family: 'Courier New', monospace;
-    font-size: 13px;
-    color: var(--ascii-text);
-    margin: 10px 0;
+    font-size: 14px;
+    color: var(--pulso-text);
+    margin: 15px 0;
 }
 
 .search-box::placeholder {
-    color: var(--ascii-gray);
+    color: var(--pulso-gray);
+}
+
+/* Sección BUSCAR */
+.search-box::before {
+    content: '--------------------------------------------------------------------------------\A| BUSCAR\A--------------------------------------------------------------------------------';
+    white-space: pre;
+    display: block;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
 .search-info {
-    color: var(--ascii-gray);
-    font-size: 12px;
+    color: var(--pulso-gray);
+    font-size: 14px;
     margin-top: 5px;
 }
 
-.search-info::before {
-    content: '| ';
-}
-
 /* ========================================
-   MANUAL BOX
+   MANUAL
    ======================================== */
 #manual-box {
-    border: 1px solid var(--ascii-border);
-    padding: 15px;
+    border: none;
+    padding: 15px 0;
     margin: 15px 0;
-    background: var(--ascii-input-bg);
+    background: transparent;
     white-space: pre-wrap;
 }
 
 #manual-box::before {
-    content: '------------------------------------------------------------\A';
-    white-space: pre;
-    color: var(--ascii-border);
+    content: '--------------------------------------------------------------------------------';
+    display: block;
+    margin-bottom: 10px;
 }
 
 #manual-box::after {
-    content: '\A------------------------------------------------------------';
+    content: '\A--------------------------------------------------------------------------------';
     white-space: pre;
-    color: var(--ascii-border);
+    display: block;
+    margin-top: 10px;
 }
 
 /* ========================================
-   EDITOR SECTION
+   EDITOR
    ======================================== */
 .editor-section {
     margin: 20px 0;
-    border: 1px dashed var(--ascii-border);
-    padding: 15px;
+    padding: 0;
+    border: none;
 }
 
 textarea, .password-input {
     width: 100%;
-    background: var(--ascii-input-bg);
-    border: 1px solid var(--ascii-border);
+    background: var(--pulso-input-bg);
+    border: 1px solid var(--pulso-border);
     padding: 10px;
     font-family: 'Courier New', monospace;
-    font-size: 13px;
-    color: var(--ascii-text);
+    font-size: 14px;
+    color: var(--pulso-text);
     resize: vertical;
+    min-height: 100px;
 }
 
 textarea::placeholder, .password-input::placeholder {
-    color: var(--ascii-gray);
+    color: var(--pulso-gray);
 }
 
 .contador {
-    color: var(--ascii-gray);
-    font-size: 11px;
-    text-align: right;
+    color: var(--pulso-gray);
+    font-size: 12px;
+    text-align: left;
     margin-top: 5px;
 }
 
 .checkbox-label {
-    color: var(--ascii-text);
+    color: var(--pulso-text);
     cursor: pointer;
+    font-size: 14px;
 }
 
 .oculto-section {
-    border-top: 1px dashed var(--ascii-border);
+    border: none;
+    border-top: 1px dashed var(--pulso-border);
     padding-top: 15px;
     margin-top: 15px;
 }
 
 .password-label {
-    color: var(--ascii-gray);
-    font-size: 12px;
+    color: var(--pulso-gray);
+    font-size: 14px;
     margin-bottom: 5px;
 }
 
 .password-hint {
-    color: var(--ascii-gray);
-    font-size: 11px;
+    color: var(--pulso-gray);
+    font-size: 12px;
     margin-top: 5px;
 }
 
-.password-hint::before {
-    content: '| ';
+/* ========================================
+   TIMELINE - | LINEA DE TIEMPO
+   ======================================== */
+#timeline::before {
+    content: '--------------------------------------------------------------------------------\A| LINEA DE TIEMPO\A--------------------------------------------------------------------------------';
+    white-space: pre;
+    display: block;
+    margin: 20px 0 15px 0;
+    font-weight: bold;
 }
 
 /* ========================================
-   POSTS - ASCII STYLE
+   POSTS - Estilo PULSO
    ======================================== */
-#timeline {
-    margin-top: 20px;
-}
-
 .post {
-    border: 1px solid var(--ascii-border);
-    padding: 15px;
-    margin-bottom: 15px;
-    background: var(--ascii-bg);
+    border: none;
+    border-top: 1px dashed var(--pulso-border);
+    border-bottom: 1px dashed var(--pulso-border);
+    padding: 15px 0;
+    margin: 15px 0;
+    background: transparent;
     display: block;
 }
 
 .post::before {
-    content: '------------------------------------------------------------';
-    display: block;
-    color: var(--ascii-border);
-    margin-bottom: 10px;
+    content: none;
 }
 
 .post::after {
-    content: '------------------------------------------------------------';
-    display: block;
-    color: var(--ascii-border);
-    margin-top: 10px;
+    content: none;
 }
 
-/* Avatar - Simple initials without circle */
+/* Avatar - Solo iniciales con pipe */
 .avatar {
-    display: inline-block;
+    display: inline !important;
     width: auto !important;
     height: auto !important;
     background: none !important;
-    color: var(--ascii-text) !important;
-    font-weight: bold;
-    font-size: 14px;
+    color: var(--pulso-text) !important;
+    font-weight: bold !important;
+    font-size: 14px !important;
     border: none !important;
     border-radius: 0 !important;
     box-shadow: none !important;
     padding: 0 !important;
-    margin-right: 5px;
+    margin: 0 !important;
 }
 
 .avatar::before {
-    content: '| ';
-    color: var(--ascii-gray);
+    content: '';
 }
 
 .avatar::after {
-    content: ' |';
-    color: var(--ascii-gray);
+    content: ' | ';
+    color: var(--pulso-text);
+    font-weight: normal;
 }
 
-/* Post metadata */
+/* Post body layout */
+.post {
+    display: block !important;
+}
+
+.post-body {
+    display: block !important;
+}
+
+/* Metadata en una línea */
 .marca-tag {
-    display: inline;
-    color: var(--ascii-text) !important;
-    font-weight: bold;
-    font-size: 13px;
+    display: inline !important;
+    color: var(--pulso-text) !important;
+    font-weight: bold !important;
+    font-size: 14px !important;
 }
 
 .fecha-tag {
-    display: inline;
-    color: var(--ascii-gray);
-    font-size: 12px;
-    margin-left: 10px;
+    display: inline !important;
+    color: var(--pulso-gray) !important;
+    font-size: 14px !important;
+    margin-left: 0 !important;
 }
 
 .fecha-tag::before {
     content: 'Creación: ';
 }
 
-/* Post content */
+/* Contenido del post con pipe */
 .post-body > div[style*="white-space"] {
     margin-top: 10px !important;
     padding-left: 20px !important;
-    border-left: 2px solid var(--ascii-border) !important;
-    color: var(--ascii-text) !important;
-    font-size: 13px !important;
+    border-left: 2px solid var(--pulso-border) !important;
+    color: var(--pulso-text) !important;
+    font-size: 14px !important;
     line-height: 1.5 !important;
+    white-space: pre-wrap !important;
 }
 
 .post-body > div[style*="white-space"]::before {
     content: '| ';
-    color: var(--ascii-gray);
+    color: var(--pulso-gray);
     margin-left: -15px;
 }
 
-/* Links in posts */
+/* Links en posts */
 .post-body a {
-    color: var(--ascii-link);
+    color: var(--pulso-link);
     text-decoration: underline;
 }
 
 /* Hashtags */
 .post-body span[style*="color"] {
-    color: var(--ascii-link) !important;
-    font-weight: bold;
+    color: var(--pulso-link) !important;
+    font-weight: bold !important;
 }
 
 /* ========================================
-   SEMILLA BOX - ASCII STYLE
+   SEMILLA BOX
    ======================================== */
 .semilla-box {
     margin-top: 15px;
-    border: 1px dashed var(--ascii-border);
+    border: 1px solid var(--pulso-border);
     padding: 10px;
     display: flex;
-    gap: 5px;
-    background: var(--ascii-input-bg);
-}
-
-.semilla-box::before {
-    content: '| SEMILLA:';
-    position: absolute;
-    margin-top: -25px;
-    color: var(--ascii-gray);
-    font-size: 11px;
+    gap: 10px;
+    background: var(--pulso-input-bg);
 }
 
 .semilla-input {
     flex: 1;
-    background: var(--ascii-bg);
-    border: 1px solid var(--ascii-border);
+    background: var(--pulso-bg);
+    border: 1px solid var(--pulso-border);
     padding: 5px;
     font-family: 'Courier New', monospace;
-    font-size: 12px;
-    color: var(--ascii-text);
+    font-size: 14px;
+    color: var(--pulso-text);
+}
+
+.semilla-input::placeholder {
+    color: var(--pulso-gray);
 }
 
 .semilla-btn {
-    background: var(--ascii-bg);
-    border: 1px solid var(--ascii-border);
-    color: var(--ascii-link);
+    background: var(--pulso-bg);
+    border: 1px solid var(--pulso-border);
+    color: var(--pulso-text);
     padding: 5px 15px;
     cursor: pointer;
     font-family: 'Courier New', monospace;
@@ -437,55 +443,70 @@ textarea::placeholder, .password-input::placeholder {
 }
 
 .semilla-btn:hover {
-    background: var(--ascii-input-bg);
+    background: var(--pulso-gray);
+    color: var(--pulso-bg);
 }
 
 /* ========================================
    MENSAJE OCULTO
    ======================================== */
 .mensaje-oculto {
-    border: 1px solid var(--ascii-border);
-    background: var(--ascii-input-bg);
+    border: 1px solid var(--pulso-border);
+    background: var(--pulso-input-bg);
     padding: 10px;
     margin-top: 10px;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.5;
+    white-space: pre-wrap;
 }
 
 .mensaje-oculto::before {
     content: '| MENSAJE DESCIFRADO:\A';
     white-space: pre;
-    color: var(--ascii-gray);
-    font-size: 11px;
+    color: var(--pulso-gray);
+    font-size: 12px;
+    display: block;
+    margin-bottom: 10px;
 }
 
 .mensaje-error {
     color: #cc0000;
-    font-size: 12px;
+    font-size: 14px;
     margin-top: 5px;
 }
 
 .mensaje-error::before {
     content: '| ERROR: ';
-    color: var(--ascii-gray);
 }
 
 /* ========================================
-   SUBSCRIPTION CARD COLORS - REMOVED
+   BOTÓN PULSAR
    ======================================== */
-.post:nth-child(3n+1),
-.post:nth-child(3n+2),
-.post:nth-child(3n) {
-    background: var(--ascii-bg);
+.bottom-actions {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 15px;
+}
+
+.btn-postear {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.btn-postear::before {
+    content: '';
 }
 
 /* ========================================
    MOBILE RESPONSIVE
    ======================================== */
 @media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
     .container {
         padding: 10px;
-        border: none;
     }
 
     .button-container {
@@ -494,40 +515,20 @@ textarea::placeholder, .password-input::placeholder {
 
     .btn, .btn-postear, .btn-volver {
         width: 100%;
-    }
-
-    .post-body > div[style*="white-space"] {
-        padding-left: 10px;
+        text-align: left;
     }
 }
 
 /* ========================================
-   DARK MODE ADJUSTMENTS
-   ======================================== */
-body.modo-noche {
-    background: var(--ascii-bg);
-}
-
-body.modo-noche .container {
-    border-color: var(--ascii-border);
-}
-
-body.modo-noche .btn,
-body.modo-noche .btn-postear,
-body.modo-noche .btn-volver {
-    background: var(--ascii-bg);
-    border-color: var(--ascii-border);
-}
-
-body.modo-noche .btn:hover,
-body.modo-noche .btn-postear:hover,
-body.modo-noche .btn-volver:hover {
-    background: var(--ascii-input-bg);
-}
-
-/* ========================================
-   HIDDEN UTILITIES
+   UTILITIES
    ======================================== */
 .hidden {
     display: none !important;
+}
+
+/* Eliminar colores de suscripción */
+.post:nth-child(3n+1),
+.post:nth-child(3n+2),
+.post:nth-child(3n) {
+    background: transparent;
 }
