@@ -1,88 +1,533 @@
 /* ============================================
-   ASCII.CSS - VERSIÓN REFORZADA (ESTILO 2025)
+   ASCII.CSS - Terminal/ASCII Art Theme
+   Inspired by retro BBS and text-based interfaces
    ============================================ */
 
 :root {
-    --ascii-bg: #ffffff !important;
-    --ascii-text: #000000 !important;
-    --ascii-link: #0000ee !important;
-    --ascii-gray: #555555 !important;
-    --ascii-border: #000000 !important;
+    --ascii-bg: #ffffff;
+    --ascii-text: #000000;
+    --ascii-link: #0000ee;
+    --ascii-gray: #808080;
+    --ascii-border: #cccccc;
+    --ascii-input-bg: #f5f5f5;
 }
 
-/* Forzar fondo blanco y quitar estilos previos */
-body, html {
-    background-color: var(--ascii-bg) !important;
-    color: var(--ascii-text) !important;
-    font-family: 'Courier New', Courier, monospace !important;
+body.modo-noche {
+    --ascii-bg: #1a1a1a;
+    --ascii-text: #00ff00;
+    --ascii-link: #00ffff;
+    --ascii-gray: #808080;
+    --ascii-border: #333333;
+    --ascii-input-bg: #0a0a0a;
 }
 
-/* ELIMINAR LAS BARRAS DE COLORES (Azul, Verde, Violeta) */
-.post, 
-.post:nth-child(3n+1), 
-.post:nth-child(3n+2), 
-.post:nth-child(3n) {
-    background: none !important;
-    background-color: transparent !important;
-    border: none !important;
-    margin-bottom: 0 !important;
-    padding: 10px 0 !important;
+/* ========================================
+   GLOBAL STYLES
+   ======================================== */
+body {
+    background: var(--ascii-bg);
+    color: var(--ascii-text);
+    font-family: 'Courier New', 'Courier', monospace;
+    font-size: 14px;
+    line-height: 1.4;
 }
 
-/* Línea de guiones superior del post (estilo 2025) */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid var(--ascii-border);
+    background: var(--ascii-bg);
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+header {
+    border-bottom: 1px dashed var(--ascii-border);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.header-profile {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.header-profile img {
+    display: none; /* Hide logo in ASCII theme */
+}
+
+.brand-line {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--ascii-text);
+    text-transform: uppercase;
+}
+
+.brand-line::before {
+    content: '| ';
+}
+
+.brand-line::after {
+    content: ' |';
+}
+
+.sub-brand {
+    font-size: 12px;
+    color: var(--ascii-gray);
+    margin-top: 5px;
+}
+
+.sub-brand::before {
+    content: '------------------------------------------------------------\A';
+    white-space: pre;
+    color: var(--ascii-border);
+}
+
+.sub-brand::after {
+    content: '\A------------------------------------------------------------';
+    white-space: pre;
+    color: var(--ascii-border);
+}
+
+/* ========================================
+   ALERT BOX
+   ======================================== */
+.alerta-box {
+    border: 1px solid var(--ascii-border);
+    padding: 10px;
+    margin: 10px 0;
+    background: var(--ascii-input-bg);
+    position: relative;
+}
+
+.alerta-box::before {
+    content: '|';
+    position: absolute;
+    left: 5px;
+    color: var(--ascii-gray);
+}
+
+.alerta-box::after {
+    content: '|';
+    position: absolute;
+    right: 5px;
+    color: var(--ascii-gray);
+}
+
+/* ========================================
+   NAV STATUS
+   ======================================== */
+.nav-status {
+    border: 1px dashed var(--ascii-border);
+    padding: 8px;
+    text-align: center;
+    margin: 10px 0;
+    background: var(--ascii-input-bg);
+}
+
+.nav-status::before {
+    content: '| ';
+}
+
+.nav-status::after {
+    content: ' |';
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+    padding: 10px 0;
+    border-top: 1px dashed var(--ascii-border);
+    border-bottom: 1px dashed var(--ascii-border);
+}
+
+.btn, .btn-postear, .btn-volver {
+    background: var(--ascii-bg);
+    color: var(--ascii-link);
+    border: 1px solid var(--ascii-border);
+    padding: 5px 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.1s;
+}
+
+.btn:hover, .btn-postear:hover, .btn-volver:hover {
+    background: var(--ascii-input-bg);
+    color: var(--ascii-text);
+}
+
+.btn:active, .btn-postear:active, .btn-volver:active {
+    background: var(--ascii-border);
+}
+
+.btn::before, .btn-postear::before, .btn-volver::before {
+    content: '[ ';
+}
+
+.btn::after, .btn-postear::after, .btn-volver::after {
+    content: ' ]';
+}
+
+/* Hide theme button on mobile */
+@media (max-width: 768px) {
+    #btn-tema {
+        display: none;
+    }
+}
+
+/* ========================================
+   SEARCH
+   ======================================== */
+.search-box {
+    width: 100%;
+    background: var(--ascii-input-bg);
+    border: 1px solid var(--ascii-border);
+    padding: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: var(--ascii-text);
+    margin: 10px 0;
+}
+
+.search-box::placeholder {
+    color: var(--ascii-gray);
+}
+
+.search-info {
+    color: var(--ascii-gray);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.search-info::before {
+    content: '| ';
+}
+
+/* ========================================
+   MANUAL BOX
+   ======================================== */
+#manual-box {
+    border: 1px solid var(--ascii-border);
+    padding: 15px;
+    margin: 15px 0;
+    background: var(--ascii-input-bg);
+    white-space: pre-wrap;
+}
+
+#manual-box::before {
+    content: '------------------------------------------------------------\A';
+    white-space: pre;
+    color: var(--ascii-border);
+}
+
+#manual-box::after {
+    content: '\A------------------------------------------------------------';
+    white-space: pre;
+    color: var(--ascii-border);
+}
+
+/* ========================================
+   EDITOR SECTION
+   ======================================== */
+.editor-section {
+    margin: 20px 0;
+    border: 1px dashed var(--ascii-border);
+    padding: 15px;
+}
+
+textarea, .password-input {
+    width: 100%;
+    background: var(--ascii-input-bg);
+    border: 1px solid var(--ascii-border);
+    padding: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: var(--ascii-text);
+    resize: vertical;
+}
+
+textarea::placeholder, .password-input::placeholder {
+    color: var(--ascii-gray);
+}
+
+.contador {
+    color: var(--ascii-gray);
+    font-size: 11px;
+    text-align: right;
+    margin-top: 5px;
+}
+
+.checkbox-label {
+    color: var(--ascii-text);
+    cursor: pointer;
+}
+
+.oculto-section {
+    border-top: 1px dashed var(--ascii-border);
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.password-label {
+    color: var(--ascii-gray);
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.password-hint {
+    color: var(--ascii-gray);
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+.password-hint::before {
+    content: '| ';
+}
+
+/* ========================================
+   POSTS - ASCII STYLE
+   ======================================== */
+#timeline {
+    margin-top: 20px;
+}
+
+.post {
+    border: 1px solid var(--ascii-border);
+    padding: 15px;
+    margin-bottom: 15px;
+    background: var(--ascii-bg);
+    display: block;
+}
+
 .post::before {
-    content: "--------------------------------------------------------------------------------" !important;
-    color: var(--ascii-gray) !important;
-    display: block !important;
-    margin-bottom: 10px !important;
-    white-space: pre !important;
+    content: '------------------------------------------------------------';
+    display: block;
+    color: var(--ascii-border);
+    margin-bottom: 10px;
 }
 
-/* Metadata: Iniciales en rojo y nombre de usuario */
+.post::after {
+    content: '------------------------------------------------------------';
+    display: block;
+    color: var(--ascii-border);
+    margin-top: 10px;
+}
+
+/* Avatar - Simple initials without circle */
 .avatar {
-    color: #cc0000 !important;
-    font-weight: bold !important;
+    display: inline-block;
+    width: auto !important;
+    height: auto !important;
     background: none !important;
+    color: var(--ascii-text) !important;
+    font-weight: bold;
+    font-size: 14px;
     border: none !important;
-    display: inline !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
     padding: 0 !important;
+    margin-right: 5px;
+}
+
+.avatar::before {
+    content: '| ';
+    color: var(--ascii-gray);
 }
 
 .avatar::after {
-    content: " | " !important;
-    color: var(--ascii-text) !important;
+    content: ' |';
+    color: var(--ascii-gray);
 }
 
+/* Post metadata */
 .marca-tag {
-    font-weight: bold !important;
+    display: inline;
     color: var(--ascii-text) !important;
+    font-weight: bold;
+    font-size: 13px;
 }
 
-/* El cuerpo del mensaje con la barra vertical lateral */
-.post-body {
-    border-left: 1px solid var(--ascii-text) !important;
-    margin-left: 5px !important;
-    padding-left: 15px !important;
-    margin-top: 5px !important;
+.fecha-tag {
+    display: inline;
+    color: var(--ascii-gray);
+    font-size: 12px;
+    margin-left: 10px;
 }
 
-/* Reset de inputs para que parezcan terminal */
-textarea, .search-box, .password-input {
-    width: 100% !important;
-    border: 1px solid var(--ascii-gray) !important;
-    background-color: #fff !important;
-    font-family: monospace !important;
-    color: #000 !important;
+.fecha-tag::before {
+    content: 'Creación: ';
 }
 
-/* Botones como links (Menú superior) */
-.btn, .btn-postear, .btn-volver {
-    background: none !important;
-    border: none !important;
+/* Post content */
+.post-body > div[style*="white-space"] {
+    margin-top: 10px !important;
+    padding-left: 20px !important;
+    border-left: 2px solid var(--ascii-border) !important;
+    color: var(--ascii-text) !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+}
+
+.post-body > div[style*="white-space"]::before {
+    content: '| ';
+    color: var(--ascii-gray);
+    margin-left: -15px;
+}
+
+/* Links in posts */
+.post-body a {
+    color: var(--ascii-link);
+    text-decoration: underline;
+}
+
+/* Hashtags */
+.post-body span[style*="color"] {
     color: var(--ascii-link) !important;
-    text-decoration: underline !important;
-    text-transform: uppercase !important;
-    padding: 0 5px !important;
+    font-weight: bold;
 }
 
-.btn::before, .btn::after { content: "" !important; }
+/* ========================================
+   SEMILLA BOX - ASCII STYLE
+   ======================================== */
+.semilla-box {
+    margin-top: 15px;
+    border: 1px dashed var(--ascii-border);
+    padding: 10px;
+    display: flex;
+    gap: 5px;
+    background: var(--ascii-input-bg);
+}
+
+.semilla-box::before {
+    content: '| SEMILLA:';
+    position: absolute;
+    margin-top: -25px;
+    color: var(--ascii-gray);
+    font-size: 11px;
+}
+
+.semilla-input {
+    flex: 1;
+    background: var(--ascii-bg);
+    border: 1px solid var(--ascii-border);
+    padding: 5px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--ascii-text);
+}
+
+.semilla-btn {
+    background: var(--ascii-bg);
+    border: 1px solid var(--ascii-border);
+    color: var(--ascii-link);
+    padding: 5px 15px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+
+.semilla-btn:hover {
+    background: var(--ascii-input-bg);
+}
+
+/* ========================================
+   MENSAJE OCULTO
+   ======================================== */
+.mensaje-oculto {
+    border: 1px solid var(--ascii-border);
+    background: var(--ascii-input-bg);
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.mensaje-oculto::before {
+    content: '| MENSAJE DESCIFRADO:\A';
+    white-space: pre;
+    color: var(--ascii-gray);
+    font-size: 11px;
+}
+
+.mensaje-error {
+    color: #cc0000;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.mensaje-error::before {
+    content: '| ERROR: ';
+    color: var(--ascii-gray);
+}
+
+/* ========================================
+   SUBSCRIPTION CARD COLORS - REMOVED
+   ======================================== */
+.post:nth-child(3n+1),
+.post:nth-child(3n+2),
+.post:nth-child(3n) {
+    background: var(--ascii-bg);
+}
+
+/* ========================================
+   MOBILE RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+        border: none;
+    }
+
+    .button-container {
+        flex-direction: column;
+    }
+
+    .btn, .btn-postear, .btn-volver {
+        width: 100%;
+    }
+
+    .post-body > div[style*="white-space"] {
+        padding-left: 10px;
+    }
+}
+
+/* ========================================
+   DARK MODE ADJUSTMENTS
+   ======================================== */
+body.modo-noche {
+    background: var(--ascii-bg);
+}
+
+body.modo-noche .container {
+    border-color: var(--ascii-border);
+}
+
+body.modo-noche .btn,
+body.modo-noche .btn-postear,
+body.modo-noche .btn-volver {
+    background: var(--ascii-bg);
+    border-color: var(--ascii-border);
+}
+
+body.modo-noche .btn:hover,
+body.modo-noche .btn-postear:hover,
+body.modo-noche .btn-volver:hover {
+    background: var(--ascii-input-bg);
+}
+
+/* ========================================
+   HIDDEN UTILITIES
+   ======================================== */
+.hidden {
+    display: none !important;
+}
