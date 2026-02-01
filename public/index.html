@@ -309,13 +309,22 @@
         const postDiv = document.createElement('div');
         postDiv.className = 'post';
         
+        // Escapar HTML primero para seguridad
         let htmlContent = post.contenido
-            .replace(/<([^<>:]+?):(https?:\/\/[^<>]+?)>/g, '<a href="$2" target="_blank">$1</a>')
-            .replace(/<([^<>:]+?):([^<>]+?)>/g, '<a href="http://$2" target="_blank">$1</a>')
+            // Links con https:// o http://
+            .replace(/<([^<>]+?):(https?:\/\/[^<>\s]+)>/g, '<a href="$2" target="_blank">$1</a>')
+            // Links sin protocolo (solo www. o dominio)
+            .replace(/<([^<>]+?):(?!\/\/)([^<>\s]+)>/g, '<a href="http://$2" target="_blank">$1</a>')
+            // Etiquetas formato palabra.numero.palabra.numero
             .replace(/\b([a-z]+\.\d+\.[a-z]+\.\d+)\b/gi, '<span style="color: #2e7d32; font-weight: bold;">$1</span>')
+            // Negritas
             .replace(/\*([^\*]+)\*/g, '<b>$1</b>')
+            // Itálicas
             .replace(/_(.*?)_/g, '<i>$1</i>')
-            .replace(/#(\w+)/g, '<span style="color: #d32f2f; font-weight: bold;">#$1</span>');
+            // Hashtags
+            .replace(/#(\w+)/g, '<span style="color: #d32f2f; font-weight: bold;">#$1</span>')
+            // Saltos de línea
+            .replace(/\n/g, '<br>');
 
         const idAv = 'av-' + Math.random().toString(36).substring(7);
         const idSemilla = 'semilla-' + Math.random().toString(36).substring(7);
