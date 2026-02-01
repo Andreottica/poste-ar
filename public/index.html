@@ -141,7 +141,7 @@
     let buscando = false;
     let timeoutBusqueda = null;
     
-    let temas = ['default', 'retro', 'minimo', 'ascii']; // Lista de temas disponibles
+    let temas = ['default', 'retro']; // Lista de temas disponibles
     let temaActual = localStorage.getItem('tema') || 'default';
     let modoOscuro = localStorage.getItem('modo') === 'noche';
 
@@ -309,29 +309,11 @@
         const postDiv = document.createElement('div');
         postDiv.className = 'post';
         
-        // Procesar contenido en orden específico para evitar interferencias
-        let htmlContent = post.contenido;
-        
-        // 1. PRIMERO: Links (porque usan < >)
-        htmlContent = htmlContent
-            .replace(/<([^<>]+?):(https?:\/\/[^<>\s]+)>/g, '<a href="$2" target="_blank">$1</a>')
-            .replace(/<([^<>]+?):(?!\/\/)([^<>\s]+)>/g, '<a href="http://$2" target="_blank">$1</a>');
-        
-        // 2. SEGUNDO: Etiquetas (antes de que otros regex creen contenido con puntos)
-        htmlContent = htmlContent
-            .replace(/\b([a-z]+\.\d+\.[a-z]+\.\d+)\b/gi, '<span style="color: #2e7d32; font-weight: bold;">$1</span>');
-        
-        // 3. TERCERO: Formato de texto
-        htmlContent = htmlContent
+        let htmlContent = post.contenido
+            .replace(/<(.*?):(.*?)>/g, '<a href="http://$2" target="_blank">$1</a>')
             .replace(/\*([^\*]+)\*/g, '<b>$1</b>')
-            .replace(/_(.*?)_/g, '<i>$1</i>');
-        
-        // 4. CUARTO: Hashtags
-        htmlContent = htmlContent
+            .replace(/_(.*?)_/g, '<i>$1</i>')
             .replace(/#(\w+)/g, '<span style="color: #d32f2f; font-weight: bold;">#$1</span>');
-        
-        // 5. ÚLTIMO: Saltos de línea
-        htmlContent = htmlContent.replace(/\n/g, '<br>');
 
         const idAv = 'av-' + Math.random().toString(36).substring(7);
         const idSemilla = 'semilla-' + Math.random().toString(36).substring(7);
