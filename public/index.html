@@ -310,11 +310,11 @@
         postDiv.className = 'post';
         
         let htmlContent = post.contenido
-            .replace(/<([^:]+?):(https?:\/\/[^>]+?)>/g, '<a href="$2" target="_blank">$1</a>')
-            .replace(/<([^:]+?):([^>]+?)>/g, '<a href="http://$2" target="_blank">$1</a>')
+            .replace(/<([^<>:]+?):(https?:\/\/[^<>]+?)>/g, '<a href="$2" target="_blank">$1</a>')
+            .replace(/<([^<>:]+?):([^<>]+?)>/g, '<a href="http://$2" target="_blank">$1</a>')
+            .replace(/\b([a-z]+\.\d+\.[a-z]+\.\d+)\b/gi, '<span style="color: #2e7d32; font-weight: bold;">$1</span>')
             .replace(/\*([^\*]+)\*/g, '<b>$1</b>')
             .replace(/_(.*?)_/g, '<i>$1</i>')
-            .replace(/\b([a-z]+\.\d+\.[a-z]+\.\d+)\b/gi, '<span style="color: #2e7d32; font-weight: bold;">$1</span>')
             .replace(/#(\w+)/g, '<span style="color: #d32f2f; font-weight: bold;">#$1</span>');
 
         const idAv = 'av-' + Math.random().toString(36).substring(7);
