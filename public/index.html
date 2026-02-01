@@ -141,7 +141,7 @@
     let buscando = false;
     let timeoutBusqueda = null;
     
-    let temas = ['default', 'retro']; // Lista de temas disponibles
+    let temas = ['default', 'retro', 'minimo', 'ascii']; // Lista de temas disponibles
     let temaActual = localStorage.getItem('tema') || 'default';
     let modoOscuro = localStorage.getItem('modo') === 'noche';
 
@@ -309,11 +309,30 @@
         const postDiv = document.createElement('div');
         postDiv.className = 'post';
         
-        let htmlContent = post.contenido
-            .replace(/<(.*?):(.*?)>/g, '<a href="http://$2" target="_blank">$1</a>')
+        // Procesar contenido en orden específico para evitar interferencias
+        let htmlContent = post.contenido;
+        
+        // 1. PRIMERO: Links con protocolo (https:// o http://)
+        // Captura TODO hasta el cierre > (permitiendo ?, &, =, /, etc.)
+        htmlContent = htmlContent
+            .replace(/<([^<>]+?):(https?:\/\/[^<>]+?)>/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+        
+        // 2. SEGUNDO: Links sin protocolo (www.ejemplo.com o ejemplo.com)
+        // Captura hasta el cierre > pero sin espacios
+        htmlContent = htmlContent
+            .replace(/<([^<>]+?):(?!\/\/)([^<>\s]+)>/g, '<a href="http://$2" target="_blank" rel="noopener noreferrer">$1</a>');
+        
+        // 3. TERCERO: Formato de texto
+        htmlContent = htmlContent
             .replace(/\*([^\*]+)\*/g, '<b>$1</b>')
-            .replace(/_(.*?)_/g, '<i>$1</i>')
+            .replace(/_(.*?)_/g, '<i>$1</i>');
+        
+        // 4. CUARTO: Hashtags
+        htmlContent = htmlContent
             .replace(/#(\w+)/g, '<span style="color: #d32f2f; font-weight: bold;">#$1</span>');
+        
+        // 5. ÚLTIMO: Saltos de línea
+        htmlContent = htmlContent.replace(/\n/g, '<br>');
 
         const idAv = 'av-' + Math.random().toString(36).substring(7);
         const idSemilla = 'semilla-' + Math.random().toString(36).substring(7);
