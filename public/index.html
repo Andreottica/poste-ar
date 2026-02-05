@@ -71,7 +71,7 @@
         
         .hidden { display: none !important; }
         
-        .mensaje-oculto-item { border-left: 2px solid; padding-left: 8px; margin-top: 8px; padding-top: 6px; padding-bottom: 6px; }
+        .mensaje-oculto-item { border-left: 11px solid; padding-left: 8px; margin-top: 8px; padding-top: 6px; padding-bottom: 6px; }
         .mensaje-oculto-item:not(:last-child) { border-bottom: 1px solid rgba(128, 128, 128, 0.15); padding-bottom: 8px; }
         .mensaje-oculto-etiqueta { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
         .mensaje-oculto-texto { font-size: 14px; line-height: 1.4; }
@@ -254,7 +254,7 @@
             return;
         }
         
-        if(checkboxOculto && textoOculto && !password) {
+        if(textoOculto && !password) {
             alert("⚠️ Falta password para el mensaje oculto");
             return;
         }
