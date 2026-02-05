@@ -70,6 +70,11 @@
         .bottom-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 10px; }
         
         .hidden { display: none !important; }
+        
+        .mensaje-oculto-item { border-left: 2px solid; padding-left: 8px; margin-top: 8px; padding-top: 6px; padding-bottom: 6px; }
+        .mensaje-oculto-item:not(:last-child) { border-bottom: 1px solid rgba(128, 128, 128, 0.15); padding-bottom: 8px; }
+        .mensaje-oculto-etiqueta { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+        .mensaje-oculto-texto { font-size: 14px; line-height: 1.4; }
     </style>
 </head>
 <body>
@@ -140,8 +145,9 @@
     let miColor = "";
     let buscando = false;
     let timeoutBusqueda = null;
+    let todosLosPosts = [];
     
-    let temas = ['default', 'retro']; // Lista de temas disponibles
+    let temas = ['default', 'retro', 'minimo', 'ascii']; // Lista de temas disponibles
     let temaActual = localStorage.getItem('tema') || 'default';
     let modoOscuro = localStorage.getItem('modo') === 'noche';
 
@@ -292,6 +298,7 @@
         try {
             const res = await fetch('/api/posts');
             const posts = await res.json();
+            todosLosPosts = posts;
             mostrarPosts(posts);
         } catch(e) {
             console.error('Error cargando posts:', e);
@@ -308,6 +315,12 @@
         const timeline = document.getElementById('timeline');
         const postDiv = document.createElement('div');
         postDiv.className = 'post';
+        postDiv.setAttribute('data-post-id', post.id || Math.random());
+        postDiv.setAttribute('data-etiqueta', post.etiqueta);
+        postDiv.setAttribute('data-color', post.color);
+        if(post.contenido_oculto) {
+            postDiv.setAttribute('data-contenido-oculto', post.contenido_oculto);
+        }
         
         // Procesar contenido en orden específico para evitar interferencias
         let htmlContent = post.contenido;
@@ -346,8 +359,8 @@
                 <div class="fecha-tag">${fechaFormateada}</div>
                 <div style="white-space: pre-wrap; font-size: 15px;">${htmlContent}</div>
                 <div class="semilla-box">
-                    <input type="text" class="semilla-input" id="${idSemilla}" placeholder="semilla..." onkeypress="if(event.key==='Enter') descifrarMensaje('${idSemilla}', '${idOculto}', '${post.contenido_oculto || ''}')">
-                    <button class="semilla-btn" onclick="descifrarMensaje('${idSemilla}', '${idOculto}', '${post.contenido_oculto || ''}')">→</button>
+                    <input type="text" class="semilla-input" id="${idSemilla}" placeholder="semilla..." onkeypress="if(event.key==='Enter') descifrarMensaje('${idSemilla}', '${idOculto}')">
+                    <button class="semilla-btn" onclick="descifrarMensaje('${idSemilla}', '${idOculto}')">→</button>
                 </div>
                 <div id="${idOculto}"></div>
             </div>
@@ -356,29 +369,54 @@
         generateAvatarFromMarca(idAv, post.etiqueta, post.color);
     }
 
-    function descifrarMensaje(idSemilla, idOculto, contenidoCifrado) {
+    function descifrarMensaje(idSemilla, idOculto) {
         const inputSemilla = document.getElementById(idSemilla);
         const divOculto = document.getElementById(idOculto);
         const semilla = inputSemilla.value.trim();
         
         if(!semilla) return;
-        if(!contenidoCifrado) {
-            divOculto.innerHTML = '';
+        
+        const mensajesDescifrados = [];
+        
+        todosLosPosts.forEach(post => {
+            if(!post.contenido_oculto) return;
+            
+            try {
+                const bytes = CryptoJS.AES.decrypt(post.contenido_oculto, semilla);
+                const textoDescifrado = bytes.toString(CryptoJS.enc.Utf8);
+                
+                if(textoDescifrado) {
+                    mensajesDescifrados.push({
+                        etiqueta: post.etiqueta,
+                        color: post.color,
+                        texto: textoDescifrado,
+                        fecha: post.fecha
+                    });
+                }
+            } catch(e) {
+                // Silencioso - no todos los posts usan la misma semilla
+            }
+        });
+        
+        if(mensajesDescifrados.length === 0) {
+            divOculto.innerHTML = '<div class="mensaje-error">Password incorrecto</div>';
             return;
         }
         
-        try {
-            const bytes = CryptoJS.AES.decrypt(contenidoCifrado, semilla);
-            const textoDescifrado = bytes.toString(CryptoJS.enc.Utf8);
-            
-            if(textoDescifrado) {
-                divOculto.innerHTML = `<div class="mensaje-oculto">${textoDescifrado}</div>`;
-            } else {
-                divOculto.innerHTML = '<div class="mensaje-error">Password incorrecto</div>';
-            }
-        } catch(e) {
-            divOculto.innerHTML = '<div class="mensaje-error">Password incorrecto</div>';
-        }
+        // Ordenar por fecha
+        mensajesDescifrados.sort((a, b) => a.fecha - b.fecha);
+        
+        // Renderizar todos los mensajes
+        let html = '<div class="mensaje-oculto">';
+        mensajesDescifrados.forEach(msg => {
+            html += `<div class="mensaje-oculto-item" style="border-left-color: ${msg.color}">`;
+            html += `<div class="mensaje-oculto-etiqueta" style="color: ${msg.color}">${msg.etiqueta}</div>`;
+            html += `<div class="mensaje-oculto-texto">${msg.texto}</div>`;
+            html += `</div>`;
+        });
+        html += '</div>';
+        
+        divOculto.innerHTML = html;
     }
 
     function buscarConDelay() {
@@ -406,6 +444,7 @@
             const res = await fetch(`/api/buscar?q=${encodeURIComponent(query)}`);
             const resultados = await res.json();
             
+            todosLosPosts = resultados;
             mostrarPosts(resultados);
             
             if(resultados.length === 0) {
