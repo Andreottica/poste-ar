@@ -1,195 +1,236 @@
-INTRODUCCIÓN
-============
+POSTE.AR - MANUAL DE USO
+========================
 
-Poste.ar es una red social anónima y efímera donde podés publicar dos tipos de mensajes:
-
-MENSAJES PÚBLICOS: visibles para todos en el timeline.
-
-MENSAJES OCULTOS: cifrados con criptografía de nivel bancario (AES-256).
-Solo pueden leerlos quienes conozcan el password. Cada mensaje tiene su propia contraseña, que cifra todo el contenido: aunque alguien accediera al texto, no podría entenderlo.
-
-El servidor NO guarda:
-- Direcciones IP
-- Ningún tipo de dato personal (no hay usuarios)
-- Passwords (se generan en el navegador)
-
-El servidor solo almacena mensajes públicos y textos cifrados.
-Los mensajes ocultos son incomprensibles porque permanecen cifrados de forma criptográfica.
-
-Todos los mensajes se borran automáticamente cada lunes a las 00:00 hs.
-
-Sin registro. Sin identidad permanente. Sin rastros digitales.
-Comunicación pública anónima y mensajes ocultos, totalmente encriptados.
-
-A diferencia de las redes y chats tradicionales, donde se cifra solo el tránsito del mensaje y las plataformas pueden acceder al contenido por requerimientos legales, en poste.ar el mensaje se cifra directamente en el navegador con sus propias librerías criptográficas.
-Solo el usuario conoce el password. El servidor y poste.ar no pueden acceder al contenido.
+Red social anónima y efímera. Sin usuarios, sin IPs, sin rastros.
+Todo se borra cada lunes a las 00:00 hs.
 
 
-CÓMO USAR POSTE.AR
-==================
+CÓMO PUBLICAR
+=============
 
-PUBLICAR UN MENSAJE
--------------------
-1. Escribí tu mensaje en el cuadro "Mensaje público" (máximo 576 caracteres)
-2. Presioná [ postear ]
-3. Tu mensaje aparece en el timeline con tu etiqueta temporal
-
-TU ETIQUETA
------------
-Es tu identificador anónimo temporal durante esta sesión.
-Formato: nana.12.yija.87 (sílabas + números)
-
-Mientras no cierres la página o presiones [ reetiquetar ],
-todos tus mensajes llevarán la misma etiqueta.
-
-Esto permite:
-- Mantener conversaciones sin revelar identidad
-- Que otros reconozcan tus aportes en un mismo tema
-- Abandonar la identidad cuando quieras con un click
-
-REETIQUETAR
------------
-Presioná [ reetiquetar ] para cambiar tu etiqueta y comenzar
-una nueva identidad anónima. Tu etiqueta siempre es única e irrepetible.
-
-FORMATO DE TEXTO
-----------------
-*texto*              → texto en negrita
-_texto_              → texto en cursiva
-<nombre:url.com>     → crear enlace clickeable
-#hashtag             → etiqueta en los mensajes, ejemplo: #examen 
-
-Ejemplo:
-Esto es *importante* y _urgente_.
-Más información: <aquí:ejemplo.com>
-
-BUSCAR MENSAJES
+MENSAJE PÚBLICO
 ---------------
-El buscador encuentra mensajes en toda la base de datos,
-no solo los 50 más recientes visibles.
-
-Escribí en "Buscar..." lo que necesites encontrar:
-- Una palabra: "documentos"
-- Varias palabras (deben estar todas): "documentos, firmados"
-- Números: "23" → encuentra en fecha, hora, etiqueta, contenido
-- Frases: "reunión mañana"
-
-La búsqueda NO distingue mayúsculas de minúsculas.
-
-Ejemplo de búsqueda múltiple:
-"papeles, Argentina" → muestra solo mensajes que tengan
-AMBAS palabras (no uno u otro, sino los dos términos).
-
-ACTUALIZAR
-----------
-Presioná [ actualizar ] para ver mensajes nuevos publicados
-por otros usuarios sin necesidad de recargar la página (F5).
+1. Escribí tu mensaje (máximo 576 caracteres)
+2. Presioná [ postear ]
+3. Aparece en el timeline con tu etiqueta temporal
 
 MENSAJE OCULTO CIFRADO
-----------------------
-Podés agregar un mensaje secreto que solo puedan leer
-quienes conozcan la contraseña (semilla).
+-----------------------
+Para agregar un mensaje secreto a tu publicación:
 
-Cómo funcionar:
-1. Marcá la casilla "Agregar mensaje oculto cifrado"
+1. Activá "Agregar mensaje oculto cifrado"
 2. Escribí tu mensaje secreto (máximo 288 caracteres)
 3. Escribí una contraseña en "Password"
+   Ejemplo: "perro mesa luz" (3-5 palabras es óptimo)
 4. Presioná [ postear ]
 
-El mensaje público se verá normalmente.
-El mensaje oculto aparece cifrado (ilegible).
+El mensaje público se ve normalmente.
+El mensaje oculto queda cifrado (ilegible para todos).
 
-DESCIFRAR MENSAJES OCULTOS
----------------------------
+MENSAJES INVISIBLES
+--------------------
+Podés postear SOLO mensaje oculto (sin parte pública):
+
+1. Activá "Agregar mensaje oculto cifrado"
+2. Dejá VACÍO el campo "Mensaje público"
+3. Escribí solo en "Mensaje oculto" + password
+4. Presioná [ postear ]
+
+→ No aparece nada en el timeline público
+→ Solo existe para quien conozca la semilla
+→ Completamente invisible para el resto
+
+
+LEER MENSAJES OCULTOS
+======================
+
+DESCIFRAR UN MENSAJE
+--------------------
 Todos los mensajes tienen un campo "semilla..." al pie.
 
 Si conocés la contraseña de un mensaje oculto:
 1. Escribí la contraseña en el campo "semilla..."
 2. Presioná Enter o el botón →
-3. Si la contraseña es correcta, aparece el mensaje oculto
-   con fondo gris claro
+3. Si es correcta: aparece el mensaje (fondo gris claro)
 4. Si es incorrecta: "Password incorrecto"
 
 IMPORTANTE: No hay forma de saber qué mensajes tienen
-contenido oculto y cuáles no. Todos se ven iguales.
+contenido oculto. Todos se ven iguales.
 Solo quien conozca la semilla puede descubrirlo.
+
+CONVERSACIONES SECRETAS GRUPALES
+---------------------------------
+Cuando varias personas usan la MISMA semilla, se crea
+un "canal secreto" invisible.
+
+Ejemplo:
+- Ana postea mensaje oculto con semilla "gato verde luna"
+- Carlos postea mensaje oculto con semilla "gato verde luna"
+- María postea mensaje oculto con semilla "gato verde luna"
+
+Cuando alguien ingresa "gato verde luna" en cualquier post:
+→ Se descifran TODOS los mensajes con esa semilla
+→ Aparecen juntos, en orden cronológico
+→ Cada uno con su etiqueta de color y barra lateral
+
+Esto permite:
+- Conversaciones grupales cifradas
+- Canales secretos por tema
+- Hilos invisibles dentro del timeline público
+
+Podés mezclar mensajes públicos + ocultos:
+- Post público visible para todos
+- Post oculto solo para el grupo secreto
+- Post 100% invisible (solo oculto)
 
 CONTRASEÑAS (SEMILLAS)
 ----------------------
-Podés usar entre 1 y 12 palabras como contraseña.
+Podés usar entre 1 y 12 palabras.
 
 Ejemplos:
-- 1 palabra: "perro" (menos seguro)
-- 3 palabras: "perro tiza golf" (seguro)
-- 12 palabras: "perro tiza golf maria luna casa..." (muy seguro)
-
-Cuantas más palabras uses, más difícil será descifrar
-el mensaje sin conocer la contraseña exacta.
+- "perro" (poco seguro)
+- "perro tiza golf" (seguro)
+- "perro tiza golf maria luna casa..." (muy seguro)
 
 Recomendación: 3-5 palabras fáciles de recordar.
+Más palabras = más seguridad.
+
+
+TU IDENTIDAD TEMPORAL
+=====================
+
+ETIQUETA
+--------
+Tu identificador anónimo temporal durante esta sesión.
+Formato: nana.12.yija.87 (sílabas + números)
+
+Mientras no cierres la página o presiones [ reetiquetar ],
+todos tus mensajes llevan la misma etiqueta.
+
+Permite:
+- Mantener conversaciones sin revelar identidad
+- Que otros reconozcan tus aportes
+- Abandonar la identidad cuando quieras (un click)
+
+REETIQUETAR
+-----------
+Presioná [ reetiquetar ] para cambiar tu etiqueta.
+Tu nueva etiqueta es única e irrepetible.
 
 AVATAR
 ------
 El cuadrado de colores con dos letras es tu avatar automático.
-Se genera a partir de tu etiqueta y es único.
+Se genera a partir de tu etiqueta.
 
-Ayuda a reconocer visualmente tus mensajes en el timeline
-sin necesidad de leer la etiqueta completa cada vez.
+Ayuda a reconocer visualmente tus mensajes sin leer
+la etiqueta completa cada vez.
 
 
-ARQUITECTURA Y FUNCIONAMIENTO
-==============================
+HERRAMIENTAS
+============
 
-PERSISTENCIA
-------------
-Todos los mensajes se borran automáticamente cada lunes
-a las 00:00 hs (hora del usuario que postea).
+FORMATO DE TEXTO
+----------------
+*texto*              → negrita
+_texto_              → cursiva
+<nombre:url.com>     → enlace clickeable
+#hashtag             → etiqueta destacada
 
-No importa si un mensaje tiene 5 minutos o 6 días:
-al llegar el lunes, el timeline completo se vacía.
+Ejemplo:
+Esto es *importante* y _urgente_.
+Más info: <aquí:ejemplo.com> #documentos
 
-El sitio muestra un contador con los días y horas restantes
-hasta la próxima purga.
-
-ANONIMATO
----------
-Poste.ar NO registra:
-- Direcciones IP
-- Ubicación geográfica
-- Datos del navegador
-- Cookies de rastreo
-- Historial de navegación
-
-No hay usuarios, no hay cuentas, no hay login.
-Solo existe tu etiqueta temporal, única e irrepetible, que desaparece al cerrar
-el navegador o al presionar [ reetiquetar ].
-
-INFRAESTRUCTURA
+BUSCAR MENSAJES
 ---------------
-El sistema funciona con dos servidores independientes:
+El buscador encuentra mensajes en toda la base de datos,
+no solo los 50 más recientes del timeline.
 
-1. SERVIDOR WEB
-   - Aloja la interfaz (lo que ves en pantalla)
-   - Procesa búsquedas
-   - Coordina la purga semanal
+- Una palabra: "documentos"
+- Varias palabras: "documentos, firmados" (deben estar AMBAS)
+- Números: "23" (busca en fecha, hora, etiqueta, contenido)
+- No distingue mayúsculas/minúsculas
 
-2. SERVIDOR DE BASE DE DATOS
-   - Almacena los mensajes públicos (texto plano)
-   - Almacena los mensajes ocultos (cifrados)
-   - NO almacena contraseñas ni claves de descifrado
+ACTUALIZAR
+----------
+Presioná [ actualizar ] para ver mensajes nuevos sin recargar (F5).
 
-Esta separación mejora la seguridad y el rendimiento.
+TEMAS Y MODO NOCHE
+------------------
+[ tema ] → Cambia el estilo visual (default, retro, mínimo, ascii)
+[ día/noche ] → Alterna entre modo claro y oscuro
 
-CIFRADO LOCAL
+
+USOS PRÁCTICOS
+==============
+
+FIRMAR MENSAJES
+---------------
+Público: "Vendo bici rodado 26, buen estado"
+Oculto: "Contacto: Juan - Tel: 1234-5678"
+Semilla: "bici26venta"
+→ Solo quien conozca la semilla ve tus datos
+
+COORDINAR REUNIONES
+-------------------
+Público: "Reunión grupal miércoles 18hs"
+Oculto: "Lugar: Café Central, Mitre y Sarmiento"
+Semilla: "reunion2026"
+→ Anuncio público, detalles privados
+
+CANAL SECRETO DE ESTUDIO
+-------------------------
+Ana: Oculto "Resumen capítulo 3: fotosíntesis es..."
+Carlos: Oculto "Agregando: fórmula química C6H12O6"
+María: Oculto "Ejercicio 5 resuelto: A) verdadero..."
+Semilla compartida: "biologia examen"
+→ Timeline público normal, conversación de estudio invisible
+
+INFORMACIÓN SENSIBLE
+--------------------
+Público: "Disponible info sobre trámites"
+Oculto: "DNI, partida nacimiento, comprobante domicilio..."
+Semilla: (acordada previamente)
+→ Lista completa solo para interesados
+
+JUEGO DE ADIVINANZAS
+---------------------
+Público: "Animal de cuatro patas, ladra y es fiel"
+Oculto: "¡Correcto! La respuesta era: perro"
+Semilla: "perro"
+→ Solo quien adivine puede descifrar la confirmación
+
+COMUNICACIÓN PRIVADA EN PÚBLICO
+--------------------------------
+Ana: Público "Sobre lo que hablamos..."
+     Oculto "Confirmo, traigo los documentos mañana"
+Carlos: Público "Entendido"
+        Oculto "Perfecto, nos vemos 15hs en el lugar"
+Semilla compartida: "proyecto2026"
+→ Para observadores: conversación genérica
+→ Para ustedes: comunicación cifrada completa
+
+
+SEGURIDAD Y PRIVACIDAD
+======================
+
+CIFRADO AES-256
+---------------
+Mismo estándar que:
+- Bancos para transacciones online
+- Apps de mensajería segura (Signal, WhatsApp)
+- Gobiernos para datos clasificados
+
+Con 3-4 palabras: romper el cifrado requiere años
+de procesamiento con supercomputadoras.
+
+Con 12 palabras: prácticamente imposible (siglos).
+
+CÓMO FUNCIONA
 -------------
-Cuando creás un mensaje oculto, el cifrado ocurre
-en TU computadora (localhost), NO en el servidor.
-
-Proceso:
-1. Escribís mensaje + contraseña en tu navegador
-2. Tu navegador cifra el mensaje (AES-256)
-3. Se envía al servidor solo la versión cifrada
-4. El servidor guarda el texto ilegible
+1. Escribís mensaje + contraseña en TU navegador
+2. TU navegador cifra el mensaje (AES-256)
+3. Se envía al servidor SOLO la versión cifrada
+4. El servidor guarda texto ilegible
 
 El servidor NUNCA ve:
 - Tu contraseña
@@ -197,88 +238,63 @@ El servidor NUNCA ve:
 
 Solo vos y quienes conozcan la contraseña pueden leerlo.
 
+QUÉ NO GUARDAMOS
+----------------
+- Contraseñas de mensajes ocultos
+- Direcciones IP
+- Datos del navegador
+- Cookies de rastreo
+- Ubicación geográfica
+- Historial de búsquedas
+- Identidad de usuarios (no hay usuarios)
 
-SEGURIDAD Y ENCRIPTACIÓN
-========================
+QUÉ SÍ GUARDAMOS
+----------------
+- Mensajes públicos (texto plano)
+- Mensajes ocultos (cifrados, ilegibles)
+- Etiqueta temporal del mensaje
+- Fecha y hora de publicación
+- Color del avatar (generado automáticamente)
 
-NIVEL DE SEGURIDAD
-------------------
-Poste.ar usa cifrado AES-256, el mismo estándar que:
-- Bancos para transacciones online
-- Aplicaciones de mensajería segura
-- Gobiernos para datos clasificados
+TODO SE BORRA CADA LUNES 00:00 HS
+----------------------------------
+No importa si un mensaje tiene 5 minutos o 6 días:
+al llegar el lunes, el timeline completo se vacía.
 
-Con una contraseña de 3-4 palabras, romper el cifrado
-requeriría años de procesamiento con supercomputadoras.
+Máximo de vida: 7 días.
 
-Con 12 palabras, es prácticamente imposible (siglos).
+El sitio muestra un contador con tiempo restante
+hasta la próxima purga.
 
-POR QUÉ ES SEGURO
------------------
-1. CIFRADO EN ORIGEN
-   - El mensaje se cifra en tu computadora
-   - Nunca viaja sin cifrar por internet
-   - El servidor solo guarda basura ilegible
 
-2. SIN CLAVES CENTRALES
-   - No hay "llave maestra" que descifre todo
-   - Cada mensaje tiene su propia contraseña única
-   - Si olvidás la contraseña, el mensaje se pierde para siempre
+LÍMITES TÉCNICOS
+================
 
-3. SIN REGISTRO DE USUARIOS
-   - No hay bases de datos con contraseñas que hackear
-   - No hay cuentas que comprometer
-   - No hay historiales que rastrear
+CARACTERES
+----------
+- Mensaje público: 576 caracteres máximo
+- Mensaje oculto: 288 caracteres máximo
+- Contraseña: ilimitada (pero 1-12 palabras es óptimo)
 
-4. EFÍMERO POR DISEÑO
-   - Aunque alguien descargue toda la base de datos,
-     en 7 días máximo toda esa información desaparece
-   - No hay archivo permanente que atacar
+CAPACIDAD
+---------
+Base de datos: ~10000 mensajes aprox.
+Si se llena antes del lunes, los mensajes más antiguos
+se eliminan automáticamente.
 
-USOS DEL MENSAJE OCULTO
-------------------------
+SIN EDICIÓN
+-----------
+No se pueden editar ni borrar mensajes una vez publicados.
+Solo desaparecen:
+- El lunes 00:00hs (purga semanal)
+- Si la base se llena (se borran los más viejos)
 
-FIRMAR MENSAJES
-Texto público: "Vendo bici rodado 26, buen estado"
-Texto oculto: "Contacto: Juan - Tel: 1234-5678"
-Uso: Solo quien conozca la semilla ve tus datos de contacto.
-
-COORDINAR REUNIONES
-Texto público: "Reunióngrupal miércoles 18hs"
-Texto oculto: "Lugar: Café Central, esquina Mitre y Sarmiento"
-Uso: Anuncio público, detalles privados.
-
-COMPARTIR INFORMACIÓN SENSIBLE
-Texto público: "Disponible info sobre trámites"
-Texto oculto: "Documentación necesaria: DNI, partida, comprobante..."
-Uso: Lista completa solo para interesados con la clave.
-
-JUEGOS DE ADIVINANZAS
-Texto público: "Animal de cuatro patas, ladra y es fiel"
-Texto oculto: "¡Correcto! La respuesta era: perro"
-Semilla: "perro"
-Uso: Solo quien adivine la respuesta puede descifrar la confirmación.
-
-CADENAS DE MENSAJES
-Mensaje 1 (público): "Primer acertijo: siempre corre pero nunca camina"
-Mensaje 1 (oculto): "Respuesta: río. Buscá mensaje con etiqueta nana.45.yija.12"
-Semilla 1: "rio"
-
-Mensaje 2 (público en nana.45.yija.12): "Segundo nivel desbloqueado"
-Mensaje 2 (oculto): "Último desafío: sin fuego da calor, sin boca habla"
-Semilla 2: "rio"
-
-Mensaje 3 (público): "Final del juego"
-Mensaje 3 (oculto): "¡Ganaste! Felicitaciones"
-Semilla 3: "sol"
-
-Uso: Crear experiencias interactivas de múltiples niveles.
-
-COMUNICACIÓN ENTRE DOS PERSONAS
-Texto público: "Respuesta para quien preguntó por libros"
-Texto oculto: "Tengo el que pediste, paso mañana a las 15hs"
-Semilla: (acordada previamente en privado)
-Uso: Conversación pública en apariencia, privada en realidad.
+SIN MULTIMEDIA
+--------------
+Solo texto. No se aceptan:
+- Imágenes
+- Videos
+- Archivos adjuntos
 
 
 FILOSOFÍA DEL PROYECTO
@@ -288,19 +304,14 @@ FILOSOFÍA DEL PROYECTO
 --------------------------
 Porque no todo necesita ser permanente.
 Porque el anonimato puede ser liberador.
-Porque a veces queremos comunicarnos sin dejar rastro digital.
+Porque a veces queremos comunicarnos sin dejar rastro.
 
-Este es un experimento sobre comunicación efímera,
-inspirado en los tablones de anuncios del barrio
-y en la idea de que lo fugaz tiene su propio valor.
+Experimento sobre comunicación efímera, inspirado en
+los tablones de anuncios del barrio: alguien pega un aviso,
+alguien lo lee, la lluvia lo borra.
 
-En un mundo donde todo se registra, se archiva y se vende,
-Poste.ar es un espacio que se borra solo.
-
-Como los carteles en postes de la calle:
-- Alguien pega un aviso
-- Alguien lo lee
-- La lluvia lo borra
+En un mundo donde todo se registra, archiva y vende,
+poste.ar es un espacio que se borra solo.
 
 No hay algoritmos. No hay perfiles. No hay permanencia.
 Solo comunicación, aquí y ahora.
@@ -311,11 +322,11 @@ TECNOLOGÍA
 
 CÓDIGO ABIERTO
 --------------
-El código completo de Poste.ar es público y auditable.
-Cualquiera puede verificar cómo funciona el sistema,
-revisar la seguridad o crear su propia versión.
+El código completo es público y auditable.
+Cualquiera puede verificar cómo funciona, revisar
+la seguridad o crear su propia versión.
 
-Presioná [ download source ] para más información.
+Presioná [ source ] para acceder al repositorio.
 
 STACK TÉCNICO
 -------------
@@ -323,94 +334,48 @@ STACK TÉCNICO
 - Backend: Node.js + Express
 - Base de datos: LibSQL (SQLite remoto)
 - Cifrado: CryptoJS (AES-256)
-- Hosting: Servidor cloud
+- Hosting: Cloud
 
-Todo minimalista, sin dependencias innecesarias.
+Minimalista. Sin dependencias innecesarias.
 
+INFRAESTRUCTURA
+---------------
+Dos servidores independientes:
 
-LÍMITES Y RESTRICCIONES
-=======================
+1. Servidor web: interfaz, búsquedas, purga semanal
+2. Servidor DB: almacena mensajes públicos y cifrados
 
-CAPACIDAD
----------
-La base de datos tiene capacidad limitada (1000 mensajes aprox).
-Si se llena antes del lunes, los mensajes más antiguos
-se eliminan automáticamente para dar espacio a los nuevos.
-
-CARACTERES
-----------
-- Mensaje público: 576 caracteres máximo
-- Mensaje oculto: 288 caracteres máximo
-- Contraseña: ilimitada, pero 1-12 palabras es óptimo
-
-SIN EDICIÓN
------------
-No se pueden editar ni borrar mensajes una vez publicados.
-Solo desaparecen cuando:
-- Llega el lunes 00:00hs (purga semanal)
-- La base de datos se llena (se borran los más viejos)
-
-SIN MULTIMEDIA
---------------
-Solo texto. No se pueden publicar:
-- Imágenes
-- Videos
-- Archivos adjuntos
-- Emojis (depende del navegador)
+Separación para mejor seguridad y rendimiento.
 
 
-PRIVACIDAD Y DATOS
-==================
+ADVERTENCIAS
+============
 
-QUÉ GUARDAMOS
--------------
-- Contenido de mensajes públicos (texto plano)
-- Contenido de mensajes ocultos (cifrado, ilegible)
-- Etiqueta temporal del mensaje
-- Fecha y hora de publicación
-- Color del avatar (generado automáticamente)
-
-QUÉ NO GUARDAMOS
-----------------
-- Contraseñas de mensajes ocultos
-- Direcciones IP
-- Datos de navegador
-- Cookies de rastreo
-- Ubicación geográfica
-- Historial de búsquedas
-- Identidad del usuario
-
-TIEMPO DE RETENCIÓN
---------------------
-Máximo 7 días. El lunes siguiente todo se borra.
-
-
-SOPORTE Y CONTACTO
-==================
-
-Este es un proyecto experimental sin fines de lucro.
-No hay equipo de soporte ni servicio al cliente.
-
-El sitio funciona "tal cual es" (as-is).
-
-Para reportar problemas técnicos graves o vulnerabilidades
-de seguridad, utilizá el sistema de búsqueda para encontrar
-información de contacto publicada por la comunidad.
-
-
-ADVERTENCIAS LEGALES
-====================
-
-- Usá Poste.ar bajo tu propia responsabilidad
+- Usá poste.ar bajo tu propia responsabilidad
 - No publiques contenido ilegal
 - No publiques información que viole privacidad de terceros
 - El anonimato no te protege de consecuencias legales
-- Los administradores NO son responsables del contenido publicado
+- Los administradores NO son responsables del contenido
 - Este servicio puede discontinuarse sin previo aviso
 
+Si olvidás una contraseña, el mensaje se pierde para SIEMPRE.
+No hay recuperación posible.
 
-Versión: 1.0
-Última actualización: Enero 2026
+
+SOPORTE
+=======
+
+Proyecto experimental sin fines de lucro.
+Sin equipo de soporte ni servicio al cliente.
+Funciona "tal cual es" (as-is).
+
+Para reportar problemas técnicos graves o vulnerabilidades,
+utilizá el buscador para encontrar información de contacto
+publicada por la comunidad.
+
+
+============================================
+Versión: 2.0
+Última actualización: Febrero 2026
 Ubicación: Ciudadela, Buenos Aires, Argentina
-
-==============================================
+============================================
