@@ -1,5 +1,5 @@
 /* ============================================
-   CLAUDE.CSS - MOBILE MODERN DESIGN
+   MOBILE.CSS - MOBILE MODERN DESIGN
    Inspired by: Contemporary subscription UIs,
    Card-based layouts, iOS design language
    ============================================ */
@@ -270,19 +270,19 @@ body.modo-noche {
     }
 
     /* ========================================
-       POSTS - CARD STYLE
+       POSTS - CARD STYLE (REDUCED PADDING/GAP)
        ======================================== */
     .post {
         background: var(--card-bg);
         border-radius: var(--radius-md);
-        padding: 18px;
+        padding: 12px;
         margin-bottom: 12px;
         box-shadow: var(--shadow-sm);
         border: none;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 8px;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
@@ -455,7 +455,7 @@ body.modo-noche {
         font-size: 14px;
         line-height: 1.5;
         color: #4a148c;
-        font-weight: 500;
+        font-weight: 400;
         box-shadow: var(--shadow-sm);
         border: 2px solid #ce93d8;
     }
@@ -659,5 +659,5 @@ body.modo-noche {
 }
 
 /* ============================================
-   END OF CLAUDE.CSS
+   END OF MOBILE.CSS
    ============================================ */
