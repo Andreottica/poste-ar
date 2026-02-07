@@ -155,6 +155,7 @@ body.modo-noche {
     /* All buttons same height and style - THINNER */
     .button-container .btn,
     .button-container .btn-postear,
+    .button-container .btn-salir,
     .button-container #btn-modo {
         width: 100% !important;
         min-height: 42px !important;
@@ -175,6 +176,7 @@ body.modo-noche {
     /* Active state for all buttons */
     .button-container .btn:active,
     .button-container .btn-postear:active,
+    .button-container .btn-salir:active,
     .button-container #btn-modo:active {
         transform: scale(0.96) !important;
         box-shadow: inset 0 2px 4px rgba(0,0,0,0.1) !important;
@@ -184,6 +186,7 @@ body.modo-noche {
     @media (hover: hover) {
         .button-container .btn:hover,
         .button-container .btn-postear:hover,
+        .button-container .btn-salir:hover,
         .button-container #btn-modo:hover {
             filter: brightness(0.95);
             box-shadow: var(--shadow-md) !important;
@@ -608,14 +611,21 @@ body.modo-noche {
         font-size: 13px;
         line-height: 1.6;
         color: var(--text-secondary);
-        opacity: 0.7;
+        background: rgba(0,0,0,0.03);
+        border: 1px solid rgba(0,0,0,0.08);
+        padding: 14px;
         margin-bottom: 12px;
+    }
+
+    body.modo-noche .login-hint {
+        background: rgba(255,255,255,0.03);
+        border-color: rgba(255,255,255,0.08);
     }
 
     .login-input {
         width: 100%;
         background: var(--card-bg);
-        border: 1px solid rgba(0,0,0,0.08);
+        border: 1px solid #d0d0d0;
         border-radius: 0;
         padding: 12px 14px;
         font-size: 15px;
@@ -630,16 +640,16 @@ body.modo-noche {
     }
 
     body.modo-noche .login-input {
-        border-color: rgba(255,255,255,0.08);
+        border-color: rgba(255,255,255,0.2);
     }
 
     .login-input:focus {
         outline: none;
-        border-color: rgba(0,0,0,0.08);
+        border-color: #d0d0d0;
     }
 
     body.modo-noche .login-input:focus {
-        border-color: rgba(255,255,255,0.08);
+        border-color: rgba(255,255,255,0.2);
     }
 
     /* ========================================
