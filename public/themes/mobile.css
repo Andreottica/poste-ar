@@ -654,6 +654,23 @@ body.modo-noche {
     }
 
     /* ========================================
+       USER INFO BAR
+       ======================================== */
+    .user-info-bar {
+        font-size: 14px;
+        color: var(--text-secondary);
+        padding: 12px 0;
+        margin: 16px 0;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    body.modo-noche .user-info-bar {
+        border-color: rgba(255,255,255,0.1);
+    }
+
+    /* ========================================
        HIDDEN SECTION
        ======================================== */
     .oculto-section {
