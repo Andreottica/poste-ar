@@ -4,81 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>poste.ar · ciudadela</title>
-    <meta name="description" content="Red social anónima con mensajes públicos y secretos criptografiados (AES-256). Sin usuarios, sin IPs, sin contraseñas guardadas. Todo se borra cada lunes. Cada mensaje oculto tiene su password único, si lo perdés, perdés el mensaje.">
+    <meta name="description" content="Red social anónima con identidad persistente. Sin registro, sin IPs, sin datos guardados. Todo se borra cada lunes.">
     <meta name="keywords" content="red social anónima, mensajes criptografiados, cifrado AES-256, comunicación anónima, poste.ar, Ciudadela">
     <meta name="author" content="poste.ar">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://poste.ar/">
     <meta property="og:title" content="poste.ar · ciudadela">
-    <meta property="og:description" content="Red social anónima con mensajes públicos y secretos criptografiados (AES-256). Sin usuarios, sin IPs, sin contraseñas guardadas. Todo se borra cada lunes. Cada mensaje oculto tiene su password único, si lo perdés, perdés el mensaje.">
-
-    <!-- Twitter -->
+    <meta property="og:description" content="Red social anónima con identidad persistente. Sin registro, sin IPs, sin datos guardados. Todo se borra cada lunes.">
     <meta property="twitter:card" content="summary">
     <meta property="twitter:url" content="https://poste.ar/">
     <meta property="twitter:title" content="poste.ar · ciudadela">
-    <meta property="twitter:description" content="Red social anónima con mensajes públicos y secretos criptografiados (AES-256). Sin usuarios, sin IPs, sin contraseñas guardadas. Todo se borra cada lunes. Cada mensaje oculto tiene su password único, si lo perdés, perdés el mensaje.">
-
+    <meta property="twitter:description" content="Red social anónima con identidad persistente. Sin registro, sin IPs, sin datos guardados. Todo se borra cada lunes.">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <link rel="stylesheet" id="theme-stylesheet" href="themes/default.css">
     <link rel="stylesheet" href="themes/mobile.css">
     <style>
-        /* Estilos base que no interfieren con mobile/theme CSS */
         .header-profile { display: flex; gap: 15px; align-items: flex-start; margin-bottom: 15px; }
         .header-profile img { width: 60px; height: 60px; flex-shrink: 0; }
         .header-profile-info { flex: 1; }
-        
         .button-container { display: flex; justify-content: space-between; gap: 10px; margin-top: 15px; }
         .button-group { display: flex; gap: 10px; }
-        
-        /* Hover effect for web version */
         @media (hover: hover) {
-            /* Soft gray hover for regular buttons */
             .btn:hover, .btn-volver:hover {
                 background: rgba(0, 0, 0, 0.05) !important;
                 transition: background 0.2s ease;
             }
-            
             body.modo-noche .btn:hover,
             body.modo-noche .btn-volver:hover {
                 background: rgba(255, 255, 255, 0.08) !important;
             }
-            
-            /* Postear button - brightness effect */
             .btn-postear:hover {
                 filter: brightness(1.1);
                 transition: filter 0.2s ease;
             }
-            
-            /* Dark mode: postear button turns soft gray */
             body.modo-noche .btn-postear:hover {
                 background: rgba(128, 128, 128, 0.3) !important;
                 filter: none;
             }
         }
-        
         .editor-section { margin-top: 20px; }
         .checkbox-label { cursor: pointer; font-size: 15px; }
         .checkbox-container { margin-top: 10px; }
-        
         .password-section { margin-top: 10px; }
         .password-label { font-size: 15px; color: var(--color-secundario); margin-bottom: 5px; }
         .password-hint { font-size: 13px; color: var(--color-terciario); margin-top: 5px; }
-        
         .bottom-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 10px; }
-        
         .hidden { display: none !important; }
-        
         .mensaje-oculto-item { border-left: 11px solid; padding-left: 8px; margin-top: 8px; padding-top: 6px; padding-bottom: 6px; }
         .mensaje-oculto-item:not(:last-child) { border-bottom: 1px solid rgba(128, 128, 128, 0.15); padding-bottom: 8px; }
         .mensaje-oculto-etiqueta { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
         .mensaje-oculto-texto { font-size: 14px; line-height: 1.4; }
+        .login-section { background: var(--color-fondo-suave); padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .login-input { width: 100%; padding: 12px; font-size: 15px; border: 2px solid var(--color-borde); border-radius: 6px; margin-bottom: 10px; }
+        .login-hint { font-size: 13px; color: var(--color-terciario); margin-bottom: 15px; line-height: 1.5; }
+        .user-display { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: var(--color-fondo-suave); border-radius: 6px; margin-bottom: 15px; }
+        .user-label { font-size: 14px; color: var(--color-secundario); font-weight: 600; }
     </style>
 </head>
 <body>
-
 <div class="container">
     <header>
         <div class="header-profile">
@@ -88,93 +72,86 @@
                 <div class="sub-brand">Sitio anónimo, efímero. Ciudadela, Buenos Aires, Argentina.</div>
             </div>
         </div>
-
         <div class="alerta-box" id="contador-reset">El timeline se borra todos los lunes: calculando...</div>
-
-        <div class="nav-status">
-            <span>Etiqueta: <b id="current-marca" style="color:var(--rastro-color)">...</b></span>
-        </div>
-
-        <div class="button-container">
-            <button class="btn" onclick="reetiquetar()">[ reetiquetar ]</button>
-            <button class="btn" onclick="toggleDiaNoche()" id="btn-modo">[ día ]</button>
-            <button class="btn" onclick="toggleManual()">[ manual ]</button>
-            <button class="btn" onclick="cambiarTema()" id="btn-tema">[ default ]</button>
-            <button class="btn" onclick="window.open('/source')">[ source ]</button>
-        </div>
-
-        <input type="text" class="search-box" id="search-input" placeholder="Buscar..." onkeyup="buscarConDelay()">
-        <div class="search-info" id="search-info"></div>
-        <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver ]</button>
-
-        <div id="manual-box"></div>
-        
-        <div class="editor-section">
-            <textarea id="editor" maxlength="576" placeholder="Mensaje público..."></textarea>
-            <div class="contador" id="char-count">576 caracteres restantes</div>
-            
-            <div class="checkbox-container">
-                <label class="checkbox-label">
-                    <input type="checkbox" id="checkbox-oculto" onchange="toggleOculto()"> Agregar mensaje oculto cifrado
-                </label>
+        <div id="login-section" class="login-section">
+            <div class="login-hint">
+                Ingresá tu identidad con 3-5 palabras (ej: perro mesa luz golf)<br>
+                El sistema genera tu usuario anónimo. Si recordás las palabras, recuperás tu identidad.
             </div>
-            
-            <div class="oculto-section" id="oculto-section">
-                <textarea id="editor-oculto" maxlength="288" placeholder="Mensaje oculto (288 caracteres)..."></textarea>
-                <div class="contador" id="char-count-oculto">288 caracteres restantes</div>
-                
-                <div class="password-section">
-                    <div class="password-label">Password (obligatorio):</div>
-                    <input type="text" id="password-input" placeholder="Ejemplo: perro tiza golf maria" class="password-input">
-                    <div class="password-hint">1-12 palabras. Más palabras = más seguridad.</div>
+            <input type="text" id="identity-input" class="login-input" placeholder="Ejemplo: perro mesa luz golf" onkeypress="if(event.key==='Enter') entrar()">
+            <button class="btn-postear" onclick="entrar()">[ entrar ]</button>
+        </div>
+        <div id="user-section" class="user-display hidden">
+            <div>
+                <span class="user-label">Usuario:</span>
+                <b id="current-user" style="color:var(--rastro-color); font-size: 16px; margin-left: 8px;">...</b>
+            </div>
+            <button class="btn" onclick="salir()">[ salir ]</button>
+        </div>
+        <div id="main-content" class="hidden">
+            <div class="button-container">
+                <button class="btn" onclick="toggleDiaNoche()" id="btn-modo">[ día ]</button>
+                <button class="btn" onclick="toggleManual()">[ manual ]</button>
+                <button class="btn" onclick="cambiarTema()" id="btn-tema">[ default ]</button>
+                <button class="btn" onclick="window.open('/source')">[ source ]</button>
+            </div>
+            <input type="text" class="search-box" id="search-input" placeholder="Buscar..." onkeyup="buscarConDelay()">
+            <div class="search-info" id="search-info"></div>
+            <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver ]</button>
+            <div id="manual-box"></div>
+            <div class="editor-section">
+                <textarea id="editor" maxlength="576" placeholder="Mensaje público..."></textarea>
+                <div class="contador" id="char-count">576 caracteres restantes</div>
+                <div class="checkbox-container">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="checkbox-oculto" onchange="toggleOculto()"> Agregar mensaje oculto cifrado
+                    </label>
                 </div>
-            </div>
-
-            <div class="button-container button-container-bottom">
-                <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
-                <button class="btn" onclick="actualizarPosts()">[ actualizar ]</button>
+                <div class="oculto-section" id="oculto-section">
+                    <textarea id="editor-oculto" maxlength="288" placeholder="Mensaje oculto (288 caracteres)..."></textarea>
+                    <div class="contador" id="char-count-oculto">288 caracteres restantes</div>
+                    <div class="password-section">
+                        <div class="password-label">Password (obligatorio):</div>
+                        <input type="text" id="password-input" placeholder="Ejemplo: perro tiza golf maria" class="password-input">
+                        <div class="password-hint">1-12 palabras. Más palabras = más seguridad.</div>
+                    </div>
+                </div>
+                <div class="button-container button-container-bottom">
+                    <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
+                    <button class="btn" onclick="actualizarPosts()">[ actualizar ]</button>
+                </div>
             </div>
         </div>
     </header>
-
     <div id="timeline"></div>
 </div>
-
 <script>
     let miMarca = "";
     let miColor = "";
     let buscando = false;
     let timeoutBusqueda = null;
     let todosLosPosts = [];
-    
-    let temas = ['default', 'retro']; // Lista de temas disponibles
+    let temas = ['default', 'retro', 'minimo', 'ascii'];
     let temaActual = localStorage.getItem('tema') || 'default';
     let modoOscuro = localStorage.getItem('modo') === 'noche';
-
-    // Función para cargar temas desde servidor (opcional, usa fallback si falla)
     async function cargarListaTemas() {
         try {
             const response = await fetch('/api/temas');
             if (response.ok) {
                 const temasDisponibles = await response.json();
-                // Filtrar para excluir mobile.css
                 const temasFiltrados = temasDisponibles.filter(t => t !== 'mobile');
                 if (temasFiltrados.length > 0) {
                     temas = temasFiltrados;
                 }
             }
         } catch(e) {
-            // Usar lista hardcodeada si no hay endpoint
             console.log('Usando lista de temas por defecto');
         }
-        
-        // Validar que el tema actual existe
         if (!temas.includes(temaActual)) {
             temaActual = 'default';
             localStorage.setItem('tema', temaActual);
         }
     }
-
     function cargarTema() {
         const link = document.getElementById('theme-stylesheet');
         link.href = `themes/${temaActual}.css`;
@@ -182,16 +159,16 @@
         if(btnTema) {
             btnTema.innerText = `[ ${temaActual} ]`;
         }
-        
         if(modoOscuro) {
             document.body.classList.add('modo-noche');
-            document.getElementById('btn-modo').innerText = '[ noche ]';
+            const btnModo = document.getElementById('btn-modo');
+            if(btnModo) btnModo.innerText = '[ noche ]';
         } else {
             document.body.classList.remove('modo-noche');
-            document.getElementById('btn-modo').innerText = '[ día ]';
+            const btnModo = document.getElementById('btn-modo');
+            if(btnModo) btnModo.innerText = '[ día ]';
         }
     }
-
     function cambiarTema() {
         const indiceActual = temas.indexOf(temaActual);
         const siguienteIndice = (indiceActual + 1) % temas.length;
@@ -199,26 +176,74 @@
         localStorage.setItem('tema', temaActual);
         cargarTema();
     }
-
     function toggleDiaNoche() {
         modoOscuro = !modoOscuro;
         localStorage.setItem('modo', modoOscuro ? 'noche' : 'dia');
         cargarTema();
     }
-
-    function generarNomenclador() {
+    function generarUsuarioDesdeIdentidad(identidad) {
+        const hash = CryptoJS.SHA256(identidad).toString();
         const silabas = ['ba','be','bi','bo','bu','ca','ce','ci','co','cu','da','de','di','do','du','fa','fe','fi','fo','fu','ga','ge','gi','go','gu','ja','je','ji','jo','ju','ka','ke','ki','ko','ku','la','le','li','lo','lu','ma','me','mi','mo','mu','na','ne','ni','no','nu','pa','pe','pi','po','pu','ra','re','ri','ro','ru','sa','se','si','so','su','ta','te','ti','to','tu','va','ve','vi','vo','vu','xa','xe','xi','xo','xu','ya','ye','yi','yo','yu','za','ze','zi','zo','zu'];
-        const s = () => silabas[Math.floor(Math.random() * silabas.length)];
-        const n = () => Math.floor(Math.random() * 90 + 10);
-        return `${s()}${s()}.${n()}.${s()}${s()}.${n()}`;
+        const idx1 = parseInt(hash.substring(0, 8), 16) % silabas.length;
+        const num1 = parseInt(hash.substring(8, 16), 16) % 90 + 10;
+        const idx2 = parseInt(hash.substring(16, 24), 16) % silabas.length;
+        const num2 = parseInt(hash.substring(24, 32), 16) % 90 + 10;
+        return `${silabas[idx1]}${silabas[idx2]}.${num1}.${silabas[(idx1+idx2)%silabas.length]}${silabas[(num1+num2)%silabas.length]}.${num2}`;
     }
-
+    function generarColorDesdeIdentidad(identidad) {
+        const hash = CryptoJS.SHA256(identidad).toString();
+        const hue = parseInt(hash.substring(0, 8), 16) % 360;
+        return `hsl(${hue}, 60%, 45%)`;
+    }
+    function entrar() {
+        const identidad = document.getElementById('identity-input').value.trim();
+        if(!identidad) {
+            alert('Ingresá al menos 3 palabras para crear tu identidad');
+            return;
+        }
+        const palabras = identidad.split(/\s+/);
+        if(palabras.length < 3 || palabras.length > 12) {
+            alert('Usá entre 3 y 12 palabras');
+            return;
+        }
+        sessionStorage.setItem('identidad', identidad);
+        miMarca = generarUsuarioDesdeIdentidad(identidad);
+        miColor = generarColorDesdeIdentidad(identidad);
+        document.documentElement.style.setProperty('--rastro-color', miColor);
+        document.getElementById('current-user').innerText = miMarca;
+        document.getElementById('login-section').classList.add('hidden');
+        document.getElementById('user-section').classList.remove('hidden');
+        document.getElementById('main-content').classList.remove('hidden');
+        cargarTimeline();
+    }
+    function salir() {
+        sessionStorage.removeItem('identidad');
+        miMarca = "";
+        miColor = "";
+        document.getElementById('login-section').classList.remove('hidden');
+        document.getElementById('user-section').classList.add('hidden');
+        document.getElementById('main-content').classList.add('hidden');
+        document.getElementById('identity-input').value = '';
+        document.getElementById('timeline').innerHTML = '';
+    }
+    function verificarSesion() {
+        const identidad = sessionStorage.getItem('identidad');
+        if(identidad) {
+            miMarca = generarUsuarioDesdeIdentidad(identidad);
+            miColor = generarColorDesdeIdentidad(identidad);
+            document.documentElement.style.setProperty('--rastro-color', miColor);
+            document.getElementById('current-user').innerText = miMarca;
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('user-section').classList.remove('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
+            cargarTimeline();
+        }
+    }
     function toggleOculto() {
         const checkbox = document.getElementById('checkbox-oculto');
         const section = document.getElementById('oculto-section');
         section.style.display = checkbox.checked ? 'block' : 'none';
     }
-
     function toggleManual() {
         const box = document.getElementById('manual-box');
         if(box.style.display === 'block') { box.style.display = 'none'; return; }
@@ -227,41 +252,26 @@
             box.style.display = 'block';
         });
     }
-
-    function reetiquetar() {
-        miMarca = generarNomenclador();
-        miColor = `hsl(${Math.floor(Math.random()*360)}, 60%, 45%)`;
-        document.documentElement.style.setProperty('--rastro-color', miColor);
-        document.getElementById('current-marca').innerText = miMarca;
-    }
-
     document.getElementById('editor').oninput = function() {
         document.getElementById('char-count').innerText = (576 - this.value.length) + " caracteres restantes";
     };
-
     document.getElementById('editor-oculto').oninput = function() {
         document.getElementById('char-count-oculto').innerText = (288 - this.value.length) + " caracteres restantes";
     };
-
     function validarYPostear() {
         const textoPublico = document.getElementById('editor').value;
-        const checkboxOculto = document.getElementById('checkbox-oculto').checked;
         const textoOculto = document.getElementById('editor-oculto').value;
         const password = document.getElementById('password-input').value.trim();
-        
         if(!textoPublico && !textoOculto) {
             alert("Escribe al menos un mensaje (público u oculto).");
             return;
         }
-        
         if(textoOculto && !password) {
             alert("⚠️ Falta password para el mensaje oculto");
             return;
         }
-        
         postear(textoPublico, textoOculto, password);
     }
-
     function formatearFecha(timestamp) {
         const fecha = new Date(timestamp);
         const dia = String(fecha.getDate()).padStart(2, '0');
@@ -271,7 +281,6 @@
         const min = String(fecha.getMinutes()).padStart(2, '0');
         return `${dia}-${mes} ${hora}:${min}hs`;
     }
-
     function calcularProximoLunes() {
         const ahora = new Date();
         const diaSemana = ahora.getDay();
@@ -281,19 +290,15 @@
         proximoLunes.setHours(0, 0, 0, 0);
         return proximoLunes;
     }
-
     function actualizarContadorReset() {
         const ahora = new Date();
         const proximoLunes = calcularProximoLunes();
         const diff = proximoLunes - ahora;
-        
         const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
         const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
         document.getElementById('contador-reset').innerText = `El timeline se borra todos los lunes: faltan ${dias}d ${horas}h ${minutos}m`;
     }
-
     async function cargarTimeline() {
         try {
             const res = await fetch('/api/posts');
@@ -304,13 +309,11 @@
             console.error('Error cargando posts:', e);
         }
     }
-
     function mostrarPosts(posts) {
         const timeline = document.getElementById('timeline');
         timeline.innerHTML = '';
         posts.forEach(post => mostrarPost(post));
     }
-
     function mostrarPost(post) {
         const timeline = document.getElementById('timeline');
         const postDiv = document.createElement('div');
@@ -321,37 +324,21 @@
         if(post.contenido_oculto) {
             postDiv.setAttribute('data-contenido-oculto', post.contenido_oculto);
         }
-        
-        // Procesar contenido en orden específico para evitar interferencias
         let htmlContent = post.contenido;
-        
-        // 1. PRIMERO: Links con protocolo (https:// o http://)
-        // Captura TODO hasta el cierre > (permitiendo ?, &, =, /, etc.)
         htmlContent = htmlContent
             .replace(/<([^<>]+?):(https?:\/\/[^<>]+?)>/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-        
-        // 2. SEGUNDO: Links sin protocolo (www.ejemplo.com o ejemplo.com)
-        // Captura hasta el cierre > pero sin espacios
         htmlContent = htmlContent
             .replace(/<([^<>]+?):(?!\/\/)([^<>\s]+)>/g, '<a href="http://$2" target="_blank" rel="noopener noreferrer">$1</a>');
-        
-        // 3. TERCERO: Formato de texto
         htmlContent = htmlContent
             .replace(/\*([^\*]+)\*/g, '<b>$1</b>')
             .replace(/_(.*?)_/g, '<i>$1</i>');
-        
-        // 4. CUARTO: Hashtags
         htmlContent = htmlContent
             .replace(/#(\w+)/g, '<span style="color: #d32f2f; font-weight: bold;">#$1</span>');
-        
-        // 5. ÚLTIMO: Saltos de línea
         htmlContent = htmlContent.replace(/\n/g, '<br>');
-
         const idAv = 'av-' + Math.random().toString(36).substring(7);
         const idSemilla = 'semilla-' + Math.random().toString(36).substring(7);
         const idOculto = 'oculto-' + Math.random().toString(36).substring(7);
         const fechaFormateada = formatearFecha(post.fecha);
-        
         postDiv.innerHTML = `
             <div class="avatar" id="${idAv}"></div>
             <div class="post-body">
@@ -368,23 +355,17 @@
         timeline.appendChild(postDiv);
         generateAvatarFromMarca(idAv, post.etiqueta, post.color);
     }
-
     function descifrarMensaje(idSemilla, idOculto) {
         const inputSemilla = document.getElementById(idSemilla);
         const divOculto = document.getElementById(idOculto);
         const semilla = inputSemilla.value.trim();
-        
         if(!semilla) return;
-        
         const mensajesDescifrados = [];
-        
         todosLosPosts.forEach(post => {
             if(!post.contenido_oculto) return;
-            
             try {
                 const bytes = CryptoJS.AES.decrypt(post.contenido_oculto, semilla);
                 const textoDescifrado = bytes.toString(CryptoJS.enc.Utf8);
-                
                 if(textoDescifrado) {
                     mensajesDescifrados.push({
                         etiqueta: post.etiqueta,
@@ -394,19 +375,13 @@
                     });
                 }
             } catch(e) {
-                // Silencioso - no todos los posts usan la misma semilla
             }
         });
-        
         if(mensajesDescifrados.length === 0) {
             divOculto.innerHTML = '<div class="mensaje-error">Password incorrecto</div>';
             return;
         }
-        
-        // Ordenar por fecha
         mensajesDescifrados.sort((a, b) => a.fecha - b.fecha);
-        
-        // Renderizar todos los mensajes
         let html = '<div class="mensaje-oculto">';
         mensajesDescifrados.forEach(msg => {
             html += `<div class="mensaje-oculto-item" style="border-left-color: ${msg.color}">`;
@@ -415,20 +390,16 @@
             html += `</div>`;
         });
         html += '</div>';
-        
         divOculto.innerHTML = html;
     }
-
     function buscarConDelay() {
         clearTimeout(timeoutBusqueda);
         timeoutBusqueda = setTimeout(buscar, 500);
     }
-
     async function buscar() {
         const query = document.getElementById('search-input').value.trim();
         const btnVolver = document.getElementById('btn-volver');
         const searchInfo = document.getElementById('search-info');
-        
         if(!query) {
             await cargarTimeline();
             btnVolver.classList.add('hidden');
@@ -436,17 +407,13 @@
             buscando = false;
             return;
         }
-
         buscando = true;
         btnVolver.classList.remove('hidden');
-
         try {
             const res = await fetch(`/api/buscar?q=${encodeURIComponent(query)}`);
             const resultados = await res.json();
-            
             todosLosPosts = resultados;
             mostrarPosts(resultados);
-            
             if(resultados.length === 0) {
                 searchInfo.innerText = 'No se encontraron resultados';
             } else {
@@ -457,7 +424,6 @@
             searchInfo.innerText = 'Error al buscar';
         }
     }
-
     function volverATodos() {
         document.getElementById('search-input').value = '';
         document.getElementById('search-info').innerText = '';
@@ -465,18 +431,14 @@
         cargarTimeline();
         buscando = false;
     }
-
     async function actualizarPosts() {
         await cargarTimeline();
     }
-
     async function postear(textoPublico, textoOculto, password) {
         let contenidoCifrado = null;
-        
         if(textoOculto && password) {
             contenidoCifrado = CryptoJS.AES.encrypt(textoOculto, password).toString();
         }
-        
         const payload = {
             etiqueta: miMarca,
             contenido: textoPublico,
@@ -484,14 +446,12 @@
             semilla: null,
             contenido_oculto: contenidoCifrado
         };
-        
         try {
             const res = await fetch('/api/postear', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload)
             });
-            
             if(res.ok) {
                 document.getElementById('editor').value = '';
                 document.getElementById('editor-oculto').value = '';
@@ -509,36 +469,28 @@
             alert('Error de conexión');
         }
     }
-
     function generateAvatarFromMarca(containerId, marca, colorPrincipal) {
         const container = document.getElementById(containerId);
         container.innerHTML = '';
-        
         const coloresFondo = [
             '#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', 
             '#1abc9c', '#e67e22', '#34495e', '#16a085', '#c0392b',
             '#2980b9', '#8e44ad'
         ];
-        
         let hash = 0;
         for(let i = 0; i < marca.length; i++) {
             hash = marca.charCodeAt(i) + ((hash << 5) - hash);
         }
-        
         const colorFondo = coloresFondo[Math.abs(hash) % coloresFondo.length];
-        
         const partes = marca.split('.');
         const letras = (partes[0].substring(0, 2) || 'XX').toUpperCase();
-        
         container.style.backgroundColor = colorFondo;
         container.innerText = letras;
     }
-
     window.onload = async () => {
         await cargarListaTemas();
         cargarTema();
-        reetiquetar();
-        cargarTimeline();
+        verificarSesion();
         actualizarContadorReset();
         setInterval(actualizarContadorReset, 60000);
     };
