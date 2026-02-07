@@ -589,6 +589,63 @@ body.modo-noche {
     }
 
     /* ========================================
+       LOGIN & USER SECTION
+       ======================================== */
+    .login-section {
+        background: var(--card-bg);
+        border-radius: var(--radius-md);
+        padding: 20px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .login-hint {
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--text-secondary);
+        margin-bottom: 16px;
+    }
+
+    .login-input {
+        width: 100%;
+        background: var(--primary-bg);
+        border: 2px solid rgba(0,0,0,0.08);
+        border-radius: var(--radius-md);
+        padding: 14px 16px;
+        font-size: 15px;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+        box-shadow: var(--shadow-sm);
+    }
+
+    body.modo-noche .login-input {
+        border-color: rgba(255,255,255,0.12);
+    }
+
+    .login-input:focus {
+        outline: none;
+        border-color: var(--accent-blue);
+    }
+
+    .user-display {
+        background: var(--card-bg);
+        border-radius: var(--radius-md);
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .user-label {
+        font-size: 13px;
+        color: var(--text-secondary);
+        font-weight: 600;
+        margin-right: 8px;
+    }
+
+    /* ========================================
        HIDDEN SECTION
        ======================================== */
     .oculto-section {
