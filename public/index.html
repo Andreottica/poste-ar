@@ -56,9 +56,11 @@
         .mensaje-oculto-etiqueta { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
         .mensaje-oculto-texto { font-size: 14px; line-height: 1.4; }
         .login-section { padding: 0; background: transparent; margin-bottom: 20px; }
-        .login-input { width: 100%; padding: 10px; font-size: 15px; border: 1px solid var(--color-borde); border-radius: 0; margin-bottom: 10px; background: var(--color-fondo); color: var(--color-principal); }
+        .login-input { width: 100%; padding: 10px; font-size: 15px; border: 1px solid #d0d0d0; border-radius: 0; margin-bottom: 10px; background: var(--color-fondo); color: var(--color-principal); }
+        .login-input:focus { outline: none; border: 1px solid #d0d0d0; }
         .login-input::placeholder { color: var(--color-terciario); opacity: 0.6; }
-        .login-hint { font-size: 13px; color: var(--color-terciario); margin-bottom: 10px; line-height: 1.5; }
+        .login-hint { font-size: 13px; color: var(--color-terciario); margin-bottom: 10px; line-height: 1.5; background: #f5f5f5; padding: 12px; border: 1px solid #e0e0e0; }
+        body.modo-noche .login-hint { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
         .btn-salir { background: #dc3545; color: white; border: none; padding: 8px 15px; font-size: 15px; font-weight: normal; cursor: pointer; }
         .btn-salir:hover { background: #c82333; }
     </style>
@@ -73,10 +75,10 @@
                 <div class="sub-brand">Sitio anónimo, efímero. Ciudadela, Buenos Aires, Argentina.</div>
             </div>
         </div>
-        <div class="alerta-box" id="contador-reset">El timeline se borra todos los lunes: calculando...</div>
+        <div class="alerta-box hidden" id="contador-reset">El timeline se borra todos los lunes: calculando...</div>
         <div id="login-section" class="login-section">
             <div class="login-hint">
-                Poste.ar genera automáticamente tu usuario a partir de palabras que son tu password criptográfico. Mientras las recuerdes tendrás el mismo usuario. Recomendamos entre tres y cinco palabras, pero pueden ser hasta doce: ver manual.
+                Tu usuario se genera automáticamente a partir de tus palabras clave. Son como una contraseña que recordás fácilmente. Mientras uses las mismas palabras, tendrás siempre el mismo usuario. Recomendamos usar entre 3 y 5 palabras simples (ejemplo: gato verde mesa tiza). Podés usar hasta 12 palabras para mayor seguridad. Ver manual para más detalles.
             </div>
             <input type="text" id="identity-input" class="login-input" placeholder="perro mesa luz golf" onkeypress="if(event.key==='Enter') entrar()">
             <button class="btn-postear" onclick="entrar()">[ entrar ]</button>
@@ -182,7 +184,7 @@
         const num1 = parseInt(hash.substring(8, 16), 16) % 90 + 10;
         const idx2 = parseInt(hash.substring(16, 24), 16) % silabas.length;
         const num2 = parseInt(hash.substring(24, 32), 16) % 90 + 10;
-        return `${silabas[idx1]}${silabas[idx2]}.${num1}.${silabas[(idx1+idx2)%silabas.length]}${silabas[(num1+num2)%silabas.length]}.${num2}`;
+        return `${silabas[idx1]}${silabas[idx2]}.${num1}@${silabas[(idx1+idx2)%silabas.length]}${silabas[(num1+num2)%silabas.length]}.${num2}`;
     }
     function generarColorDesdeIdentidad(identidad) {
         const hash = CryptoJS.SHA256(identidad).toString();
@@ -205,6 +207,7 @@
         miColor = generarColorDesdeIdentidad(identidad);
         document.documentElement.style.setProperty('--rastro-color', miColor);
         document.getElementById('login-section').classList.add('hidden');
+        document.getElementById('contador-reset').classList.remove('hidden');
         document.getElementById('main-content').classList.remove('hidden');
         cargarTimeline();
     }
@@ -213,6 +216,7 @@
         miMarca = "";
         miColor = "";
         document.getElementById('login-section').classList.remove('hidden');
+        document.getElementById('contador-reset').classList.add('hidden');
         document.getElementById('main-content').classList.add('hidden');
         document.getElementById('identity-input').value = '';
         document.getElementById('timeline').innerHTML = '';
@@ -224,6 +228,7 @@
             miColor = generarColorDesdeIdentidad(identidad);
             document.documentElement.style.setProperty('--rastro-color', miColor);
             document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('contador-reset').classList.remove('hidden');
             document.getElementById('main-content').classList.remove('hidden');
             cargarTimeline();
         }
