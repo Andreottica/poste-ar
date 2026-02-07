@@ -632,6 +632,7 @@ body.modo-noche {
         color: var(--text-primary);
         margin-bottom: 12px;
         box-shadow: none;
+        box-sizing: border-box;
     }
 
     .login-input::placeholder {
