@@ -213,9 +213,10 @@ body.modo-noche {
         color: white !important;
     }
 
-    /* BOTTOM CONTAINER - Pair 3: postear (coral) + actualizar (blue-green) */
+    /* BOTTOM CONTAINER - Pair 3: postear (coral) + actualizar (blue-green) + salir (red) */
     .button-container-bottom {
         margin-top: 16px !important;
+        grid-template-columns: 1fr 1fr 1fr !important;
     }
 
     .button-container-bottom .btn-postear {
@@ -227,6 +228,12 @@ body.modo-noche {
     .button-container-bottom .btn:nth-child(2) {
         background: linear-gradient(135deg, #5b9eff 0%, var(--accent-mint) 100%) !important;
         color: white !important;
+    }
+
+    .button-container-bottom .btn-salir {
+        background: #dc3545 !important;
+        color: white !important;
+        font-weight: 700 !important;
     }
 
     /* ========================================
@@ -625,24 +632,6 @@ body.modo-noche {
     .login-input:focus {
         outline: none;
         border-color: var(--accent-blue);
-    }
-
-    .user-display {
-        background: var(--card-bg);
-        border-radius: var(--radius-md);
-        padding: 16px;
-        margin-bottom: 16px;
-        box-shadow: var(--shadow-sm);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .user-label {
-        font-size: 13px;
-        color: var(--text-secondary);
-        font-weight: 600;
-        margin-right: 8px;
     }
 
     /* ========================================
