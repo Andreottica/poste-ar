@@ -61,6 +61,8 @@
         .login-input::placeholder { color: var(--color-terciario); opacity: 0.6; }
         .login-hint { font-size: 13px; color: var(--color-terciario); margin-bottom: 10px; line-height: 1.5; background: #f5f5f5; padding: 12px; border: 1px solid #e0e0e0; }
         body.modo-noche .login-hint { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
+        .user-info-bar { font-size: 14px; color: var(--color-secundario); padding: 10px 0; margin: 15px 0; border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; }
+        body.modo-noche .user-info-bar { border-color: rgba(255,255,255,0.1); }
         .btn-salir { background: #dc3545; color: white; border: none; padding: 8px 15px; font-size: 15px; font-weight: normal; cursor: pointer; }
         .btn-salir:hover { background: #c82333; }
     </style>
@@ -93,6 +95,11 @@
             <input type="text" class="search-box" id="search-input" placeholder="Buscar..." onkeyup="buscarConDelay()">
             <div class="search-info" id="search-info"></div>
             <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver ]</button>
+            
+            <div class="user-info-bar">
+                Tu usuario: <span id="display-user" style="color:var(--rastro-color); font-weight: 600;">...</span>
+            </div>
+            
             <div id="manual-box"></div>
             <div class="editor-section">
                 <textarea id="editor" maxlength="576" placeholder="Mensaje público..."></textarea>
@@ -127,7 +134,7 @@
     let buscando = false;
     let timeoutBusqueda = null;
     let todosLosPosts = [];
-    let temas = ['default', 'retro'];
+    let temas = ['default', 'retro', 'minimo', 'ascii'];
     let temaActual = localStorage.getItem('tema') || 'default';
     let modoOscuro = localStorage.getItem('modo') === 'noche';
     async function cargarListaTemas() {
@@ -206,6 +213,7 @@
         miMarca = generarUsuarioDesdeIdentidad(identidad);
         miColor = generarColorDesdeIdentidad(identidad);
         document.documentElement.style.setProperty('--rastro-color', miColor);
+        document.getElementById('display-user').innerText = miMarca;
         document.getElementById('login-section').classList.add('hidden');
         document.getElementById('contador-reset').classList.remove('hidden');
         document.getElementById('main-content').classList.remove('hidden');
@@ -227,6 +235,7 @@
             miMarca = generarUsuarioDesdeIdentidad(identidad);
             miColor = generarColorDesdeIdentidad(identidad);
             document.documentElement.style.setProperty('--rastro-color', miColor);
+            document.getElementById('display-user').innerText = miMarca;
             document.getElementById('login-section').classList.add('hidden');
             document.getElementById('contador-reset').classList.remove('hidden');
             document.getElementById('main-content').classList.remove('hidden');
