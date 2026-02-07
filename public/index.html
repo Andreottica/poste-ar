@@ -55,10 +55,11 @@
         .mensaje-oculto-item:not(:last-child) { border-bottom: 1px solid rgba(128, 128, 128, 0.15); padding-bottom: 8px; }
         .mensaje-oculto-etiqueta { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
         .mensaje-oculto-texto { font-size: 14px; line-height: 1.4; }
-        .login-section { background: var(--color-fondo-suave); padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        .login-input { width: 100%; padding: 12px; font-size: 15px; border: 2px solid var(--color-borde); border-radius: 6px; margin-bottom: 10px; }
-        .login-hint { font-size: 13px; color: var(--color-terciario); margin-bottom: 15px; line-height: 1.5; }
-        .btn-salir { background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; }
+        .login-section { padding: 0; background: transparent; margin-bottom: 20px; }
+        .login-input { width: 100%; padding: 10px; font-size: 15px; border: 1px solid var(--color-borde); border-radius: 0; margin-bottom: 10px; background: var(--color-fondo); color: var(--color-principal); }
+        .login-input::placeholder { color: var(--color-terciario); opacity: 0.6; }
+        .login-hint { font-size: 13px; color: var(--color-terciario); margin-bottom: 10px; line-height: 1.5; }
+        .btn-salir { background: #dc3545; color: white; border: none; padding: 8px 15px; font-size: 15px; font-weight: normal; cursor: pointer; }
         .btn-salir:hover { background: #c82333; }
     </style>
 </head>
