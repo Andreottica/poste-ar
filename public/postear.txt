@@ -1,8 +1,54 @@
 POSTE.AR - MANUAL DE USO
 ========================
 
-Red social anónima y efímera. Sin usuarios, sin IPs, sin rastros.
+Red social anónima con identidad persistente.
+Sin registro, sin IPs, sin datos guardados.
 Todo se borra cada lunes a las 00:00 hs.
+
+
+TU IDENTIDAD ANÓNIMA
+====================
+
+CÓMO CREAR TU USUARIO
+---------------------
+Al entrar por primera vez:
+
+1. Escribí 3-5 palabras (ej: perro mesa luz golf)
+2. Presioná [ entrar ]
+3. El sistema genera tu usuario anónimo (ej: meno.34.rite.87)
+
+IMPORTANTE: Tus palabras SON tu identidad.
+- Si las recordás → siempre recuperás el mismo usuario
+- Si las olvidás → perdés tu identidad para siempre
+- Si las compartís → otra persona puede ser vos
+
+NO GUARDAMOS NADA
+-----------------
+- No hay registro
+- No pedimos email ni teléfono
+- No guardamos tus palabras
+- No rastreamos IP
+- Solo VOS conocés tu identidad
+
+RECUPERAR TU USUARIO
+--------------------
+Para volver a ser el mismo usuario en otra sesión:
+
+1. Ingresá las MISMAS palabras que usaste antes
+2. El sistema genera el MISMO usuario
+3. Podés postear con tu identidad habitual
+
+CAMBIAR DE IDENTIDAD
+---------------------
+Presioná [ salir ] y entrá con palabras nuevas.
+Cada combinación de palabras = usuario único.
+
+RECOMENDACIONES
+---------------
+- Usá 3-5 palabras fáciles de recordar
+- Ejemplo: "gato verde tiza luna"
+- Anotá tus palabras en papel (NO en computadora)
+- Nunca uses menos de 3 palabras (muy inseguro)
 
 
 CÓMO PUBLICAR
@@ -12,20 +58,19 @@ MENSAJE PÚBLICO
 ---------------
 1. Escribí tu mensaje (máximo 576 caracteres)
 2. Presioná [ postear ]
-3. Aparece en el timeline con tu etiqueta temporal
+3. Aparece en el timeline con tu usuario
 
 MENSAJE OCULTO CIFRADO
 -----------------------
-Para agregar un mensaje secreto a tu publicación:
+Para agregar un mensaje secreto:
 
 1. Activá "Agregar mensaje oculto cifrado"
 2. Escribí tu mensaje secreto (máximo 288 caracteres)
-3. Escribí una contraseña en "Password"
-   Ejemplo: "perro mesa luz" (3-5 palabras es óptimo)
+3. Escribí una contraseña (ej: "rosa viento mar")
 4. Presioná [ postear ]
 
 El mensaje público se ve normalmente.
-El mensaje oculto queda cifrado (ilegible para todos).
+El mensaje oculto queda cifrado (ilegible).
 
 MENSAJES INVISIBLES
 --------------------
@@ -38,7 +83,7 @@ Podés postear SOLO mensaje oculto (sin parte pública):
 
 → No aparece nada en el timeline público
 → Solo existe para quien conozca la semilla
-→ Completamente invisible para el resto
+→ Completamente invisible
 
 
 LEER MENSAJES OCULTOS
@@ -46,84 +91,39 @@ LEER MENSAJES OCULTOS
 
 DESCIFRAR UN MENSAJE
 --------------------
-Todos los mensajes tienen un campo "semilla..." al pie.
-
-Si conocés la contraseña de un mensaje oculto:
 1. Escribí la contraseña en el campo "semilla..."
 2. Presioná Enter o el botón →
-3. Si es correcta: aparece el mensaje (fondo gris claro)
+3. Si es correcta: aparece el mensaje
 4. Si es incorrecta: "Password incorrecto"
 
-IMPORTANTE: No hay forma de saber qué mensajes tienen
-contenido oculto. Todos se ven iguales.
-Solo quien conozca la semilla puede descubrirlo.
+No hay forma de saber qué mensajes tienen contenido oculto.
+Solo quien conozca la contraseña puede descubrirlo.
 
 CONVERSACIONES SECRETAS GRUPALES
 ---------------------------------
-Cuando varias personas usan la MISMA semilla, se crea
-un "canal secreto" invisible.
+Cuando varias personas usan la MISMA contraseña,
+se crea un "canal secreto" invisible.
 
 Ejemplo:
-- Ana postea mensaje oculto con semilla "gato verde luna"
-- Carlos postea mensaje oculto con semilla "gato verde luna"
-- María postea mensaje oculto con semilla "gato verde luna"
+- Ana postea mensaje oculto con contraseña "gato verde luna"
+- Carlos postea mensaje oculto con contraseña "gato verde luna"
+- María postea mensaje oculto con contraseña "gato verde luna"
 
-Cuando alguien ingresa "gato verde luna" en cualquier post:
-→ Se descifran TODOS los mensajes con esa semilla
+Cuando alguien ingresa "gato verde luna":
+→ Se descifran TODOS los mensajes con esa contraseña
 → Aparecen juntos, en orden cronológico
-→ Cada uno con su etiqueta de color y barra lateral
+→ Cada uno con su usuario de color y barra lateral
 
-Esto permite:
-- Conversaciones grupales cifradas
-- Canales secretos por tema
-- Hilos invisibles dentro del timeline público
-
-Podés mezclar mensajes públicos + ocultos:
-- Post público visible para todos
-- Post oculto solo para el grupo secreto
+Podés mezclar:
+- Post público visible + mensaje oculto
 - Post 100% invisible (solo oculto)
 
-CONTRASEÑAS (SEMILLAS)
-----------------------
-Podés usar entre 1 y 12 palabras.
+DIFERENCIA IMPORTANTE
+---------------------
+- Palabras de IDENTIDAD: crean tu usuario permanente
+- Contraseñas de MENSAJES: cifran contenido oculto
 
-Ejemplos:
-- "perro" (poco seguro)
-- "perro tiza golf" (seguro)
-- "perro tiza golf maria luna casa..." (muy seguro)
-
-Recomendación: 3-5 palabras fáciles de recordar.
-Más palabras = más seguridad.
-
-
-TU IDENTIDAD TEMPORAL
-=====================
-
-ETIQUETA
---------
-Tu identificador anónimo temporal durante esta sesión.
-Formato: nana.12.yija.87 (sílabas + números)
-
-Mientras no cierres la página o presiones [ reetiquetar ],
-todos tus mensajes llevan la misma etiqueta.
-
-Permite:
-- Mantener conversaciones sin revelar identidad
-- Que otros reconozcan tus aportes
-- Abandonar la identidad cuando quieras (un click)
-
-REETIQUETAR
------------
-Presioná [ reetiquetar ] para cambiar tu etiqueta.
-Tu nueva etiqueta es única e irrepetible.
-
-AVATAR
-------
-El cuadrado de colores con dos letras es tu avatar automático.
-Se genera a partir de tu etiqueta.
-
-Ayuda a reconocer visualmente tus mensajes sin leer
-la etiqueta completa cada vez.
+Son DOS cosas distintas. No las confundas.
 
 
 HERRAMIENTAS
@@ -142,39 +142,52 @@ Más info: <aquí:ejemplo.com> #documentos
 
 BUSCAR MENSAJES
 ---------------
-El buscador encuentra mensajes en toda la base de datos,
-no solo los 50 más recientes del timeline.
+El buscador encuentra mensajes en toda la base de datos.
 
 - Una palabra: "documentos"
 - Varias palabras: "documentos, firmados" (deben estar AMBAS)
-- Números: "23" (busca en fecha, hora, etiqueta, contenido)
+- Números: "23" (busca en fecha, hora, usuario, contenido)
 - No distingue mayúsculas/minúsculas
 
 ACTUALIZAR
 ----------
-Presioná [ actualizar ] para ver mensajes nuevos sin recargar (F5).
+Presioná [ actualizar ] para ver mensajes nuevos sin recargar.
 
 TEMAS Y MODO NOCHE
 ------------------
-[ tema ] → Cambia el estilo visual (default, retro, mínimo, ascii)
-[ día/noche ] → Alterna entre modo claro y oscuro
+[ tema ] → Cambia el estilo visual
+[ día/noche ] → Alterna modo claro/oscuro
+
+SALIR
+-----
+Presioná [ salir ] para cerrar tu sesión.
+Tu identidad se borra del navegador.
+
+Para volver: ingresá tus palabras de identidad nuevamente.
 
 
 USOS PRÁCTICOS
 ==============
 
+IDENTIDAD PERSISTENTE
+---------------------
+Usuario "meno.34.rite.87" comenta sobre plantas.
+Otra persona pregunta algo relacionado.
+Días después, "meno.34.rite.87" responde.
+→ Se reconoce la continuidad sin revelar identidad
+
 FIRMAR MENSAJES
 ---------------
 Público: "Vendo bici rodado 26, buen estado"
 Oculto: "Contacto: Juan - Tel: 1234-5678"
-Semilla: "bici26venta"
-→ Solo quien conozca la semilla ve tus datos
+Contraseña: "bici26venta"
+→ Solo quien conozca la contraseña ve tus datos
 
 COORDINAR REUNIONES
 -------------------
 Público: "Reunión grupal miércoles 18hs"
 Oculto: "Lugar: Café Central, Mitre y Sarmiento"
-Semilla: "reunion2026"
+Contraseña: "reunion2026"
 → Anuncio público, detalles privados
 
 CANAL SECRETO DE ESTUDIO
@@ -182,32 +195,18 @@ CANAL SECRETO DE ESTUDIO
 Ana: Oculto "Resumen capítulo 3: fotosíntesis es..."
 Carlos: Oculto "Agregando: fórmula química C6H12O6"
 María: Oculto "Ejercicio 5 resuelto: A) verdadero..."
-Semilla compartida: "biologia examen"
-→ Timeline público normal, conversación de estudio invisible
+Contraseña compartida: "biologia examen"
+→ Conversación de estudio invisible en timeline público
 
-INFORMACIÓN SENSIBLE
---------------------
-Público: "Disponible info sobre trámites"
-Oculto: "DNI, partida nacimiento, comprobante domicilio..."
-Semilla: (acordada previamente)
-→ Lista completa solo para interesados
+MÚLTIPLES IDENTIDADES
+----------------------
+Palabras "gato mesa luz" → usuario "nana.12.yija.87"
+Usás este usuario para temas de trabajo.
 
-JUEGO DE ADIVINANZAS
----------------------
-Público: "Animal de cuatro patas, ladra y es fiel"
-Oculto: "¡Correcto! La respuesta era: perro"
-Semilla: "perro"
-→ Solo quien adivine puede descifrar la confirmación
+Palabras "sol rio viento" → usuario "reto.44.misi.91"
+Usás este usuario para temas personales.
 
-COMUNICACIÓN PRIVADA EN PÚBLICO
---------------------------------
-Ana: Público "Sobre lo que hablamos..."
-     Oculto "Confirmo, traigo los documentos mañana"
-Carlos: Público "Entendido"
-        Oculto "Perfecto, nos vemos 15hs en el lugar"
-Semilla compartida: "proyecto2026"
-→ Para observadores: conversación genérica
-→ Para ustedes: comunicación cifrada completa
+→ Dos identidades separadas, ambas anónimas
 
 
 SEGURIDAD Y PRIVACIDAD
@@ -215,15 +214,10 @@ SEGURIDAD Y PRIVACIDAD
 
 CIFRADO AES-256
 ---------------
-Mismo estándar que:
-- Bancos para transacciones online
-- Apps de mensajería segura (Signal, WhatsApp)
-- Gobiernos para datos clasificados
+Mismo estándar que bancos y apps de mensajería segura.
 
 Con 3-4 palabras: romper el cifrado requiere años
 de procesamiento con supercomputadoras.
-
-Con 12 palabras: prácticamente imposible (siglos).
 
 CÓMO FUNCIONA
 -------------
@@ -233,34 +227,30 @@ CÓMO FUNCIONA
 4. El servidor guarda texto ilegible
 
 El servidor NUNCA ve:
-- Tu contraseña
-- El contenido del mensaje oculto
-
-Solo vos y quienes conozcan la contraseña pueden leerlo.
+- Tus palabras de identidad
+- Tus contraseñas de mensajes
+- El contenido de mensajes ocultos
 
 QUÉ NO GUARDAMOS
 ----------------
-- Contraseñas de mensajes ocultos
+- Palabras de identidad
+- Contraseñas de mensajes
 - Direcciones IP
 - Datos del navegador
 - Cookies de rastreo
 - Ubicación geográfica
 - Historial de búsquedas
-- Identidad de usuarios (no hay usuarios)
 
 QUÉ SÍ GUARDAMOS
 ----------------
 - Mensajes públicos (texto plano)
 - Mensajes ocultos (cifrados, ilegibles)
-- Etiqueta temporal del mensaje
+- Usuario generado (ej: meno.34.rite.87)
 - Fecha y hora de publicación
-- Color del avatar (generado automáticamente)
+- Color del usuario (generado automáticamente)
 
 TODO SE BORRA CADA LUNES 00:00 HS
 ----------------------------------
-No importa si un mensaje tiene 5 minutos o 6 días:
-al llegar el lunes, el timeline completo se vacía.
-
 Máximo de vida: 7 días.
 
 El sitio muestra un contador con tiempo restante
@@ -274,20 +264,19 @@ CARACTERES
 ----------
 - Mensaje público: 576 caracteres máximo
 - Mensaje oculto: 288 caracteres máximo
-- Contraseña: ilimitada (pero 1-12 palabras es óptimo)
+- Palabras de identidad: 3-12 palabras
+- Contraseñas de mensajes: ilimitadas (óptimo 1-12 palabras)
 
-CAPACIDAD
+IDENTIDAD
 ---------
-Base de datos: ~10000 mensajes aprox.
-Si se llena antes del lunes, los mensajes más antiguos
-se eliminan automáticamente.
+- Mínimo 3 palabras (menos es muy inseguro)
+- Máximo 12 palabras (más es difícil recordar)
+- Recomendado: 3-5 palabras
 
 SIN EDICIÓN
 -----------
-No se pueden editar ni borrar mensajes una vez publicados.
-Solo desaparecen:
-- El lunes 00:00hs (purga semanal)
-- Si la base se llena (se borran los más viejos)
+No se pueden editar ni borrar mensajes.
+Solo desaparecen el lunes 00:00hs.
 
 SIN MULTIMEDIA
 --------------
@@ -304,13 +293,15 @@ FILOSOFÍA DEL PROYECTO
 --------------------------
 Porque no todo necesita ser permanente.
 Porque el anonimato puede ser liberador.
-Porque a veces queremos comunicarnos sin dejar rastro.
+Porque queremos comunicarnos sin dejar rastro.
 
-Experimento sobre comunicación efímera, inspirado en
-los tablones de anuncios del barrio: alguien pega un aviso,
-alguien lo lee, la lluvia lo borra.
+Experimento sobre identidad efímera autogestionada:
+- Tu identidad la controlás vos (tus palabras)
+- No hay empresa que guarde tus datos
+- No hay recuperación de contraseña (no la guardamos)
+- Anonimato real, no marketing
 
-En un mundo donde todo se registra, archiva y vende,
+En un mundo donde todo se registra y vende,
 poste.ar es un espacio que se borra solo.
 
 No hay algoritmos. No hay perfiles. No hay permanencia.
@@ -323,9 +314,6 @@ TECNOLOGÍA
 CÓDIGO ABIERTO
 --------------
 El código completo es público y auditable.
-Cualquiera puede verificar cómo funciona, revisar
-la seguridad o crear su propia versión.
-
 Presioná [ source ] para acceder al repositorio.
 
 STACK TÉCNICO
@@ -333,33 +321,23 @@ STACK TÉCNICO
 - Frontend: HTML, CSS, JavaScript vanilla
 - Backend: Node.js + Express
 - Base de datos: LibSQL (SQLite remoto)
-- Cifrado: CryptoJS (AES-256)
+- Cifrado: CryptoJS (AES-256 + SHA-256)
 - Hosting: Cloud
 
 Minimalista. Sin dependencias innecesarias.
-
-INFRAESTRUCTURA
----------------
-Dos servidores independientes:
-
-1. Servidor web: interfaz, búsquedas, purga semanal
-2. Servidor DB: almacena mensajes públicos y cifrados
-
-Separación para mejor seguridad y rendimiento.
 
 
 ADVERTENCIAS
 ============
 
 - Usá poste.ar bajo tu propia responsabilidad
+- Anotá tus palabras de identidad en PAPEL
 - No publiques contenido ilegal
 - No publiques información que viole privacidad de terceros
 - El anonimato no te protege de consecuencias legales
-- Los administradores NO son responsables del contenido
-- Este servicio puede discontinuarse sin previo aviso
-
-Si olvidás una contraseña, el mensaje se pierde para SIEMPRE.
-No hay recuperación posible.
+- Si olvidás tus palabras de identidad, perdés tu usuario PARA SIEMPRE
+- Si olvidás una contraseña de mensaje, ese mensaje se pierde PARA SIEMPRE
+- No hay recuperación posible (no guardamos nada)
 
 
 SOPORTE
@@ -369,13 +347,9 @@ Proyecto experimental sin fines de lucro.
 Sin equipo de soporte ni servicio al cliente.
 Funciona "tal cual es" (as-is).
 
-Para reportar problemas técnicos graves o vulnerabilidades,
-utilizá el buscador para encontrar información de contacto
-publicada por la comunidad.
-
 
 ============================================
-Versión: 2.0
+Versión: 3.0 - Sistema de identidad persistente
 Última actualización: Febrero 2026
 Ubicación: Ciudadela, Buenos Aires, Argentina
 ============================================
