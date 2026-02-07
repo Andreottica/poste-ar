@@ -58,8 +58,8 @@
         .login-section { background: var(--color-fondo-suave); padding: 20px; border-radius: 8px; margin-bottom: 20px; }
         .login-input { width: 100%; padding: 12px; font-size: 15px; border: 2px solid var(--color-borde); border-radius: 6px; margin-bottom: 10px; }
         .login-hint { font-size: 13px; color: var(--color-terciario); margin-bottom: 15px; line-height: 1.5; }
-        .user-display { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: var(--color-fondo-suave); border-radius: 6px; margin-bottom: 15px; }
-        .user-label { font-size: 14px; color: var(--color-secundario); font-weight: 600; }
+        .btn-salir { background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; }
+        .btn-salir:hover { background: #c82333; }
     </style>
 </head>
 <body>
@@ -75,18 +75,10 @@
         <div class="alerta-box" id="contador-reset">El timeline se borra todos los lunes: calculando...</div>
         <div id="login-section" class="login-section">
             <div class="login-hint">
-                Ingresá tu identidad con 3-5 palabras (ej: perro mesa luz golf)<br>
-                El sistema genera tu usuario anónimo. Si recordás las palabras, recuperás tu identidad.
+                Poste.ar genera automáticamente tu usuario a partir de palabras que son tu password criptográfico. Mientras las recuerdes tendrás el mismo usuario. Recomendamos entre tres y cinco palabras, pero pueden ser hasta doce: ver manual.
             </div>
-            <input type="text" id="identity-input" class="login-input" placeholder="Ejemplo: perro mesa luz golf" onkeypress="if(event.key==='Enter') entrar()">
+            <input type="text" id="identity-input" class="login-input" placeholder="perro mesa luz golf" onkeypress="if(event.key==='Enter') entrar()">
             <button class="btn-postear" onclick="entrar()">[ entrar ]</button>
-        </div>
-        <div id="user-section" class="user-display hidden">
-            <div>
-                <span class="user-label">Usuario:</span>
-                <b id="current-user" style="color:var(--rastro-color); font-size: 16px; margin-left: 8px;">...</b>
-            </div>
-            <button class="btn" onclick="salir()">[ salir ]</button>
         </div>
         <div id="main-content" class="hidden">
             <div class="button-container">
@@ -119,6 +111,7 @@
                 <div class="button-container button-container-bottom">
                     <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
                     <button class="btn" onclick="actualizarPosts()">[ actualizar ]</button>
+                    <button class="btn-salir" onclick="salir()">[ salir ]</button>
                 </div>
             </div>
         </div>
@@ -210,9 +203,7 @@
         miMarca = generarUsuarioDesdeIdentidad(identidad);
         miColor = generarColorDesdeIdentidad(identidad);
         document.documentElement.style.setProperty('--rastro-color', miColor);
-        document.getElementById('current-user').innerText = miMarca;
         document.getElementById('login-section').classList.add('hidden');
-        document.getElementById('user-section').classList.remove('hidden');
         document.getElementById('main-content').classList.remove('hidden');
         cargarTimeline();
     }
@@ -221,7 +212,6 @@
         miMarca = "";
         miColor = "";
         document.getElementById('login-section').classList.remove('hidden');
-        document.getElementById('user-section').classList.add('hidden');
         document.getElementById('main-content').classList.add('hidden');
         document.getElementById('identity-input').value = '';
         document.getElementById('timeline').innerHTML = '';
@@ -232,9 +222,7 @@
             miMarca = generarUsuarioDesdeIdentidad(identidad);
             miColor = generarColorDesdeIdentidad(identidad);
             document.documentElement.style.setProperty('--rastro-color', miColor);
-            document.getElementById('current-user').innerText = miMarca;
             document.getElementById('login-section').classList.add('hidden');
-            document.getElementById('user-section').classList.remove('hidden');
             document.getElementById('main-content').classList.remove('hidden');
             cargarTimeline();
         }
