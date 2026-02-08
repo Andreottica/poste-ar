@@ -1,748 +1,450 @@
 /* ============================================
-   MOBILE.CSS - MOBILE MODERN DESIGN
-   Inspired by: Contemporary subscription UIs,
-   Card-based layouts, iOS design language
+   MOBILE.CSS - ULTRA COMPACT MINIMAL
+   Maximum screen width usage, zero decoration
    ============================================ */
 
 :root {
-    --primary-bg: #f5f3ef;
-    --card-bg: #ffffff;
-    --text-primary: #1a1a1a;
-    --text-secondary: #666666;
-    --accent-coral: #ff7b6b;
-    --accent-blue: #5b9eff;
-    --accent-yellow: #ffd966;
-    --accent-mint: #8ed8c9;
-    --accent-purple: #b794f6;
-    --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-    --radius-sm: 12px;
-    --radius-md: 16px;
-    --radius-lg: 20px;
+    --bg: #ffffff;
+    --text: #000000;
+    --text-light: #666666;
+    --text-lighter: #999999;
+    --border: #e0e0e0;
+    --red: #dc3545;
 }
 
 body.modo-noche {
-    --primary-bg: #1a1a1a;
-    --card-bg: #2a2a2a;
-    --text-primary: #f0f0f0;
-    --text-secondary: #a0a0a0;
-    --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+    --bg: #000000;
+    --text: #ffffff;
+    --text-light: #999999;
+    --text-lighter: #666666;
+    --border: #2a2a2a;
 }
 
 @media (max-width: 768px) {
     
-    /* ========================================
-       GLOBAL RESET & BASE
-       ======================================== */
     * {
         box-sizing: border-box;
     }
 
     body {
-        background: var(--primary-bg);
+        background: var(--bg);
         margin: 0;
         padding: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
     }
 
     .container {
         width: 100%;
-        max-width: 100%;
-        padding: 16px;
-        border: none;
-        background: var(--primary-bg);
+        padding: 0;
+        background: var(--bg);
     }
 
     /* ========================================
-       HEADER - PROFILE STYLE
+       HEADER
        ======================================== */
     header {
-        background: var(--card-bg);
-        border-radius: var(--radius-lg);
-        padding: 20px;
-        margin-bottom: 16px;
-        box-shadow: var(--shadow-sm);
+        padding: 12px;
+        border-bottom: 1px solid var(--border);
     }
 
-    /* Profile section */
-    header > div:first-child {
+    .header-profile {
         display: flex !important;
         align-items: center !important;
-        gap: 12px !important;
-        margin-bottom: 16px !important;
+        gap: 8px !important;
+        margin-bottom: 8px !important;
     }
 
-    header > div:first-child img {
-        width: 48px !important;
-        height: 48px !important;
+    .header-profile img {
+        width: 28px !important;
+        height: 28px !important;
         border-radius: 50% !important;
-        border: 3px solid var(--accent-coral);
-        box-shadow: var(--shadow-sm);
     }
 
     .brand-line {
-        font-size: 20px;
-        font-weight: 700;
-        color: var(--text-primary);
-        letter-spacing: -0.5px;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text);
         margin: 0;
-        line-height: 1.2;
     }
 
     .sub-brand {
-        font-size: 13px;
-        color: var(--text-secondary);
-        font-weight: 500;
-        margin-top: 2px;
-        letter-spacing: 0.2px;
+        font-size: 10px;
+        color: var(--text-light);
+        margin-top: 1px;
     }
 
     /* ========================================
-       ALERT/STATUS BANNER
+       ALERT & USER INFO
        ======================================== */
     .alerta-box {
-        background: linear-gradient(135deg, var(--accent-coral) 0%, #ff9580 100%);
+        background: var(--red);
         color: white;
-        border-radius: var(--radius-md);
-        padding: 16px 18px;
-        margin-bottom: 16px;
-        font-size: 15px;
-        font-weight: 600;
-        line-height: 1.4;
-        box-shadow: var(--shadow-md);
-        border: none;
-    }
-
-    .nav-status {
-        background: var(--card-bg);
-        border-radius: var(--radius-md);
-        padding: 12px 16px;
+        padding: 6px 12px;
+        font-size: 11px;
+        margin-bottom: 0;
         text-align: center;
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--text-secondary);
-        margin-bottom: 16px;
-        box-shadow: var(--shadow-sm);
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
     }
 
-    .nav-status button {
-        display: none;
+    .user-info-bar {
+        font-size: 11px;
+        color: var(--text-light);
+        padding: 6px 12px;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        text-align: center;
     }
 
     /* ========================================
-       ACTION BUTTONS - TOP 2x2 GRID (2 PAIRS)
-       Pairs: reetiquetar+día, manual+source (tema hidden on mobile)
+       BUTTONS - COMPACT
        ======================================== */
-
-    /* Hide tema button on mobile */
-    #btn-tema {
-        display: none !important;
-    }
-
-    /* Top button container - 2 columns grid */
     .button-container {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
-        gap: 10px !important;
-        margin-top: 16px !important;
+        gap: 0 !important;
+        margin: 0 !important;
+        border-bottom: 1px solid var(--border);
     }
 
-    /* All buttons same height and style - THINNER */
     .button-container .btn,
     .button-container .btn-postear,
     .button-container .btn-salir,
     .button-container #btn-modo {
         width: 100% !important;
-        min-height: 42px !important;
-        max-height: 42px !important;
-        border-radius: var(--radius-md) !important;
-        font-size: 14px !important;
-        font-weight: 600 !important;
-        padding: 0 12px !important;
+        height: 36px !important;
+        min-height: 36px !important;
+        max-height: 36px !important;
+        border: none !important;
+        border-right: 1px solid var(--border) !important;
+        border-bottom: 1px solid var(--border) !important;
+        background: var(--bg) !important;
+        color: var(--text) !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        padding: 0 !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        transition: all 0.2s ease !important;
-        box-shadow: var(--shadow-sm) !important;
-        letter-spacing: 0.2px;
-        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
     }
 
-    /* Active state for all buttons */
+    .button-container .btn:nth-child(2n) {
+        border-right: none !important;
+    }
+
     .button-container .btn:active,
     .button-container .btn-postear:active,
-    .button-container .btn-salir:active,
-    .button-container #btn-modo:active {
-        transform: scale(0.96) !important;
-        box-shadow: inset 0 2px 4px rgba(0,0,0,0.1) !important;
+    .button-container .btn-salir:active {
+        background: rgba(0,0,0,0.03) !important;
     }
 
-    /* Hover effect for desktop */
-    @media (hover: hover) {
-        .button-container .btn:hover,
-        .button-container .btn-postear:hover,
-        .button-container .btn-salir:hover,
-        .button-container #btn-modo:hover {
-            filter: brightness(0.95);
-            box-shadow: var(--shadow-md) !important;
-        }
+    body.modo-noche .button-container .btn:active,
+    body.modo-noche .button-container .btn-postear:active,
+    body.modo-noche .button-container .btn-salir:active {
+        background: rgba(255,255,255,0.03) !important;
     }
 
-    /* TOP CONTAINER - Individual button colors */
-    /* Pair 1: reetiquetar (blue) + día/noche (yellow) */
-    .button-container:not(.button-container-bottom) .btn:nth-child(1) {
-        background: linear-gradient(135deg, var(--accent-blue) 0%, #7bb4ff 100%) !important;
-        color: white !important;
-    }
-
-    .button-container:not(.button-container-bottom) #btn-modo {
-        background: linear-gradient(135deg, var(--accent-yellow) 0%, #ffe285 100%) !important;
-        color: #1a1a1a !important;
-    }
-
-    /* Pair 2: manual (mint) + download (purple) */
-    .button-container:not(.button-container-bottom) .btn:nth-child(3) {
-        background: linear-gradient(135deg, var(--accent-mint) 0%, #a8e6d7 100%) !important;
-        color: #1a1a1a !important;
-    }
-
-    .button-container:not(.button-container-bottom) .btn:nth-child(4) {
-        background: linear-gradient(135deg, var(--accent-purple) 0%, #cdb0ff 100%) !important;
-        color: white !important;
-    }
-
-    /* BOTTOM CONTAINER - Pair 3: postear (coral) + actualizar (blue-green) + salir (red) */
     .button-container-bottom {
-        margin-top: 16px !important;
         grid-template-columns: 1fr 1fr 1fr !important;
+        border-top: 1px solid var(--border);
+        border-bottom: none !important;
     }
 
-    .button-container-bottom .btn-postear {
-        background: linear-gradient(135deg, var(--accent-coral) 0%, #ff9580 100%) !important;
-        color: white !important;
-        font-weight: 700 !important;
-    }
-
-    .button-container-bottom .btn:nth-child(2) {
-        background: linear-gradient(135deg, #5b9eff 0%, var(--accent-mint) 100%) !important;
-        color: white !important;
+    .button-container-bottom .btn:nth-child(3n) {
+        border-right: none !important;
     }
 
     .button-container-bottom .btn-salir {
-        background: #dc3545 !important;
+        background: var(--red) !important;
         color: white !important;
-        font-weight: 700 !important;
     }
 
     /* ========================================
-       SEARCH BOX
+       INPUTS & SEARCH
        ======================================== */
-    .search-box {
-        background: var(--card-bg);
-        border-radius: var(--radius-md);
-        padding: 16px;
-        margin-bottom: 16px;
-        box-shadow: var(--shadow-sm);
-        border: 2px solid rgba(0,0,0,0.04);
-    }
-
-    body.modo-noche .search-box {
-        border-color: rgba(255,255,255,0.08);
-    }
-
-    .search-box input {
+    .search-box,
+    textarea,
+    .login-input,
+    .password-input {
         width: 100%;
-        background: var(--primary-bg);
+        background: var(--bg);
         border: none;
-        border-radius: 10px;
-        padding: 12px 16px;
-        font-size: 15px;
-        color: var(--text-primary);
-        font-weight: 500;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        padding: 10px 12px;
+        font-size: 14px;
+        color: var(--text);
+        margin: 0;
     }
 
-    .search-box input::placeholder {
-        color: var(--text-secondary);
-        font-weight: 400;
+    textarea {
+        min-height: 70px;
+        resize: vertical;
+    }
+
+    textarea:focus,
+    .search-box:focus,
+    .login-input:focus,
+    .password-input:focus {
+        outline: none;
     }
 
     .search-info {
-        font-size: 13px;
-        color: var(--text-secondary);
-        margin-top: 10px;
-        font-weight: 500;
-        letter-spacing: 0.2px;
+        font-size: 10px;
+        color: var(--text-light);
+        padding: 4px 12px;
+    }
+
+    .btn-volver {
+        width: 100%;
+        height: 32px;
+        background: var(--bg);
+        color: var(--text);
+        border: none;
+        border-bottom: 1px solid var(--border);
+        font-size: 11px;
+    }
+
+    .contador {
+        font-size: 10px;
+        color: var(--text-lighter);
+        text-align: right;
+        padding: 2px 12px 6px 12px;
     }
 
     /* ========================================
-       POSTS - CARD STYLE (REDUCED PADDING/GAP)
+       LOGIN
        ======================================== */
-    .post {
-        background: var(--card-bg);
-        border-radius: var(--radius-md);
+    .login-section {
         padding: 12px;
-        margin-bottom: 12px;
-        box-shadow: var(--shadow-sm);
-        border: none;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .post:active {
-        transform: scale(0.99);
-        box-shadow: var(--shadow-md);
-    }
-
-    /* Avatar + metadata wrapper */
-    .post > .avatar {
-        float: left;
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        font-size: 14px;
-        font-weight: 700;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        background: #1a1a1a !important;
-        color: #ffffff !important;
-        box-shadow: var(--shadow-sm);
-        flex-shrink: 0;
-        line-height: 1 !important;
-        padding: 0 !important;
-        text-align: center !important;
-        margin-right: 10px;
+    .login-hint {
+        font-size: 11px;
+        line-height: 1.5;
+        color: var(--text-light);
+        background: rgba(0,0,0,0.02);
+        border: 1px solid var(--border);
+        padding: 8px;
         margin-bottom: 8px;
     }
 
-    body.modo-noche .post > .avatar {
-        background: #2a2a2a !important;
-        color: #ffffff !important;
+    body.modo-noche .login-hint {
+        background: rgba(255,255,255,0.02);
     }
 
-    /* Post-body container - holds metadata and content */
+    .login-input {
+        border: 1px solid var(--border);
+        margin-bottom: 8px;
+    }
+
+    /* ========================================
+       EDITOR
+       ======================================== */
+    .editor-section {
+        border-top: 1px solid var(--border);
+    }
+
+    .checkbox-container {
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .checkbox-label {
+        font-size: 11px;
+    }
+
+    .oculto-section {
+        border-top: 1px solid var(--border);
+    }
+
+    .password-section {
+        padding: 6px 12px;
+    }
+
+    .password-label {
+        font-size: 11px;
+        color: var(--text-light);
+        margin-bottom: 4px;
+    }
+
+    .password-hint {
+        font-size: 10px;
+        color: var(--text-lighter);
+        margin-top: 4px;
+    }
+
+    /* ========================================
+       POSTS - ULTRA MINIMAL
+       ======================================== */
+    .post {
+        border-bottom: 1px solid var(--border);
+        padding: 10px 12px;
+        background: var(--bg);
+    }
+
+    /* Avatar como punto de color pequeño */
+    .post > .avatar {
+        float: left;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-right: 6px;
+        margin-top: 5px;
+        background: #000000 !important;
+        box-shadow: none !important;
+    }
+
+    body.modo-noche .post > .avatar {
+        background: #ffffff !important;
+    }
+
     .post-body {
         overflow: hidden;
     }
 
     .marca-tag {
-        font-size: 15px;
-        font-weight: 700;
-        color: var(--text-primary);
-        margin: 0 0 2px 0;
-        letter-spacing: -0.3px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text);
+        margin: 0 0 1px 0;
         line-height: 1.3;
     }
 
     .fecha-tag {
-        font-size: 11px;
-        font-weight: 500;
-        color: var(--text-secondary);
-        letter-spacing: 0.2px;
-        margin: 0 0 8px 0;
+        font-size: 9px;
+        color: var(--text-lighter);
+        margin: 0 0 6px 0;
         line-height: 1.2;
-        display: block;
     }
 
-    /* Post content - full width after metadata */
+    /* Texto a ancho completo */
     .post-body > div[style*="white-space"] {
         clear: both;
-        font-size: 15px !important;
+        font-size: 14px !important;
         line-height: 1.5 !important;
-        color: var(--text-primary) !important;
+        color: var(--text) !important;
         font-weight: 400 !important;
         width: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
     }
 
-    /* Semilla box full width */
-    .post-body .semilla-box {
+    /* ========================================
+       SEMILLA & OCULTO
+       ======================================== */
+    .semilla-box {
         width: 100% !important;
         margin-top: 8px;
         clear: both;
-    }
-
-    /* Mensaje oculto full width */
-    .post-body .mensaje-oculto {
-        width: 100% !important;
-        clear: both;
-    }
-
-    /* ========================================
-       HASHTAGS - RED STYLING
-       ======================================== */
-    /* All hashtag variations */
-    span[style*="color"][style*="rgb(255, 0, 0)"],
-    span[style*="color"][style*="rgb(255,0,0)"],
-    span[style*="color: red"],
-    span.hashtag,
-    .hashtag,
-    [class*="hashtag"] {
-        color: #ff3b30 !important;
-        font-weight: 600 !important;
-    }
-
-    /* If hashtags have specific class or data attribute */
-    [data-hashtag],
-    .post-body span[style*="#"],
-    .post-body a[href*="hashtag"] {
-        color: #ff3b30 !important;
-        font-weight: 600 !important;
-    }
-
-    /* Dark mode hashtags */
-    body.modo-noche span[style*="color"][style*="rgb(255, 0, 0)"],
-    body.modo-noche span[style*="color: red"],
-    body.modo-noche .hashtag {
-        color: #ff453a !important;
-    }
-
-    /* ========================================
-       SUBSCRIPTION-STYLE CARDS (for posts)
-       ======================================== */
-    .post:nth-child(3n+1) {
-        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-    }
-
-    .post:nth-child(3n+2) {
-        background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
-    }
-
-    .post:nth-child(3n) {
-        background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
-    }
-
-    body.modo-noche .post:nth-child(3n+1),
-    body.modo-noche .post:nth-child(3n+2),
-    body.modo-noche .post:nth-child(3n) {
-        background: var(--card-bg);
-    }
-
-    /* ========================================
-       HIDDEN MESSAGE / SEED BOX
-       ======================================== */
-    .semilla-box {
-        background: var(--card-bg);
-        border-radius: var(--radius-md);
-        padding: 14px;
-        margin-top: 12px;
-        box-shadow: var(--shadow-sm);
         display: flex;
-        gap: 8px;
+        gap: 4px;
+        border-top: 1px solid var(--border);
+        padding-top: 8px;
     }
 
     .semilla-input {
         flex: 1;
-        background: var(--primary-bg);
-        border: none;
-        border-radius: 10px;
-        padding: 10px 14px;
-        font-size: 14px;
-        font-family: 'SF Mono', 'Courier New', monospace;
-        color: var(--text-primary);
-        font-weight: 500;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        padding: 5px 8px;
+        font-size: 11px;
+        color: var(--text);
     }
 
     .semilla-btn {
-        min-width: 50px;
-        min-height: 44px;
-        background: linear-gradient(135deg, var(--accent-blue) 0%, #7bb4ff 100%);
-        color: white;
+        min-width: 36px;
+        height: 26px;
+        background: var(--text);
+        color: var(--bg);
         border: none;
-        border-radius: 10px;
-        font-weight: 700;
-        font-size: 14px;
-        box-shadow: var(--shadow-sm);
+        font-size: 13px;
     }
 
     .mensaje-oculto {
-        background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
-        border-radius: var(--radius-md);
-        padding: 16px;
-        margin-top: 12px;
-        font-size: 14px;
-        line-height: 1.5;
-        color: #4a148c;
-        font-weight: 400;
-        box-shadow: var(--shadow-sm);
-        border: 2px solid #ce93d8;
+        width: 100% !important;
+        clear: both;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid var(--border);
     }
 
-    body.modo-noche .mensaje-oculto {
-        background: var(--card-bg);
-        color: var(--accent-purple);
-        border-color: var(--accent-purple);
+    /* Barra de 3px en lugar de 11px */
+    .mensaje-oculto-item {
+        border-left: 3px solid;
+        padding-left: 6px;
+        margin-top: 6px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
+
+    .mensaje-oculto-item:not(:last-child) {
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 6px;
+        margin-bottom: 6px;
+    }
+
+    .mensaje-oculto-etiqueta {
+        font-size: 10px;
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+
+    .mensaje-oculto-texto {
+        font-size: 13px;
+        line-height: 1.4;
+        color: var(--text);
     }
 
     .mensaje-error {
-        font-size: 12px;
-        color: var(--accent-coral);
-        margin-top: 8px;
-        font-weight: 600;
-        letter-spacing: 0.2px;
+        font-size: 10px;
+        color: var(--red);
+        margin-top: 6px;
     }
 
     /* ========================================
-       FORMS & INPUTS
+       HASHTAGS
        ======================================== */
-    textarea {
-        width: 100%;
-        background: var(--card-bg);
-        border: 2px solid rgba(0,0,0,0.08);
-        border-radius: var(--radius-md);
-        padding: 16px;
-        font-size: 15px;
-        line-height: 1.5;
-        color: var(--text-primary);
-        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-        resize: vertical;
-        min-height: 120px;
-        box-shadow: var(--shadow-sm);
-    }
-
-    body.modo-noche textarea {
-        border-color: rgba(255,255,255,0.12);
-    }
-
-    textarea:focus {
-        outline: none;
-        border-color: var(--accent-blue);
-        box-shadow: 0 0 0 3px rgba(91, 158, 255, 0.1);
-    }
-
-    .password-input {
-        width: 100%;
-        background: var(--card-bg);
-        border: 2px solid rgba(0,0,0,0.08);
-        border-radius: var(--radius-md);
-        padding: 14px 16px;
-        font-size: 15px;
-        font-family: 'SF Mono', 'Courier New', monospace;
-        color: var(--text-primary);
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        box-shadow: var(--shadow-sm);
-    }
-
-    body.modo-noche .password-input {
-        border-color: rgba(255,255,255,0.12);
-    }
-
-    .contador {
-        font-size: 12px;
-        color: var(--text-secondary);
-        text-align: right;
-        margin-top: 8px;
-        font-weight: 600;
-        letter-spacing: 0.3px;
+    span[style*="color"][style*="rgb(255, 0, 0)"],
+    span[style*="color: red"],
+    .hashtag {
+        color: var(--red) !important;
+        font-weight: 600 !important;
     }
 
     /* ========================================
-       VOLVER BUTTON (below search)
-       ======================================== */
-    .btn-volver {
-        width: 100%;
-        min-height: 42px;
-        background: var(--card-bg);
-        color: var(--text-primary);
-        border: 2px solid rgba(0,0,0,0.08);
-        border-radius: var(--radius-md);
-        font-size: 14px;
-        font-weight: 600;
-        box-shadow: var(--shadow-sm);
-        transition: all 0.2s ease;
-        margin-top: 12px;
-    }
-
-    body.modo-noche .btn-volver {
-        border-color: rgba(255,255,255,0.12);
-    }
-
-    .btn-volver:active {
-        transform: scale(0.98);
-    }
-
-    /* Hover effect for desktop */
-    @media (hover: hover) {
-        .btn-volver:hover {
-            background: rgba(0, 0, 0, 0.02);
-            box-shadow: var(--shadow-md);
-        }
-        body.modo-noche .btn-volver:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-    }
-
-    /* ========================================
-       MANUAL / INFO BOX
+       MANUAL
        ======================================== */
     #manual-box {
-        background: var(--card-bg);
-        border-radius: var(--radius-md);
-        padding: 18px;
-        margin: 16px 0;
-        font-size: 14px;
-        line-height: 1.6;
-        color: var(--text-primary);
-        box-shadow: var(--shadow-sm);
-        border: 2px solid rgba(0,0,0,0.04);
-        font-family: 'SF Mono', 'Courier New', monospace;
-    }
-
-    body.modo-noche #manual-box {
-        border-color: rgba(255,255,255,0.08);
-    }
-
-    /* ========================================
-       LOGIN & USER SECTION
-       ======================================== */
-    .login-section {
-        padding: 0;
-        background: transparent;
-        margin-bottom: 16px;
-    }
-
-    .login-hint {
-        font-size: 13px;
-        line-height: 1.6;
-        color: var(--text-secondary);
-        background: rgba(0,0,0,0.03);
-        border: 1px solid rgba(0,0,0,0.08);
-        padding: 14px;
-        margin-bottom: 12px;
-    }
-
-    body.modo-noche .login-hint {
-        background: rgba(255,255,255,0.03);
-        border-color: rgba(255,255,255,0.08);
-    }
-
-    .login-input {
-        width: 100%;
-        background: var(--card-bg);
-        border: 1px solid #d0d0d0;
-        border-radius: 0;
-        padding: 12px 14px;
-        font-size: 15px;
-        color: var(--text-primary);
-        margin-bottom: 12px;
-        box-shadow: none;
-        box-sizing: border-box;
-    }
-
-    .login-input::placeholder {
-        color: var(--text-secondary);
-        opacity: 0.5;
-    }
-
-    body.modo-noche .login-input {
-        border-color: rgba(255,255,255,0.2);
-    }
-
-    .login-input:focus {
-        outline: none;
-        border-color: #d0d0d0;
-    }
-
-    body.modo-noche .login-input:focus {
-        border-color: rgba(255,255,255,0.2);
-    }
-
-    /* ========================================
-       USER INFO BAR
-       ======================================== */
-    .user-info-bar {
-        font-size: 14px;
-        color: var(--text-secondary);
-        padding: 12px 0;
-        margin: 16px 0;
-        border-top: 1px solid rgba(0,0,0,0.1);
-        border-bottom: 1px solid rgba(0,0,0,0.1);
-        text-align: center;
-    }
-
-    body.modo-noche .user-info-bar {
-        border-color: rgba(255,255,255,0.1);
-    }
-
-    /* ========================================
-       HIDDEN SECTION
-       ======================================== */
-    .oculto-section {
-        margin-top: 16px;
-        padding-top: 16px;
-        border-top: 2px solid rgba(0,0,0,0.06);
-    }
-
-    body.modo-noche .oculto-section {
-        border-top-color: rgba(255,255,255,0.1);
-    }
-
-    /* ========================================
-       ANIMATIONS & INTERACTIONS
-       ======================================== */
-    @keyframes slideIn {
-        from {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .post {
-        animation: slideIn 0.3s ease;
-    }
-
-    /* Smooth scrolling */
-    html {
-        scroll-behavior: smooth;
-    }
-
-    /* Touch feedback */
-    button, .btn, .btn-postear, .btn-volver, .semilla-btn {
-        -webkit-tap-highlight-color: transparent;
-        cursor: pointer;
-    }
-
-    /* ========================================
-       BOTTOM NAVIGATION (if exists)
-       ======================================== */
-    nav[style*="bottom"] {
-        background: var(--card-bg);
-        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-        box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
-        padding: 12px 20px;
+        background: var(--bg);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        padding: 12px;
+        margin: 0;
+        font-size: 10px;
+        line-height: 1.5;
+        color: var(--text-light);
+        font-family: monospace;
+        white-space: pre-wrap;
     }
 
     /* ========================================
        UTILITIES
        ======================================== */
-    .text-gradient {
-        background: linear-gradient(135deg, var(--accent-coral), var(--accent-purple));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+    .hidden {
+        display: none !important;
     }
 
-    .glass-effect {
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        background: rgba(255, 255, 255, 0.8);
+    html {
+        scroll-behavior: smooth;
     }
 
-    body.modo-noche .glass-effect {
-        background: rgba(42, 42, 42, 0.8);
+    button {
+        -webkit-tap-highlight-color: transparent;
     }
 }
 
 /* ============================================
-   END OF MOBILE.CSS
+   END
    ============================================ */
