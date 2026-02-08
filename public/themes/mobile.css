@@ -32,6 +32,7 @@ body.modo-noche {
         padding: 0;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         -webkit-font-smoothing: antialiased;
+        font-size: 15px;
     }
 
     .container {
@@ -78,21 +79,32 @@ body.modo-noche {
        ALERT & USER INFO
        ======================================== */
     .alerta-box {
-        background: var(--red);
-        color: white;
-        padding: 6px 12px;
-        font-size: 11px;
-        margin-bottom: 0;
+        background: #f5f5f5;
+        color: var(--text);
+        padding: 8px 12px;
+        font-size: 12px;
+        font-weight: 500;
+        margin-bottom: 8px;
         text-align: center;
+        border-bottom: 1px solid var(--border);
+    }
+
+    body.modo-noche .alerta-box {
+        background: rgba(255,255,255,0.05);
     }
 
     .user-info-bar {
-        font-size: 11px;
+        font-size: 12px;
         color: var(--text-light);
-        padding: 6px 12px;
+        padding: 8px 12px;
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
         text-align: center;
+        background: #f5f5f5;
+    }
+
+    body.modo-noche .user-info-bar {
+        background: rgba(255,255,255,0.05);
     }
 
     /* ========================================
@@ -100,15 +112,10 @@ body.modo-noche {
        ======================================== */
     .button-container {
         display: grid !important;
-        grid-template-columns: 1fr 1fr 1fr !important;
+        grid-template-columns: 1fr 1fr !important;
         gap: 0 !important;
-        margin: 0 0 8px 0 !important;
+        margin: 0 !important;
         border-bottom: 1px solid var(--border);
-    }
-    
-    /* Ocultar botón de tema en mobile */
-    #btn-tema {
-        display: none !important;
     }
 
     .button-container .btn,
@@ -134,7 +141,7 @@ body.modo-noche {
         box-shadow: none !important;
     }
 
-    .button-container .btn:nth-child(3n) {
+    .button-container .btn:nth-child(2n) {
         border-right: none !important;
     }
 
@@ -154,21 +161,10 @@ body.modo-noche {
         grid-template-columns: 1fr 1fr 1fr !important;
         border-top: 1px solid var(--border);
         border-bottom: none !important;
-        margin: 0 !important;
     }
 
     .button-container-bottom .btn:nth-child(3n) {
         border-right: none !important;
-    }
-
-    .button-container-bottom .btn-postear {
-        background: #000000 !important;
-        color: #ffffff !important;
-    }
-    
-    body.modo-noche .button-container-bottom .btn-postear {
-        background: #ffffff !important;
-        color: #000000 !important;
     }
 
     .button-container-bottom .btn-salir {
@@ -300,22 +296,20 @@ body.modo-noche {
         background: var(--bg);
     }
 
-    /* Avatar cuadrado pequeño con letras */
+    /* Avatar como punto de color pequeño */
     .post > .avatar {
         float: left;
-        width: 20px;
-        height: 20px;
-        margin-right: 6px;
-        margin-top: 2px;
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        font-size: 7px;
-        font-weight: 700;
-        color: white;
-        border-radius: 2px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 4px;
+        margin-top: 5px;
+        background: #000000 !important;
         box-shadow: none !important;
-        text-transform: uppercase;
+    }
+
+    body.modo-noche .post > .avatar {
+        background: #ffffff !important;
     }
 
     .post-body {
@@ -323,7 +317,7 @@ body.modo-noche {
     }
 
     .marca-tag {
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 600;
         color: var(--text);
         margin: 0 0 1px 0;
@@ -331,7 +325,7 @@ body.modo-noche {
     }
 
     .fecha-tag {
-        font-size: 9px;
+        font-size: 10px;
         color: var(--text-lighter);
         margin: 0 0 6px 0;
         line-height: 1.2;
@@ -340,7 +334,7 @@ body.modo-noche {
     /* Texto a ancho completo */
     .post-body > div[style*="white-space"] {
         clear: both;
-        font-size: 14px !important;
+        font-size: 15px !important;
         line-height: 1.5 !important;
         color: var(--text) !important;
         font-weight: 400 !important;
@@ -404,13 +398,13 @@ body.modo-noche {
     }
 
     .mensaje-oculto-etiqueta {
-        font-size: 10px;
+        font-size: 11px;
         font-weight: 600;
         margin-bottom: 2px;
     }
 
     .mensaje-oculto-texto {
-        font-size: 13px;
+        font-size: 14px;
         line-height: 1.4;
         color: var(--text);
     }
