@@ -100,10 +100,15 @@ body.modo-noche {
        ======================================== */
     .button-container {
         display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
+        grid-template-columns: 1fr 1fr 1fr !important;
         gap: 0 !important;
-        margin: 0 !important;
+        margin: 0 0 8px 0 !important;
         border-bottom: 1px solid var(--border);
+    }
+    
+    /* Ocultar botón de tema en mobile */
+    #btn-tema {
+        display: none !important;
     }
 
     .button-container .btn,
@@ -129,7 +134,7 @@ body.modo-noche {
         box-shadow: none !important;
     }
 
-    .button-container .btn:nth-child(2n) {
+    .button-container .btn:nth-child(3n) {
         border-right: none !important;
     }
 
@@ -149,10 +154,21 @@ body.modo-noche {
         grid-template-columns: 1fr 1fr 1fr !important;
         border-top: 1px solid var(--border);
         border-bottom: none !important;
+        margin: 0 !important;
     }
 
     .button-container-bottom .btn:nth-child(3n) {
         border-right: none !important;
+    }
+
+    .button-container-bottom .btn-postear {
+        background: #000000 !important;
+        color: #ffffff !important;
+    }
+    
+    body.modo-noche .button-container-bottom .btn-postear {
+        background: #ffffff !important;
+        color: #000000 !important;
     }
 
     .button-container-bottom .btn-salir {
@@ -284,20 +300,22 @@ body.modo-noche {
         background: var(--bg);
     }
 
-    /* Avatar como punto de color pequeño */
+    /* Avatar cuadrado pequeño con letras */
     .post > .avatar {
         float: left;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
+        width: 20px;
+        height: 20px;
         margin-right: 6px;
-        margin-top: 5px;
-        background: #000000 !important;
+        margin-top: 2px;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        font-size: 7px;
+        font-weight: 700;
+        color: white;
+        border-radius: 2px;
         box-shadow: none !important;
-    }
-
-    body.modo-noche .post > .avatar {
-        background: #ffffff !important;
+        text-transform: uppercase;
     }
 
     .post-body {
