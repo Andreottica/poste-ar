@@ -581,14 +581,39 @@
         container.style.backgroundColor = colorFondo;
         container.innerText = letras;
     }
+    function manejarCambioCheckboxes() {
+        const recordarUsuario = document.getElementById('checkbox-recordar-usuario');
+        const recordarPassword = document.getElementById('checkbox-recordar-password');
+        const usuarioDisplay = document.getElementById('login-usuario-guardado');
+        
+        recordarUsuario.addEventListener('change', function() {
+            if(!this.checked) {
+                localStorage.removeItem('usuario-guardado');
+                usuarioDisplay.classList.add('hidden');
+            } else {
+                // Si se vuelve a tildar, mostrar el usuario guardado si existe
+                const usuarioGuardado = localStorage.getItem('usuario-guardado');
+                if(usuarioGuardado) {
+                    usuarioDisplay.classList.remove('hidden');
+                }
+            }
+        });
+        
+        recordarPassword.addEventListener('change', function() {
+            if(!this.checked) {
+                localStorage.removeItem('password-guardado');
+            }
+        });
+    }
+    
     window.onload = async () => {
         await cargarListaTemas();
         cargarTema();
         verificarSesion();
         actualizarContadorReset();
         setInterval(actualizarContadorReset, 60000);
+        manejarCambioCheckboxes();
     };
 </script>
 </body>
 </html>
-
