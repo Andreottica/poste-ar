@@ -63,14 +63,14 @@ body.modo-noche {
     }
 
     .brand-line {
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 600;
         color: var(--text);
         margin: 0;
     }
 
     .sub-brand {
-        font-size: 10px;
+        font-size: 12px;
         color: var(--text-light);
         margin-top: 1px;
     }
@@ -81,8 +81,8 @@ body.modo-noche {
     .alerta-box {
         background: #f5f5f5;
         color: var(--text);
-        padding: 8px 12px;
-        font-size: 12px;
+        padding: 10px 12px;
+        font-size: 14px;
         font-weight: 500;
         margin-bottom: 8px;
         text-align: center;
@@ -94,9 +94,9 @@ body.modo-noche {
     }
 
     .user-info-bar {
-        font-size: 12px;
+        font-size: 14px;
         color: var(--text-light);
-        padding: 8px 12px;
+        padding: 10px 12px;
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
         text-align: center;
@@ -123,15 +123,15 @@ body.modo-noche {
     .button-container .btn-salir,
     .button-container #btn-modo {
         width: 100% !important;
-        height: 36px !important;
-        min-height: 36px !important;
-        max-height: 36px !important;
+        height: 40px !important;
+        min-height: 40px !important;
+        max-height: 40px !important;
         border: none !important;
         border-right: 1px solid var(--border) !important;
         border-bottom: 1px solid var(--border) !important;
         background: var(--bg) !important;
         color: var(--text) !important;
-        font-size: 12px !important;
+        font-size: 14px !important;
         font-weight: 500 !important;
         padding: 0 !important;
         display: flex !important;
@@ -184,14 +184,14 @@ body.modo-noche {
         border: none;
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
-        padding: 10px 12px;
-        font-size: 14px;
+        padding: 12px 12px;
+        font-size: 15px;
         color: var(--text);
         margin: 0;
     }
 
     textarea {
-        min-height: 70px;
+        min-height: 80px;
         resize: vertical;
     }
 
@@ -203,26 +203,26 @@ body.modo-noche {
     }
 
     .search-info {
-        font-size: 10px;
+        font-size: 12px;
         color: var(--text-light);
-        padding: 4px 12px;
+        padding: 6px 12px;
     }
 
     .btn-volver {
         width: 100%;
-        height: 32px;
+        height: 36px;
         background: var(--bg);
         color: var(--text);
         border: none;
         border-bottom: 1px solid var(--border);
-        font-size: 11px;
+        font-size: 13px;
     }
 
     .contador {
-        font-size: 10px;
+        font-size: 12px;
         color: var(--text-lighter);
         text-align: right;
-        padding: 2px 12px 6px 12px;
+        padding: 4px 12px 8px 12px;
     }
 
     /* ========================================
@@ -233,13 +233,13 @@ body.modo-noche {
     }
 
     .login-hint {
-        font-size: 11px;
+        font-size: 13px;
         line-height: 1.5;
         color: var(--text-light);
         background: rgba(0,0,0,0.02);
         border: 1px solid var(--border);
-        padding: 8px;
-        margin-bottom: 8px;
+        padding: 10px;
+        margin-bottom: 10px;
     }
 
     body.modo-noche .login-hint {
@@ -248,7 +248,7 @@ body.modo-noche {
 
     .login-input {
         border: 1px solid var(--border);
-        margin-bottom: 8px;
+        margin-bottom: 10px;
     }
 
     /* ========================================
@@ -259,12 +259,12 @@ body.modo-noche {
     }
 
     .checkbox-container {
-        padding: 8px 12px;
+        padding: 10px 12px;
         border-bottom: 1px solid var(--border);
     }
 
     .checkbox-label {
-        font-size: 11px;
+        font-size: 13px;
     }
 
     .oculto-section {
@@ -272,19 +272,19 @@ body.modo-noche {
     }
 
     .password-section {
-        padding: 6px 12px;
+        padding: 8px 12px;
     }
 
     .password-label {
-        font-size: 11px;
+        font-size: 13px;
         color: var(--text-light);
-        margin-bottom: 4px;
+        margin-bottom: 6px;
     }
 
     .password-hint {
-        font-size: 10px;
+        font-size: 12px;
         color: var(--text-lighter);
-        margin-top: 4px;
+        margin-top: 6px;
     }
 
     /* ========================================
@@ -292,18 +292,18 @@ body.modo-noche {
        ======================================== */
     .post {
         border-bottom: 1px solid var(--border);
-        padding: 10px 12px;
+        padding: 12px;
         background: var(--bg);
     }
 
     /* Avatar como punto de color pequeño */
     .post > .avatar {
         float: left;
-        width: 10px;
-        height: 10px;
+        width: 16px;
+        height: 16px;
         border-radius: 50%;
-        margin-right: 4px;
-        margin-top: 5px;
+        margin-right: 6px;
+        margin-top: 3px;
         background: #000000 !important;
         box-shadow: none !important;
     }
@@ -317,17 +317,17 @@ body.modo-noche {
     }
 
     .marca-tag {
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 600;
         color: var(--text);
-        margin: 0 0 1px 0;
+        margin: 0 0 2px 0;
         line-height: 1.3;
     }
 
     .fecha-tag {
-        font-size: 10px;
+        font-size: 11px;
         color: var(--text-lighter);
-        margin: 0 0 6px 0;
+        margin: 0 0 8px 0;
         line-height: 1.2;
     }
 
@@ -348,71 +348,71 @@ body.modo-noche {
        ======================================== */
     .semilla-box {
         width: 100% !important;
-        margin-top: 8px;
+        margin-top: 10px;
         clear: both;
         display: flex;
-        gap: 4px;
+        gap: 6px;
         border-top: 1px solid var(--border);
-        padding-top: 8px;
+        padding-top: 10px;
     }
 
     .semilla-input {
         flex: 1;
         background: var(--bg);
         border: 1px solid var(--border);
-        padding: 5px 8px;
-        font-size: 11px;
+        padding: 7px 10px;
+        font-size: 13px;
         color: var(--text);
     }
 
     .semilla-btn {
-        min-width: 36px;
-        height: 26px;
+        min-width: 40px;
+        height: 30px;
         background: var(--text);
         color: var(--bg);
         border: none;
-        font-size: 13px;
+        font-size: 15px;
     }
 
     .mensaje-oculto {
         width: 100% !important;
         clear: both;
-        margin-top: 8px;
-        padding-top: 8px;
+        margin-top: 10px;
+        padding-top: 10px;
         border-top: 1px solid var(--border);
     }
 
     /* Barra de 3px en lugar de 11px */
     .mensaje-oculto-item {
         border-left: 3px solid;
-        padding-left: 6px;
-        margin-top: 6px;
-        padding-top: 3px;
-        padding-bottom: 3px;
+        padding-left: 8px;
+        margin-top: 8px;
+        padding-top: 4px;
+        padding-bottom: 4px;
     }
 
     .mensaje-oculto-item:not(:last-child) {
         border-bottom: 1px solid var(--border);
-        padding-bottom: 6px;
-        margin-bottom: 6px;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
     }
 
     .mensaje-oculto-etiqueta {
-        font-size: 11px;
+        font-size: 12px;
         font-weight: 600;
-        margin-bottom: 2px;
+        margin-bottom: 3px;
     }
 
     .mensaje-oculto-texto {
-        font-size: 14px;
+        font-size: 15px;
         line-height: 1.4;
         color: var(--text);
     }
 
     .mensaje-error {
-        font-size: 10px;
+        font-size: 12px;
         color: var(--red);
-        margin-top: 6px;
+        margin-top: 8px;
     }
 
     /* ========================================
@@ -434,7 +434,7 @@ body.modo-noche {
         border-bottom: 1px solid var(--border);
         padding: 12px;
         margin: 0;
-        font-size: 10px;
+        font-size: 12px;
         line-height: 1.5;
         color: var(--text-light);
         font-family: monospace;
