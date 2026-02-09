@@ -61,9 +61,16 @@
         .login-input::placeholder { color: var(--color-terciario); opacity: 0.6; }
         .login-hint { font-size: 13px; color: var(--color-terciario); margin-bottom: 10px; line-height: 1.5; background: #f5f5f5; padding: 12px; border: 1px solid #e0e0e0; }
         body.modo-noche .login-hint { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
+        .login-error { font-size: 13px; color: #dc3545; background: rgba(220, 53, 69, 0.1); padding: 10px; margin-bottom: 10px; border: 1px solid rgba(220, 53, 69, 0.3); border-radius: 4px; }
+        .login-checkboxes { display: flex; gap: 20px; margin-bottom: 10px; }
+        .login-checkbox-label { font-size: 14px; color: var(--color-principal); cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .login-checkbox-label input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
+        .login-usuario-guardado { font-size: 13px; color: var(--color-secundario); background: #f5f5f5; padding: 8px; margin-bottom: 10px; border: 1px solid #e0e0e0; border-radius: 4px; }
+        .login-usuario-guardado span { color: var(--rastro-color); font-weight: 600; }
+        body.modo-noche .login-usuario-guardado { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
         .user-info-bar { font-size: 14px; color: var(--color-secundario); padding: 10px 0; margin: 15px 0; border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; }
         body.modo-noche .user-info-bar { border-color: rgba(255,255,255,0.1); }
-        .btn-salir { background: #dc3545; color: white; border: none; padding: 8px 15px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+        .btn-salir { background: #dc3545; color: white; border: none; padding: 8px 15px; font-size: 15px; font-weight: normal; cursor: pointer; }
         .btn-salir:hover { background: #c82333; }
     </style>
 </head>
@@ -80,9 +87,21 @@
         <div class="alerta-box hidden" id="contador-reset">El timeline se borra todos los lunes: calculando...</div>
         <div id="login-section" class="login-section">
             <div class="login-hint">
-                Tu usuario se genera automáticamente a partir de tus palabras clave. Son como una contraseña que recordás fácilmente. Mientras uses las mismas palabras, tendrás siempre el mismo usuario. Recomendamos usar entre 3 y 5 palabras simples (ejemplo: gato verde mesa tiza). Podés usar hasta 12 palabras para mayor seguridad. Ver manual para más detalles.
+                Tu usuario se genera automáticamente a partir de tus palabras clave (semillas). Es un tipo contraseña usada en criptografia que recordás fácilmente. Mientras uses las mismas palabras, tendrás siempre el mismo usuario. Recomendamos usar entre 4 y 5 palabras simples (ejemplo: gato verde mesa tiza). Podés usar hasta 12 palabras para mayor seguridad. Ver manual para más detalles.
             </div>
+            <div class="login-error hidden" id="login-error">Password equivocado</div>
             <input type="text" id="identity-input" class="login-input" placeholder="perro mesa luz golf" onkeypress="if(event.key==='Enter') entrar()">
+            <div class="login-checkboxes">
+                <label class="login-checkbox-label">
+                    <input type="checkbox" id="checkbox-recordar-usuario"> Recordar usuario
+                </label>
+                <label class="login-checkbox-label">
+                    <input type="checkbox" id="checkbox-recordar-password"> Recordar password
+                </label>
+            </div>
+            <div class="login-usuario-guardado hidden" id="login-usuario-guardado">
+                Usuario guardado: <span id="usuario-guardado-display"></span>
+            </div>
             <button class="btn-postear" onclick="entrar()">[ entrar ]</button>
         </div>
         <div id="main-content" class="hidden">
@@ -134,7 +153,7 @@
     let buscando = false;
     let timeoutBusqueda = null;
     let todosLosPosts = [];
-    let temas = ['default', 'retro'];
+    let temas = ['default', 'retro', 'minimo', 'ascii'];
     let temaActual = localStorage.getItem('tema') || 'default';
     let modoOscuro = localStorage.getItem('modo') === 'noche';
     async function cargarListaTemas() {
@@ -200,6 +219,12 @@
     }
     function entrar() {
         const identidad = document.getElementById('identity-input').value.trim();
+        const recordarUsuario = document.getElementById('checkbox-recordar-usuario').checked;
+        const recordarPassword = document.getElementById('checkbox-recordar-password').checked;
+        const loginError = document.getElementById('login-error');
+        
+        loginError.classList.add('hidden');
+        
         if(!identidad) {
             alert('Ingresá al menos 3 palabras para crear tu identidad');
             return;
@@ -209,9 +234,34 @@
             alert('Usá entre 3 y 12 palabras');
             return;
         }
+        
+        // Verificar si hay usuario guardado y validar
+        const usuarioGuardado = localStorage.getItem('usuario-guardado');
+        if(usuarioGuardado) {
+            const usuarioIngresado = generarUsuarioDesdeIdentidad(identidad);
+            if(usuarioIngresado !== usuarioGuardado) {
+                loginError.classList.remove('hidden');
+                return;
+            }
+        }
+        
         sessionStorage.setItem('identidad', identidad);
         miMarca = generarUsuarioDesdeIdentidad(identidad);
         miColor = generarColorDesdeIdentidad(identidad);
+        
+        // Guardar en localStorage según las opciones
+        if(recordarUsuario) {
+            localStorage.setItem('usuario-guardado', miMarca);
+        } else {
+            localStorage.removeItem('usuario-guardado');
+        }
+        
+        if(recordarPassword) {
+            localStorage.setItem('password-guardado', identidad);
+        } else {
+            localStorage.removeItem('password-guardado');
+        }
+        
         document.documentElement.style.setProperty('--rastro-color', miColor);
         document.getElementById('display-user').innerText = miMarca;
         document.getElementById('login-section').classList.add('hidden');
@@ -228,7 +278,35 @@
         document.getElementById('main-content').classList.add('hidden');
         document.getElementById('identity-input').value = '';
         document.getElementById('timeline').innerHTML = '';
+        document.getElementById('login-error').classList.add('hidden');
+        
+        // Restaurar estado de checkboxes y campo de input
+        cargarPreferenciasLogin();
     }
+    function cargarPreferenciasLogin() {
+        const usuarioGuardado = localStorage.getItem('usuario-guardado');
+        const passwordGuardado = localStorage.getItem('password-guardado');
+        const usuarioDisplay = document.getElementById('login-usuario-guardado');
+        const usuarioGuardadoSpan = document.getElementById('usuario-guardado-display');
+        
+        // Marcar checkboxes según lo guardado
+        if(usuarioGuardado) {
+            document.getElementById('checkbox-recordar-usuario').checked = true;
+            usuarioDisplay.classList.remove('hidden');
+            usuarioGuardadoSpan.innerText = usuarioGuardado;
+        } else {
+            document.getElementById('checkbox-recordar-usuario').checked = false;
+            usuarioDisplay.classList.add('hidden');
+        }
+        
+        if(passwordGuardado) {
+            document.getElementById('checkbox-recordar-password').checked = true;
+            document.getElementById('identity-input').value = passwordGuardado;
+        } else {
+            document.getElementById('checkbox-recordar-password').checked = false;
+        }
+    }
+    
     function verificarSesion() {
         const identidad = sessionStorage.getItem('identidad');
         if(identidad) {
@@ -240,6 +318,9 @@
             document.getElementById('contador-reset').classList.remove('hidden');
             document.getElementById('main-content').classList.remove('hidden');
             cargarTimeline();
+        } else {
+            // Si no hay sesión activa, cargar preferencias de login
+            cargarPreferenciasLogin();
         }
     }
     function toggleOculto() {
