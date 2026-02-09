@@ -1,6 +1,7 @@
 /* ============================================
-   MOBILE.CSS - ULTRA COMPACT MINIMAL
-   Maximum screen width usage, zero decoration
+   MOBILE.CSS - DISEÑO SOBRIO Y FUNCIONAL
+   Tipografía consistente, espaciado apropiado
+   Colores coherentes, botones interactivos
    ============================================ */
 
 :root {
@@ -9,7 +10,13 @@
     --text-light: #666666;
     --text-lighter: #999999;
     --border: #e0e0e0;
+    --hover-light: rgba(0, 0, 0, 0.04);
     --red: #dc3545;
+    --red-hover: #c82333;
+    --yellow: #ffc107;
+    --yellow-hover: #e0a800;
+    --blue: #007bff;
+    --blue-hover: #0056b3;
 }
 
 body.modo-noche {
@@ -17,7 +24,8 @@ body.modo-noche {
     --text: #ffffff;
     --text-light: #999999;
     --text-lighter: #666666;
-    --border: #2a2a2a;
+    --border: #333333;
+    --hover-light: rgba(255, 255, 255, 0.04);
 }
 
 @media (max-width: 768px) {
@@ -33,6 +41,8 @@ body.modo-noche {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         -webkit-font-smoothing: antialiased;
         font-size: 15px;
+        line-height: 1.5;
+        color: var(--text);
     }
 
     .container {
@@ -45,93 +55,96 @@ body.modo-noche {
        HEADER
        ======================================== */
     header {
-        padding: 12px;
+        padding: 16px;
         border-bottom: 1px solid var(--border);
     }
 
     .header-profile {
         display: flex !important;
         align-items: center !important;
-        gap: 8px !important;
-        margin-bottom: 8px !important;
+        gap: 12px !important;
+        margin-bottom: 12px !important;
     }
 
     .header-profile img {
-        width: 28px !important;
-        height: 28px !important;
+        width: 48px !important;
+        height: 48px !important;
         border-radius: 50% !important;
     }
 
+    .header-profile-info {
+        flex: 1;
+    }
+
     .brand-line {
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 600;
         color: var(--text);
-        margin: 0;
+        margin: 0 0 2px 0;
+        line-height: 1.2;
     }
 
     .sub-brand {
-        font-size: 12px;
+        font-size: 13px;
         color: var(--text-light);
-        margin-top: 1px;
+        margin: 0;
+        line-height: 1.3;
     }
 
     /* ========================================
        ALERT & USER INFO
        ======================================== */
     .alerta-box {
-        background: #f5f5f5;
-        color: var(--text);
-        padding: 10px 12px;
+        background: var(--red);
+        color: white;
+        padding: 10px 16px;
         font-size: 14px;
-        font-weight: 500;
-        margin-bottom: 8px;
+        margin: 0 -16px 12px -16px;
         text-align: center;
-        border-bottom: 1px solid var(--border);
-    }
-
-    body.modo-noche .alerta-box {
-        background: rgba(255,255,255,0.05);
+        font-weight: 500;
     }
 
     .user-info-bar {
-        font-size: 14px;
-        color: var(--text-light);
-        padding: 10px 12px;
+        font-size: 15px;
+        color: var(--text);
+        padding: 12px 16px;
+        margin: 0 -16px 16px -16px;
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
-        text-align: center;
-        background: #f5f5f5;
+        text-align: left;
+        background: var(--bg);
     }
 
-    body.modo-noche .user-info-bar {
-        background: rgba(255,255,255,0.05);
+    .user-info-bar #display-user {
+        font-weight: 600;
     }
 
     /* ========================================
-       BUTTONS - COMPACT
+       BUTTONS - DISEÑO SOBRIO CON HOVER
        ======================================== */
     .button-container {
         display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
+        grid-template-columns: 1fr 1fr 1fr !important;
         gap: 0 !important;
-        margin: 0 !important;
+        margin: 0 -16px 16px -16px !important;
+        border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
+    }
+    
+    /* Ocultar botón de tema en mobile */
+    #btn-tema {
+        display: none !important;
     }
 
     .button-container .btn,
-    .button-container .btn-postear,
-    .button-container .btn-salir,
     .button-container #btn-modo {
         width: 100% !important;
-        height: 40px !important;
-        min-height: 40px !important;
-        max-height: 40px !important;
+        height: 44px !important;
         border: none !important;
         border-right: 1px solid var(--border) !important;
-        border-bottom: 1px solid var(--border) !important;
         background: var(--bg) !important;
         color: var(--text) !important;
-        font-size: 14px !important;
+        font-size: 15px !important;
         font-weight: 500 !important;
         padding: 0 !important;
         display: flex !important;
@@ -139,177 +152,305 @@ body.modo-noche {
         justify-content: center !important;
         border-radius: 0 !important;
         box-shadow: none !important;
+        transition: background 0.15s ease;
+        cursor: pointer;
     }
 
-    .button-container .btn:nth-child(2n) {
+    .button-container .btn:nth-child(3),
+    .button-container .btn:nth-child(3n) {
         border-right: none !important;
     }
 
-    .button-container .btn:active,
-    .button-container .btn-postear:active,
-    .button-container .btn-salir:active {
-        background: rgba(0,0,0,0.03) !important;
-    }
-
-    body.modo-noche .button-container .btn:active,
-    body.modo-noche .button-container .btn-postear:active,
-    body.modo-noche .button-container .btn-salir:active {
-        background: rgba(255,255,255,0.03) !important;
+    .button-container .btn:active {
+        background: var(--hover-light) !important;
     }
 
     .button-container-bottom {
+        display: grid !important;
         grid-template-columns: 1fr 1fr 1fr !important;
+        gap: 0 !important;
+        margin: 16px -16px 0 -16px !important;
         border-top: 1px solid var(--border);
-        border-bottom: none !important;
     }
 
-    .button-container-bottom .btn:nth-child(3n) {
-        border-right: none !important;
+    .button-container-bottom .btn,
+    .button-container-bottom .btn-postear,
+    .button-container-bottom .btn-salir {
+        width: 100% !important;
+        height: 44px !important;
+        border: none !important;
+        border-right: 1px solid var(--border) !important;
+        font-size: 15px !important;
+        font-weight: 500 !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        transition: background 0.15s ease;
+        cursor: pointer;
+    }
+
+    .button-container-bottom .btn {
+        background: var(--bg) !important;
+        color: var(--text) !important;
+    }
+
+    .button-container-bottom .btn:active {
+        background: var(--hover-light) !important;
+    }
+
+    .button-container-bottom .btn-postear {
+        background: #000000 !important;
+        color: #ffffff !important;
+    }
+    
+    .button-container-bottom .btn-postear:active {
+        background: #333333 !important;
+    }
+
+    body.modo-noche .button-container-bottom .btn-postear {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    body.modo-noche .button-container-bottom .btn-postear:active {
+        background: #cccccc !important;
     }
 
     .button-container-bottom .btn-salir {
         background: var(--red) !important;
         color: white !important;
+        border-right: none !important;
+    }
+
+    .button-container-bottom .btn-salir:active {
+        background: var(--red-hover) !important;
     }
 
     /* ========================================
        INPUTS & SEARCH
        ======================================== */
-    .search-box,
-    textarea,
-    .login-input,
-    .password-input {
-        width: 100%;
+    .search-box {
+        width: calc(100% + 32px);
+        margin: 0 -16px 0 -16px;
         background: var(--bg);
         border: none;
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
-        padding: 12px 12px;
+        padding: 12px 16px;
         font-size: 15px;
         color: var(--text);
-        margin: 0;
     }
 
-    textarea {
-        min-height: 80px;
-        resize: vertical;
-    }
-
-    textarea:focus,
-    .search-box:focus,
-    .login-input:focus,
-    .password-input:focus {
+    .search-box:focus {
         outline: none;
+        background: var(--hover-light);
+    }
+
+    .search-box::placeholder {
+        color: var(--text-lighter);
     }
 
     .search-info {
-        font-size: 12px;
+        font-size: 13px;
         color: var(--text-light);
-        padding: 6px 12px;
+        padding: 8px 16px;
+        margin: 0 -16px;
+        text-align: center;
+        background: var(--hover-light);
     }
 
     .btn-volver {
-        width: 100%;
-        height: 36px;
+        width: calc(100% + 32px);
+        height: 44px;
+        margin: 0 -16px;
         background: var(--bg);
         color: var(--text);
         border: none;
         border-bottom: 1px solid var(--border);
-        font-size: 13px;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.15s ease;
+    }
+
+    .btn-volver:active {
+        background: var(--hover-light);
+    }
+
+    /* ========================================
+       TEXTAREA & EDITOR
+       ======================================== */
+    textarea {
+        width: calc(100% + 32px);
+        margin: 0 -16px;
+        background: var(--bg);
+        border: none;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        padding: 16px;
+        font-size: 15px;
+        line-height: 1.5;
+        color: var(--text);
+        min-height: 120px;
+        resize: vertical;
+        font-family: inherit;
+    }
+
+    textarea:focus {
+        outline: none;
+        background: var(--hover-light);
+    }
+
+    textarea::placeholder {
+        color: var(--text-lighter);
     }
 
     .contador {
-        font-size: 12px;
+        font-size: 13px;
         color: var(--text-lighter);
         text-align: right;
-        padding: 4px 12px 8px 12px;
+        padding: 8px 16px;
+        margin: 0 -16px;
     }
 
     /* ========================================
        LOGIN
        ======================================== */
     .login-section {
-        padding: 12px;
+        padding: 0;
+        margin-bottom: 16px;
     }
 
     .login-hint {
-        font-size: 13px;
+        font-size: 14px;
         line-height: 1.5;
-        color: var(--text-light);
-        background: rgba(0,0,0,0.02);
+        color: var(--text);
+        background: var(--hover-light);
         border: 1px solid var(--border);
-        padding: 10px;
-        margin-bottom: 10px;
-    }
-
-    body.modo-noche .login-hint {
-        background: rgba(255,255,255,0.02);
+        padding: 12px;
+        margin-bottom: 12px;
+        border-radius: 4px;
     }
 
     .login-input {
+        width: 100%;
         border: 1px solid var(--border);
-        margin-bottom: 10px;
+        background: var(--bg);
+        color: var(--text);
+        padding: 12px;
+        font-size: 15px;
+        margin-bottom: 12px;
+        border-radius: 4px;
+    }
+
+    .login-input:focus {
+        outline: none;
+        border-color: var(--text);
+    }
+
+    .login-input::placeholder {
+        color: var(--text-lighter);
     }
 
     /* ========================================
-       EDITOR
+       EDITOR SECTION
        ======================================== */
     .editor-section {
-        border-top: 1px solid var(--border);
+        margin-top: 0;
     }
 
     .checkbox-container {
-        padding: 10px 12px;
+        padding: 12px 16px;
+        margin: 0 -16px;
         border-bottom: 1px solid var(--border);
     }
 
     .checkbox-label {
-        font-size: 13px;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        color: var(--text);
+    }
+
+    .checkbox-label input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
     }
 
     .oculto-section {
-        border-top: 1px solid var(--border);
+        display: none;
     }
 
     .password-section {
-        padding: 8px 12px;
+        padding: 12px 16px;
+        margin: 0 -16px;
+        background: var(--hover-light);
     }
 
     .password-label {
-        font-size: 13px;
-        color: var(--text-light);
-        margin-bottom: 6px;
+        font-size: 14px;
+        color: var(--text);
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+
+    .password-input {
+        width: 100%;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        padding: 12px;
+        font-size: 15px;
+        color: var(--text);
+        border-radius: 4px;
+    }
+
+    .password-input:focus {
+        outline: none;
+        border-color: var(--text);
+    }
+
+    .password-input::placeholder {
+        color: var(--text-lighter);
     }
 
     .password-hint {
-        font-size: 12px;
-        color: var(--text-lighter);
+        font-size: 13px;
+        color: var(--text-light);
         margin-top: 6px;
     }
 
     /* ========================================
-       POSTS - ULTRA MINIMAL
+       POSTS - TIPOGRAFÍA LEGIBLE
        ======================================== */
     .post {
         border-bottom: 1px solid var(--border);
-        padding: 12px;
+        padding: 16px;
         background: var(--bg);
     }
 
-    /* Avatar como punto de color pequeño */
+    /* Avatar cuadrado con letras - TAMAÑO ADECUADO */
     .post > .avatar {
         float: left;
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        margin-right: 6px;
-        margin-top: 3px;
-        background: #000000 !important;
+        width: 36px;
+        height: 36px;
+        margin-right: 12px;
+        margin-top: 2px;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 700;
+        color: white;
+        border-radius: 4px;
         box-shadow: none !important;
-    }
-
-    body.modo-noche .post > .avatar {
-        background: #ffffff !important;
+        text-transform: uppercase;
+        flex-shrink: 0;
     }
 
     .post-body {
@@ -317,7 +458,7 @@ body.modo-noche {
     }
 
     .marca-tag {
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 600;
         color: var(--text);
         margin: 0 0 2px 0;
@@ -325,13 +466,13 @@ body.modo-noche {
     }
 
     .fecha-tag {
-        font-size: 11px;
-        color: var(--text-lighter);
-        margin: 0 0 8px 0;
+        font-size: 13px;
+        color: var(--text-light);
+        margin: 0 0 10px 0;
         line-height: 1.2;
     }
 
-    /* Texto a ancho completo */
+    /* Texto del post a ancho completo */
     .post-body > div[style*="white-space"] {
         clear: both;
         font-size: 15px !important;
@@ -341,78 +482,103 @@ body.modo-noche {
         width: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
 
     /* ========================================
-       SEMILLA & OCULTO
+       SEMILLA & MENSAJE OCULTO
        ======================================== */
     .semilla-box {
         width: 100% !important;
-        margin-top: 10px;
+        margin-top: 12px;
         clear: both;
         display: flex;
-        gap: 6px;
+        gap: 8px;
         border-top: 1px solid var(--border);
-        padding-top: 10px;
+        padding-top: 12px;
     }
 
     .semilla-input {
         flex: 1;
         background: var(--bg);
         border: 1px solid var(--border);
-        padding: 7px 10px;
-        font-size: 13px;
+        padding: 8px 12px;
+        font-size: 15px;
         color: var(--text);
+        border-radius: 4px;
+    }
+
+    .semilla-input:focus {
+        outline: none;
+        border-color: var(--text);
+    }
+
+    .semilla-input::placeholder {
+        color: var(--text-lighter);
     }
 
     .semilla-btn {
-        min-width: 40px;
-        height: 30px;
+        min-width: 44px;
+        height: 36px;
         background: var(--text);
         color: var(--bg);
         border: none;
-        font-size: 15px;
+        font-size: 18px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.15s ease;
+    }
+
+    .semilla-btn:active {
+        opacity: 0.8;
     }
 
     .mensaje-oculto {
         width: 100% !important;
         clear: both;
-        margin-top: 10px;
-        padding-top: 10px;
+        margin-top: 12px;
+        padding-top: 12px;
         border-top: 1px solid var(--border);
     }
 
-    /* Barra de 3px en lugar de 11px */
+    /* Barra de color lateral - TAMAÑO VISIBLE */
     .mensaje-oculto-item {
-        border-left: 3px solid;
-        padding-left: 8px;
+        border-left: 4px solid;
+        padding-left: 12px;
+        padding-top: 8px;
+        padding-bottom: 8px;
         margin-top: 8px;
-        padding-top: 4px;
-        padding-bottom: 4px;
+        background: var(--hover-light);
+        border-radius: 0 4px 4px 0;
     }
 
     .mensaje-oculto-item:not(:last-child) {
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 8px;
         margin-bottom: 8px;
     }
 
     .mensaje-oculto-etiqueta {
-        font-size: 12px;
+        font-size: 14px;
         font-weight: 600;
-        margin-bottom: 3px;
+        margin-bottom: 4px;
     }
 
     .mensaje-oculto-texto {
         font-size: 15px;
-        line-height: 1.4;
+        line-height: 1.5;
         color: var(--text);
     }
 
     .mensaje-error {
-        font-size: 12px;
+        font-size: 14px;
         color: var(--red);
         margin-top: 8px;
+        padding: 8px;
+        background: rgba(220, 53, 69, 0.1);
+        border-radius: 4px;
     }
 
     /* ========================================
@@ -432,13 +598,21 @@ body.modo-noche {
         background: var(--bg);
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
-        padding: 12px;
-        margin: 0;
-        font-size: 12px;
-        line-height: 1.5;
-        color: var(--text-light);
-        font-family: monospace;
+        padding: 16px;
+        margin: 0 -16px 16px -16px;
+        font-size: 13px;
+        line-height: 1.6;
+        color: var(--text);
+        font-family: 'Courier New', monospace;
         white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+
+    /* ========================================
+       TIMELINE
+       ======================================== */
+    #timeline {
+        margin: 0;
     }
 
     /* ========================================
@@ -454,6 +628,14 @@ body.modo-noche {
 
     button {
         -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Asegurar que todo el texto sea legible */
+    input,
+    textarea,
+    button,
+    select {
+        font-size: 15px;
     }
 }
 
