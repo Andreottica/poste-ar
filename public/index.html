@@ -218,12 +218,18 @@
         return `hsl(${hue}, 60%, 45%)`;
     }
     function entrar() {
-        const identidad = document.getElementById('identity-input').value.trim();
+        let identidad = document.getElementById('identity-input').value.trim();
         const recordarUsuario = document.getElementById('checkbox-recordar-usuario').checked;
         const recordarPassword = document.getElementById('checkbox-recordar-password').checked;
         const loginError = document.getElementById('login-error');
+        const passwordGuardado = localStorage.getItem('password-guardado');
         
         loginError.classList.add('hidden');
+        
+        // Si está marcado recordar password y el input está vacío, usar el guardado
+        if(recordarPassword && passwordGuardado && !identidad) {
+            identidad = passwordGuardado;
+        }
         
         if(!identidad) {
             alert('Ingresá al menos 3 palabras para crear tu identidad');
@@ -301,7 +307,7 @@
         
         if(passwordGuardado) {
             document.getElementById('checkbox-recordar-password').checked = true;
-            document.getElementById('identity-input').value = passwordGuardado;
+            // NO mostramos el password en el input por seguridad
         } else {
             document.getElementById('checkbox-recordar-password').checked = false;
         }
