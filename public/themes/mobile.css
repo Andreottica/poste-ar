@@ -538,9 +538,9 @@ body.modo-noche {
        SEMILLA & MENSAJE OCULTO
        ======================================== */
     .semilla-box {
-        width: 100% !important;
+        width: calc(100vw - 32px) !important;
         margin-top: 12px;
-        clear: both;
+        margin-left: 0 !important;
         display: flex;
         gap: 8px;
         border-top: 1px solid var(--border);
@@ -586,9 +586,9 @@ body.modo-noche {
     }
 
     .mensaje-oculto {
-        width: 100% !important;
-        clear: both;
+        width: calc(100vw - 32px) !important;
         margin-top: 12px;
+        margin-left: 0 !important;
         padding-top: 12px;
         border-top: 1px solid var(--border);
     }
