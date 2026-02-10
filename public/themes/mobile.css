@@ -165,6 +165,25 @@ body.modo-noche {
         background: var(--hover-light) !important;
     }
 
+    /* Botón manual en celeste */
+    .button-container .btn:nth-child(2) {
+        background: var(--blue) !important;
+        color: white !important;
+    }
+
+    .button-container .btn:nth-child(2):active {
+        background: var(--blue-hover) !important;
+    }
+
+    body.modo-noche .button-container .btn:nth-child(2) {
+        background: var(--blue) !important;
+        color: white !important;
+    }
+
+    body.modo-noche .button-container .btn:nth-child(2):active {
+        background: var(--blue-hover) !important;
+    }
+
     .button-container-bottom {
         display: grid !important;
         grid-template-columns: 1fr 1fr 1fr !important;
