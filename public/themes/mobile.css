@@ -522,8 +522,8 @@ body.modo-noche {
     /* Texto del post a ancho COMPLETO - debajo del avatar y metadata */
     .post-body > div[style*="white-space"] {
         display: block !important;
-        width: calc(100vw - 32px) !important;
-        margin-left: calc(-48px) !important;
+        width: 100% !important;
+        margin-left: 0 !important;
         margin-top: 10px !important;
         font-size: 15px !important;
         line-height: 1.5 !important;
@@ -532,19 +532,22 @@ body.modo-noche {
         padding: 0 !important;
         word-wrap: break-word;
         overflow-wrap: break-word;
+        box-sizing: border-box;
     }
 
     /* ========================================
        SEMILLA & MENSAJE OCULTO
        ======================================== */
     .semilla-box {
-        width: calc(100vw - 32px) !important;
+        width: 100% !important;
         margin-top: 12px;
         margin-left: 0 !important;
-        display: flex;
+        display: flex !important;
+        align-items: center !important;
         gap: 8px;
         border-top: 1px solid var(--border);
         padding-top: 12px;
+        box-sizing: border-box;
     }
 
     .semilla-input {
@@ -555,11 +558,13 @@ body.modo-noche {
         font-size: 15px;
         color: var(--text);
         border-radius: 4px;
+        box-sizing: border-box;
     }
 
     .semilla-input:focus {
         outline: none;
-        border-color: var(--text);
+        background: var(--hover-light);
+        border-color: var(--border);
     }
 
     .semilla-input::placeholder {
@@ -567,6 +572,7 @@ body.modo-noche {
     }
 
     .semilla-btn {
+        width: 44px;
         min-width: 44px;
         height: 36px;
         background: var(--text);
@@ -579,6 +585,7 @@ body.modo-noche {
         align-items: center;
         justify-content: center;
         transition: opacity 0.15s ease;
+        flex-shrink: 0;
     }
 
     .semilla-btn:active {
@@ -586,11 +593,12 @@ body.modo-noche {
     }
 
     .mensaje-oculto {
-        width: calc(100vw - 32px) !important;
+        width: 100% !important;
         margin-top: 12px;
         margin-left: 0 !important;
         padding-top: 12px;
         border-top: 1px solid var(--border);
+        box-sizing: border-box;
     }
 
     /* Barra de color lateral - TAMAÑO VISIBLE */
