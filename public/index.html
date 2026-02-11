@@ -72,6 +72,13 @@
         body.modo-noche .user-info-bar { border-color: rgba(255,255,255,0.1); }
         .btn-salir { background: #dc3545; color: white; border: none; padding: 8px 15px; font-size: 15px; font-weight: normal; cursor: pointer; }
         .btn-salir:hover { background: #c82333; }
+        .btn-modo-app { background: #28a745; color: white; border: none; padding: 8px 15px; font-size: 15px; font-weight: normal; cursor: pointer; }
+        .btn-modo-app:hover { background: #218838; }
+        .semilla-global-section { margin-top: 15px; padding: 15px; background: #f5f5f5; border: 1px solid #e0e0e0; }
+        body.modo-noche .semilla-global-section { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
+        .semilla-global-label { font-size: 14px; color: var(--color-secundario); margin-bottom: 8px; font-weight: 600; }
+        .semilla-global-input { width: 100%; padding: 10px; font-size: 15px; border: 1px solid #d0d0d0; background: var(--color-fondo); color: var(--color-principal); box-sizing: border-box; }
+        .semilla-global-hint { font-size: 12px; color: var(--color-terciario); margin-top: 5px; }
     </style>
 </head>
 <body>
@@ -110,35 +117,39 @@
                 <button class="btn" onclick="toggleManual()">[ manual ]</button>
                 <button class="btn" onclick="cambiarTema()" id="btn-tema">[ default ]</button>
                 <button class="btn" onclick="window.open('/source')">[ source ]</button>
+                <button class="btn-modo-app" onclick="toggleModoApp()" id="btn-modo-app">[ público ]</button>
             </div>
             <input type="text" class="search-box" id="search-input" placeholder="Buscar..." onkeyup="buscarConDelay()">
             <div class="search-info" id="search-info"></div>
             <button class="btn-volver hidden" id="btn-volver" onclick="volverATodos()">[ volver ]</button>
-            
             <div class="user-info-bar">
                 Tu usuario: <span id="display-user" style="color:var(--rastro-color); font-weight: 600;">...</span>
             </div>
-            
+            <div id="semilla-global-section" class="semilla-global-section hidden">
+                <div class="semilla-global-label">Semilla para descifrar mensajes:</div>
+                <input type="text" id="semilla-global-input" class="semilla-global-input" placeholder="Ingresá palabras semilla..." onkeypress="if(event.key==='Enter') descifrarTimelineEncriptado()">
+                <div class="semilla-global-hint">Ingresá las palabras semilla y presioná Enter para ver los mensajes cifrados.</div>
+            </div>
             <div id="manual-box"></div>
-            <div class="editor-section">
+            <div class="editor-section" id="editor-publico-section">
                 <textarea id="editor" maxlength="576" placeholder="Mensaje público..."></textarea>
                 <div class="contador" id="char-count">576 caracteres restantes</div>
-                <div class="checkbox-container">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="checkbox-oculto" onchange="toggleOculto()"> Agregar mensaje oculto cifrado
-                    </label>
-                </div>
-                <div class="oculto-section" id="oculto-section">
-                    <textarea id="editor-oculto" maxlength="288" placeholder="Mensaje oculto (288 caracteres)..."></textarea>
-                    <div class="contador" id="char-count-oculto">288 caracteres restantes</div>
-                    <div class="password-section">
-                        <div class="password-label">Password (obligatorio):</div>
-                        <input type="text" id="password-input" placeholder="Ejemplo: perro tiza golf maria" class="password-input">
-                        <div class="password-hint">1-12 palabras. Más palabras = más seguridad.</div>
-                    </div>
-                </div>
                 <div class="button-container button-container-bottom">
                     <button class="btn-postear" onclick="validarYPostear()">[ postear ]</button>
+                    <button class="btn" onclick="actualizarPosts()">[ actualizar ]</button>
+                    <button class="btn-salir" onclick="salir()">[ salir ]</button>
+                </div>
+            </div>
+            <div class="editor-section hidden" id="editor-encriptado-section">
+                <textarea id="editor-encriptado" maxlength="288" placeholder="Mensaje cifrado..."></textarea>
+                <div class="contador" id="char-count-encriptado">288 caracteres restantes</div>
+                <div class="password-section">
+                    <div class="password-label">Semilla (obligatoria):</div>
+                    <input type="text" id="password-encriptado-input" placeholder="Ejemplo: perro tiza golf maria" class="password-input">
+                    <div class="password-hint">1-12 palabras. Más palabras = más seguridad.</div>
+                </div>
+                <div class="button-container button-container-bottom">
+                    <button class="btn-postear" onclick="postearEncriptado()">[ postear ]</button>
                     <button class="btn" onclick="actualizarPosts()">[ actualizar ]</button>
                     <button class="btn-salir" onclick="salir()">[ salir ]</button>
                 </div>
@@ -156,6 +167,8 @@
     let temas = ['default', 'retro', 'minimo', 'ascii'];
     let temaActual = localStorage.getItem('tema') || 'default';
     let modoOscuro = localStorage.getItem('modo') === 'noche';
+    let modoApp = 'publico';
+    let semillaGlobalActiva = '';
     async function cargarListaTemas() {
         try {
             const response = await fetch('/api/temas');
@@ -203,6 +216,30 @@
         localStorage.setItem('modo', modoOscuro ? 'noche' : 'dia');
         cargarTema();
     }
+    function toggleModoApp() {
+        if(modoApp === 'publico') {
+            modoApp = 'encriptado';
+            document.getElementById('btn-modo-app').innerText = '[ encriptado ]';
+            document.getElementById('editor-publico-section').classList.add('hidden');
+            document.getElementById('editor-encriptado-section').classList.remove('hidden');
+            document.getElementById('semilla-global-section').classList.remove('hidden');
+            document.getElementById('search-input').classList.add('hidden');
+            document.getElementById('search-info').classList.add('hidden');
+            document.getElementById('btn-volver').classList.add('hidden');
+            document.getElementById('timeline').innerHTML = '<div style="padding: 20px; text-align: center; color: var(--color-terciario);">Ingresá una semilla para ver mensajes cifrados.</div>';
+            semillaGlobalActiva = '';
+        } else {
+            modoApp = 'publico';
+            document.getElementById('btn-modo-app').innerText = '[ público ]';
+            document.getElementById('editor-publico-section').classList.remove('hidden');
+            document.getElementById('editor-encriptado-section').classList.add('hidden');
+            document.getElementById('semilla-global-section').classList.add('hidden');
+            document.getElementById('search-input').classList.remove('hidden');
+            document.getElementById('semilla-global-input').value = '';
+            semillaGlobalActiva = '';
+            cargarTimeline();
+        }
+    }
     function generarUsuarioDesdeIdentidad(identidad) {
         const hash = CryptoJS.SHA256(identidad).toString();
         const silabas = ['ba','be','bi','bo','bu','ca','ce','ci','co','cu','da','de','di','do','du','fa','fe','fi','fo','fu','ga','ge','gi','go','gu','ja','je','ji','jo','ju','ka','ke','ki','ko','ku','la','le','li','lo','lu','ma','me','mi','mo','mu','na','ne','ni','no','nu','pa','pe','pi','po','pu','ra','re','ri','ro','ru','sa','se','si','so','su','ta','te','ti','to','tu','va','ve','vi','vo','vu','xa','xe','xi','xo','xu','ya','ye','yi','yo','yu','za','ze','zi','zo','zu'];
@@ -223,22 +260,16 @@
         const recordarPassword = document.getElementById('checkbox-recordar-password').checked;
         const loginError = document.getElementById('login-error');
         const passwordGuardado = localStorage.getItem('password-guardado');
-        
         loginError.classList.add('hidden');
-        
-        // Borrar inmediatamente si están destildados
         if(!recordarUsuario) {
             localStorage.removeItem('usuario-guardado');
         }
         if(!recordarPassword) {
             localStorage.removeItem('password-guardado');
         }
-        
-        // Si está marcado recordar password y el input está vacío, usar el guardado
         if(recordarPassword && passwordGuardado && !identidad) {
             identidad = passwordGuardado;
         }
-        
         if(!identidad) {
             alert('Ingresá al menos 3 palabras para crear tu identidad');
             return;
@@ -248,8 +279,6 @@
             alert('Usá entre 3 y 12 palabras');
             return;
         }
-        
-        // Verificar si hay usuario guardado y validar
         const usuarioGuardado = localStorage.getItem('usuario-guardado');
         if(usuarioGuardado) {
             const usuarioIngresado = generarUsuarioDesdeIdentidad(identidad);
@@ -258,20 +287,15 @@
                 return;
             }
         }
-        
         sessionStorage.setItem('identidad', identidad);
         miMarca = generarUsuarioDesdeIdentidad(identidad);
         miColor = generarColorDesdeIdentidad(identidad);
-        
-        // Guardar en localStorage según las opciones
         if(recordarUsuario) {
             localStorage.setItem('usuario-guardado', miMarca);
         }
-        
         if(recordarPassword) {
             localStorage.setItem('password-guardado', identidad);
         }
-        
         document.documentElement.style.setProperty('--rastro-color', miColor);
         document.getElementById('display-user').innerText = miMarca;
         document.getElementById('login-section').classList.add('hidden');
@@ -289,8 +313,8 @@
         document.getElementById('identity-input').value = '';
         document.getElementById('timeline').innerHTML = '';
         document.getElementById('login-error').classList.add('hidden');
-        
-        // Restaurar estado de checkboxes y campo de input
+        modoApp = 'publico';
+        semillaGlobalActiva = '';
         cargarPreferenciasLogin();
     }
     function cargarPreferenciasLogin() {
@@ -298,8 +322,6 @@
         const passwordGuardado = localStorage.getItem('password-guardado');
         const usuarioDisplay = document.getElementById('login-usuario-guardado');
         const usuarioGuardadoSpan = document.getElementById('usuario-guardado-display');
-        
-        // Marcar checkboxes según lo guardado
         if(usuarioGuardado) {
             document.getElementById('checkbox-recordar-usuario').checked = true;
             usuarioDisplay.classList.remove('hidden');
@@ -308,15 +330,12 @@
             document.getElementById('checkbox-recordar-usuario').checked = false;
             usuarioDisplay.classList.add('hidden');
         }
-        
         if(passwordGuardado) {
             document.getElementById('checkbox-recordar-password').checked = true;
-            // NO mostramos el password en el input por seguridad
         } else {
             document.getElementById('checkbox-recordar-password').checked = false;
         }
     }
-    
     function verificarSesion() {
         const identidad = sessionStorage.getItem('identidad');
         if(identidad) {
@@ -329,164 +348,240 @@
             document.getElementById('main-content').classList.remove('hidden');
             cargarTimeline();
         } else {
-            // Si no hay sesión activa, cargar preferencias de login
             cargarPreferenciasLogin();
         }
     }
-    function toggleOculto() {
-        const checkbox = document.getElementById('checkbox-oculto');
-        const section = document.getElementById('oculto-section');
-        section.style.display = checkbox.checked ? 'block' : 'none';
-    }
     function toggleManual() {
-        const box = document.getElementById('manual-box');
-        if(box.style.display === 'block') { box.style.display = 'none'; return; }
-        fetch('postear.txt').then(r => r.text()).then(t => {
-            box.innerText = t;
-            box.style.display = 'block';
-        });
-    }
-    document.getElementById('editor').oninput = function() {
-        document.getElementById('char-count').innerText = (576 - this.value.length) + " caracteres restantes";
-    };
-    document.getElementById('editor-oculto').oninput = function() {
-        document.getElementById('char-count-oculto').innerText = (288 - this.value.length) + " caracteres restantes";
-    };
-    function validarYPostear() {
-        const textoPublico = document.getElementById('editor').value;
-        const textoOculto = document.getElementById('editor-oculto').value;
-        const password = document.getElementById('password-input').value.trim();
-        if(!textoPublico && !textoOculto) {
-            alert("Escribe al menos un mensaje (público u oculto).");
-            return;
+        const manualBox = document.getElementById('manual-box');
+        if(manualBox.innerHTML === '') {
+            manualBox.innerHTML = `MANUAL DE USO - poste.ar
+
+IDENTIDAD
+Tu usuario se genera automáticamente con palabras semilla.
+Ejemplo: "gato verde mesa tiza" → siempre genera el mismo usuario.
+Recomendamos 4-5 palabras simples. Máximo 12 palabras.
+
+MODO PÚBLICO
+- Timeline abierto visible para todos.
+- Posteos sin cifrado.
+- Mensajes públicos permanentes hasta el lunes.
+
+MODO ENCRIPTADO
+- Timeline cifrado independiente.
+- Ingresá semillas para descifrar mensajes.
+- Solo ves mensajes de tu grupo cifrado.
+- Posteos cifrados sin huella pública.
+
+PRIVACIDAD
+- No guardamos IPs ni datos personales.
+- El servidor no conoce tus claves.
+- Todo se cifra/descifra en tu navegador.
+- Timeline se borra cada lunes.
+
+BÚSQUEDA (solo en modo público)
+Buscá por texto o hashtags.
+Ejemplo: #ciudadela
+
+TEMAS
+Cambiá el aspecto visual del sitio.`;
+        } else {
+            manualBox.innerHTML = '';
         }
-        if(textoOculto && !password) {
-            alert("⚠️ Falta password para el mensaje oculto");
-            return;
-        }
-        postear(textoPublico, textoOculto, password);
-    }
-    function formatearFecha(timestamp) {
-        const fecha = new Date(timestamp);
-        const dia = String(fecha.getDate()).padStart(2, '0');
-        const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-        const mes = meses[fecha.getMonth()];
-        const hora = String(fecha.getHours()).padStart(2, '0');
-        const min = String(fecha.getMinutes()).padStart(2, '0');
-        return `${dia}-${mes} ${hora}:${min}hs`;
-    }
-    function calcularProximoLunes() {
-        const ahora = new Date();
-        const diaSemana = ahora.getDay();
-        const diasHastaLunes = diaSemana === 0 ? 1 : (8 - diaSemana);
-        const proximoLunes = new Date(ahora);
-        proximoLunes.setDate(ahora.getDate() + diasHastaLunes);
-        proximoLunes.setHours(0, 0, 0, 0);
-        return proximoLunes;
     }
     function actualizarContadorReset() {
         const ahora = new Date();
-        const proximoLunes = calcularProximoLunes();
+        const diaSemana = ahora.getDay();
+        const diasHastaLunes = diaSemana === 0 ? 1 : (8 - diaSemana) % 7;
+        const proximoLunes = new Date(ahora);
+        proximoLunes.setDate(ahora.getDate() + diasHastaLunes);
+        proximoLunes.setHours(0, 0, 0, 0);
         const diff = proximoLunes - ahora;
         const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
         const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        document.getElementById('contador-reset').innerText = `El timeline se borra todos los lunes: faltan ${dias}d ${horas}h ${minutos}m`;
+        let texto = "El timeline se borra todos los lunes: ";
+        if(dias > 0) texto += `${dias}d `;
+        texto += `${horas}h ${minutos}m`;
+        const contador = document.getElementById('contador-reset');
+        if(contador) contador.innerText = texto;
     }
     async function cargarTimeline() {
+        if(modoApp === 'encriptado') return;
         try {
-            const res = await fetch('/api/posts');
+            const res = await fetch('/api/timeline');
             const posts = await res.json();
             todosLosPosts = posts;
             mostrarPosts(posts);
         } catch(e) {
-            console.error('Error cargando posts:', e);
+            console.error('Error al cargar timeline:', e);
         }
     }
     function mostrarPosts(posts) {
         const timeline = document.getElementById('timeline');
         timeline.innerHTML = '';
-        posts.forEach(post => mostrarPost(post));
-    }
-    function mostrarPost(post) {
-        const timeline = document.getElementById('timeline');
-        const postDiv = document.createElement('div');
-        postDiv.className = 'post';
-        postDiv.setAttribute('data-post-id', post.id || Math.random());
-        postDiv.setAttribute('data-etiqueta', post.etiqueta);
-        postDiv.setAttribute('data-color', post.color);
-        if(post.contenido_oculto) {
-            postDiv.setAttribute('data-contenido-oculto', post.contenido_oculto);
-        }
-        let htmlContent = post.contenido;
-        htmlContent = htmlContent
-            .replace(/<([^<>]+?):(https?:\/\/[^<>]+?)>/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-        htmlContent = htmlContent
-            .replace(/<([^<>]+?):(?!\/\/)([^<>\s]+)>/g, '<a href="http://$2" target="_blank" rel="noopener noreferrer">$1</a>');
-        htmlContent = htmlContent
-            .replace(/\*([^\*]+)\*/g, '<b>$1</b>')
-            .replace(/_(.*?)_/g, '<i>$1</i>');
-        htmlContent = htmlContent
-            .replace(/#(\w+)/g, '<span style="color: #d32f2f; font-weight: bold;">#$1</span>');
-        htmlContent = htmlContent.replace(/\n/g, '<br>');
-        const idAv = 'av-' + Math.random().toString(36).substring(7);
-        const idSemilla = 'semilla-' + Math.random().toString(36).substring(7);
-        const idOculto = 'oculto-' + Math.random().toString(36).substring(7);
-        const fechaFormateada = formatearFecha(post.fecha);
-        postDiv.innerHTML = `
-            <div class="avatar" id="${idAv}"></div>
-            <div class="post-body">
-                <div class="marca-tag" style="color:${post.color}">${post.etiqueta}</div>
-                <div class="fecha-tag">${fechaFormateada}</div>
-                <div style="white-space: pre-wrap; font-size: 15px;">${htmlContent}</div>
-                <div class="semilla-box">
-                    <input type="text" class="semilla-input" id="${idSemilla}" placeholder="semilla..." onkeypress="if(event.key==='Enter') descifrarMensaje('${idSemilla}', '${idOculto}')">
-                    <button class="semilla-btn" onclick="descifrarMensaje('${idSemilla}', '${idOculto}')">→</button>
+        posts.forEach(post => {
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post';
+            const idAv = `av-${post.id}`;
+            const contenidoProcesado = post.contenido.replace(/#(\w+)/g, '<span style="color: red; font-weight: 600;">#$1</span>');
+            const htmlContent = contenidoProcesado.replace(/\n/g, '<br>').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/&lt;br&gt;/g, '<br>').replace(/&lt;span style="color: red; font-weight: 600;"&gt;#/g, '<span style="color: red; font-weight: 600;">#').replace(/#(\w+)&lt;\/span&gt;/g, '#$1</span>');
+            const fecha = new Date(post.fecha * 1000);
+            const fechaStr = `${fecha.getDate().toString().padStart(2,'0')}/${(fecha.getMonth()+1).toString().padStart(2,'0')}/${fecha.getFullYear()} ${fecha.getHours().toString().padStart(2,'0')}:${fecha.getMinutes().toString().padStart(2,'0')}`;
+            postDiv.innerHTML = `
+                <div class="avatar" id="${idAv}"></div>
+                <div class="post-body">
+                    <div class="marca-tag" style="color: ${post.color}">${post.etiqueta}</div>
+                    <div class="fecha-tag">${fechaStr}</div>
+                    <div style="white-space: pre-wrap; font-size: 15px;">${htmlContent}</div>
                 </div>
-                <div id="${idOculto}"></div>
-            </div>
-        `;
-        timeline.appendChild(postDiv);
-        generateAvatarFromMarca(idAv, post.etiqueta, post.color);
-    }
-    function descifrarMensaje(idSemilla, idOculto) {
-        const inputSemilla = document.getElementById(idSemilla);
-        const divOculto = document.getElementById(idOculto);
-        const semilla = inputSemilla.value.trim();
-        if(!semilla) return;
-        const mensajesDescifrados = [];
-        todosLosPosts.forEach(post => {
-            if(!post.contenido_oculto) return;
-            try {
-                const bytes = CryptoJS.AES.decrypt(post.contenido_oculto, semilla);
-                const textoDescifrado = bytes.toString(CryptoJS.enc.Utf8);
-                if(textoDescifrado) {
-                    mensajesDescifrados.push({
-                        etiqueta: post.etiqueta,
-                        color: post.color,
-                        texto: textoDescifrado,
-                        fecha: post.fecha
-                    });
-                }
-            } catch(e) {
-            }
+            `;
+            timeline.appendChild(postDiv);
+            generateAvatarFromMarca(idAv, post.etiqueta, post.color);
         });
-        if(mensajesDescifrados.length === 0) {
-            divOculto.innerHTML = '<div class="mensaje-error">Password incorrecto</div>';
+    }
+    async function descifrarTimelineEncriptado() {
+        const semilla = document.getElementById('semilla-global-input').value.trim();
+        if(!semilla) {
+            alert('Ingresá una semilla para descifrar mensajes');
             return;
         }
-        mensajesDescifrados.sort((a, b) => a.fecha - b.fecha);
-        let html = '<div class="mensaje-oculto">';
-        mensajesDescifrados.forEach(msg => {
-            html += `<div class="mensaje-oculto-item" style="border-left-color: ${msg.color}">`;
-            html += `<div class="mensaje-oculto-etiqueta" style="color: ${msg.color}">${msg.etiqueta}</div>`;
-            html += `<div class="mensaje-oculto-texto">${msg.texto}</div>`;
-            html += `</div>`;
-        });
-        html += '</div>';
-        divOculto.innerHTML = html;
+        semillaGlobalActiva = semilla;
+        try {
+            const res = await fetch('/api/timeline');
+            const posts = await res.json();
+            const mensajesDescifrados = [];
+            posts.forEach(post => {
+                if(!post.contenido_oculto) return;
+                try {
+                    const bytes = CryptoJS.AES.decrypt(post.contenido_oculto, semilla);
+                    const textoDescifrado = bytes.toString(CryptoJS.enc.Utf8);
+                    if(textoDescifrado) {
+                        mensajesDescifrados.push({
+                            id: post.id,
+                            etiqueta: post.etiqueta,
+                            color: post.color,
+                            texto: textoDescifrado,
+                            fecha: post.fecha
+                        });
+                    }
+                } catch(e) {
+                }
+            });
+            if(mensajesDescifrados.length === 0) {
+                document.getElementById('timeline').innerHTML = '<div style="padding: 20px; text-align: center; color: var(--color-terciario);">No se encontraron mensajes con esta semilla.</div>';
+                return;
+            }
+            mensajesDescifrados.sort((a, b) => a.fecha - b.fecha);
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
+            mensajesDescifrados.forEach(msg => {
+                const postDiv = document.createElement('div');
+                postDiv.className = 'post';
+                const idAv = `av-${msg.id}`;
+                const fecha = new Date(msg.fecha * 1000);
+                const fechaStr = `${fecha.getDate().toString().padStart(2,'0')}/${(fecha.getMonth()+1).toString().padStart(2,'0')}/${fecha.getFullYear()} ${fecha.getHours().toString().padStart(2,'0')}:${fecha.getMinutes().toString().padStart(2,'0')}`;
+                postDiv.innerHTML = `
+                    <div class="avatar" id="${idAv}"></div>
+                    <div class="post-body">
+                        <div class="marca-tag" style="color: ${msg.color}">${msg.etiqueta}</div>
+                        <div class="fecha-tag">${fechaStr}</div>
+                        <div style="white-space: pre-wrap; font-size: 15px;">${msg.texto}</div>
+                    </div>
+                `;
+                timeline.appendChild(postDiv);
+                generateAvatarFromMarca(idAv, msg.etiqueta, msg.color);
+            });
+        } catch(e) {
+            console.error('Error al descifrar timeline:', e);
+        }
+    }
+    function validarYPostear() {
+        const editor = document.getElementById('editor');
+        const texto = editor.value.trim();
+        if(!texto) {
+            alert('Escribí algo antes de postear');
+            return;
+        }
+        postear(texto, null, null);
+    }
+    async function postearEncriptado() {
+        const editor = document.getElementById('editor-encriptado');
+        const password = document.getElementById('password-encriptado-input').value.trim();
+        const texto = editor.value.trim();
+        if(!texto) {
+            alert('Escribí algo antes de postear');
+            return;
+        }
+        if(!password) {
+            alert('La semilla es obligatoria para mensajes cifrados');
+            return;
+        }
+        const palabras = password.split(/\s+/);
+        if(palabras.length < 1 || palabras.length > 12) {
+            alert('Usá entre 1 y 12 palabras para la semilla');
+            return;
+        }
+        const contenidoCifrado = CryptoJS.AES.encrypt(texto, password).toString();
+        const payload = {
+            etiqueta: miMarca,
+            contenido: '',
+            color: miColor,
+            semilla: null,
+            contenido_oculto: contenidoCifrado
+        };
+        try {
+            const res = await fetch('/api/postear', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            if(res.ok) {
+                editor.value = '';
+                document.getElementById('password-encriptado-input').value = '';
+                document.getElementById('char-count-encriptado').innerText = "288 caracteres restantes";
+                if(semillaGlobalActiva) {
+                    descifrarTimelineEncriptado();
+                }
+            } else {
+                alert('Error al postear');
+            }
+        } catch(e) {
+            console.error('Error:', e);
+            alert('Error de conexión');
+        }
+    }
+    async function postear(textoPublico, textoOculto, password) {
+        let contenidoCifrado = null;
+        if(textoOculto && password) {
+            contenidoCifrado = CryptoJS.AES.encrypt(textoOculto, password).toString();
+        }
+        const payload = {
+            etiqueta: miMarca,
+            contenido: textoPublico,
+            color: miColor,
+            semilla: null,
+            contenido_oculto: contenidoCifrado
+        };
+        try {
+            const res = await fetch('/api/postear', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            if(res.ok) {
+                document.getElementById('editor').value = '';
+                document.getElementById('char-count').innerText = "576 caracteres restantes";
+                await cargarTimeline();
+            } else {
+                alert('Error al postear');
+            }
+        } catch(e) {
+            console.error('Error:', e);
+            alert('Error de conexión');
+        }
     }
     function buscarConDelay() {
+        if(modoApp === 'encriptado') return;
         clearTimeout(timeoutBusqueda);
         timeoutBusqueda = setTimeout(buscar, 500);
     }
@@ -526,41 +621,12 @@
         buscando = false;
     }
     async function actualizarPosts() {
-        await cargarTimeline();
-    }
-    async function postear(textoPublico, textoOculto, password) {
-        let contenidoCifrado = null;
-        if(textoOculto && password) {
-            contenidoCifrado = CryptoJS.AES.encrypt(textoOculto, password).toString();
-        }
-        const payload = {
-            etiqueta: miMarca,
-            contenido: textoPublico,
-            color: miColor,
-            semilla: null,
-            contenido_oculto: contenidoCifrado
-        };
-        try {
-            const res = await fetch('/api/postear', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(payload)
-            });
-            if(res.ok) {
-                document.getElementById('editor').value = '';
-                document.getElementById('editor-oculto').value = '';
-                document.getElementById('password-input').value = '';
-                document.getElementById('checkbox-oculto').checked = false;
-                document.getElementById('oculto-section').style.display = 'none';
-                document.getElementById('char-count').innerText = "576 caracteres restantes";
-                document.getElementById('char-count-oculto').innerText = "288 caracteres restantes";
-                await cargarTimeline();
-            } else {
-                alert('Error al postear');
+        if(modoApp === 'publico') {
+            await cargarTimeline();
+        } else {
+            if(semillaGlobalActiva) {
+                await descifrarTimelineEncriptado();
             }
-        } catch(e) {
-            console.error('Error:', e);
-            alert('Error de conexión');
         }
     }
     function generateAvatarFromMarca(containerId, marca, colorPrincipal) {
@@ -585,27 +651,41 @@
         const recordarUsuario = document.getElementById('checkbox-recordar-usuario');
         const recordarPassword = document.getElementById('checkbox-recordar-password');
         const usuarioDisplay = document.getElementById('login-usuario-guardado');
-        
         recordarUsuario.addEventListener('change', function() {
             if(!this.checked) {
                 localStorage.removeItem('usuario-guardado');
                 usuarioDisplay.classList.add('hidden');
             } else {
-                // Si se vuelve a tildar, mostrar el usuario guardado si existe
                 const usuarioGuardado = localStorage.getItem('usuario-guardado');
                 if(usuarioGuardado) {
                     usuarioDisplay.classList.remove('hidden');
                 }
             }
         });
-        
         recordarPassword.addEventListener('change', function() {
             if(!this.checked) {
                 localStorage.removeItem('password-guardado');
             }
         });
     }
-    
+    document.addEventListener('DOMContentLoaded', function() {
+        const editor = document.getElementById('editor');
+        const charCount = document.getElementById('char-count');
+        if(editor && charCount) {
+            editor.addEventListener('input', function() {
+                const restantes = 576 - this.value.length;
+                charCount.innerText = `${restantes} caracteres restantes`;
+            });
+        }
+        const editorEncriptado = document.getElementById('editor-encriptado');
+        const charCountEncriptado = document.getElementById('char-count-encriptado');
+        if(editorEncriptado && charCountEncriptado) {
+            editorEncriptado.addEventListener('input', function() {
+                const restantes = 288 - this.value.length;
+                charCountEncriptado.innerText = `${restantes} caracteres restantes`;
+            });
+        }
+    });
     window.onload = async () => {
         await cargarListaTemas();
         cargarTema();
