@@ -524,7 +524,7 @@ Cambiá el aspecto visual del sitio.`;
         const contenidoCifrado = CryptoJS.AES.encrypt(texto, password).toString();
         const payload = {
             etiqueta: miMarca,
-            contenido: '',
+            contenido: '.',
             color: miColor,
             semilla: null,
             contenido_oculto: contenidoCifrado
@@ -539,9 +539,7 @@ Cambiá el aspecto visual del sitio.`;
                 editor.value = '';
                 document.getElementById('password-encriptado-input').value = '';
                 document.getElementById('char-count-encriptado').innerText = "288 caracteres restantes";
-                if(semillaGlobalActiva) {
-                    descifrarTimelineEncriptado();
-                }
+                alert('Mensaje cifrado publicado. Ingresá la semilla nuevamente para verlo.');
             } else {
                 alert('Error al postear');
             }
@@ -571,7 +569,9 @@ Cambiá el aspecto visual del sitio.`;
             if(res.ok) {
                 document.getElementById('editor').value = '';
                 document.getElementById('char-count').innerText = "576 caracteres restantes";
-                await cargarTimeline();
+                if(modoApp === 'publico') {
+                    await cargarTimeline();
+                }
             } else {
                 alert('Error al postear');
             }
