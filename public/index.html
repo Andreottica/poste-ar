@@ -57,7 +57,8 @@
         .mensaje-oculto-texto { font-size: 14px; line-height: 1.4; }
         .login-section { padding: 0; background: transparent; margin-bottom: 20px; }
         .login-input { width: 100%; padding: 10px; font-size: 15px; border: 1px solid #d0d0d0; border-radius: 0; margin-bottom: 10px; background: var(--color-fondo); color: var(--color-principal); box-sizing: border-box; }
-        .login-input:focus { outline: none; border: 1px solid #d0d0d0; }
+        .login-input:focus { outline: none; border: 1px solid #d0d0d0; background: rgba(0,0,0,0.02); }
+        body.modo-noche .login-input:focus { background: rgba(255,255,255,0.02); }
         .login-input::placeholder { color: var(--color-terciario); opacity: 0.6; }
         .login-hint { font-size: 13px; color: var(--color-terciario); margin-bottom: 10px; line-height: 1.5; background: #f5f5f5; padding: 12px; border: 1px solid #e0e0e0; }
         body.modo-noche .login-hint { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
@@ -78,6 +79,8 @@
         body.modo-noche .semilla-global-section { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
         .semilla-global-label { font-size: 14px; color: var(--color-secundario); margin-bottom: 8px; font-weight: 600; }
         .semilla-global-input { width: 100%; padding: 10px; font-size: 15px; border: 1px solid #d0d0d0; background: var(--color-fondo); color: var(--color-principal); box-sizing: border-box; }
+        .semilla-global-input:focus { outline: none; border: 1px solid #d0d0d0; background: rgba(0,0,0,0.02); }
+        body.modo-noche .semilla-global-input:focus { background: rgba(255,255,255,0.02); }
         .semilla-global-hint { font-size: 12px; color: var(--color-terciario); margin-top: 5px; }
     </style>
 </head>
@@ -420,6 +423,7 @@ Cambiá el aspecto visual del sitio.`;
         const timeline = document.getElementById('timeline');
         timeline.innerHTML = '';
         posts.forEach(post => {
+            if(post.contenido === '.' || post.contenido === '') return;
             const postDiv = document.createElement('div');
             postDiv.className = 'post';
             const idAv = `av-${post.id}`;
@@ -455,7 +459,7 @@ Cambiá el aspecto visual del sitio.`;
                 try {
                     const bytes = CryptoJS.AES.decrypt(post.contenido_oculto, semilla);
                     const textoDescifrado = bytes.toString(CryptoJS.enc.Utf8);
-                    if(textoDescifrado) {
+                    if(textoDescifrado && textoDescifrado.length > 0) {
                         mensajesDescifrados.push({
                             id: post.id,
                             etiqueta: post.etiqueta,
@@ -465,6 +469,7 @@ Cambiá el aspecto visual del sitio.`;
                         });
                     }
                 } catch(e) {
+                    console.log('Error descifrando:', e);
                 }
             });
             if(mensajesDescifrados.length === 0) {
