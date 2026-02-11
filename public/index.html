@@ -415,7 +415,7 @@ Cambiá el aspecto visual del sitio.`;
     async function cargarTimeline() {
         if(modoApp === 'encriptado') return;
         try {
-            const res = await fetch('/api/timeline');
+            const res = await fetch('/api/posts');
             const posts = await res.json();
             console.log('Posts recibidos:', posts.length);
             console.log('Primeros 3 posts:', posts.slice(0, 3));
@@ -464,7 +464,7 @@ Cambiá el aspecto visual del sitio.`;
         }
         semillaGlobalActiva = semilla;
         try {
-            const res = await fetch('/api/timeline');
+            const res = await fetch('/api/posts');
             const posts = await res.json();
             console.log('Posts para descifrar:', posts.length);
             const mensajesDescifrados = [];
