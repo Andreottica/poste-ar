@@ -128,11 +128,6 @@
             <div class="user-info-bar">
                 Tu usuario: <span id="display-user" style="color:var(--rastro-color); font-weight: 600;">...</span>
             </div>
-            <div id="semilla-global-section" class="semilla-global-section hidden">
-                <div class="semilla-global-label">Semilla para descifrar mensajes:</div>
-                <input type="text" id="semilla-global-input" class="semilla-global-input" placeholder="Ingresá palabras semilla..." onkeypress="if(event.key==='Enter') descifrarTimelineEncriptado()">
-                <div class="semilla-global-hint">Ingresá las palabras semilla y presioná Enter para ver los mensajes cifrados.</div>
-            </div>
             <div id="manual-box"></div>
             <div class="editor-section" id="editor-publico-section">
                 <textarea id="editor" maxlength="576" placeholder="Mensaje público..."></textarea>
@@ -155,6 +150,16 @@
                     <button class="btn-postear" onclick="postearEncriptado()">[ postear ]</button>
                     <button class="btn" onclick="actualizarPosts()">[ actualizar ]</button>
                     <button class="btn-salir" onclick="salir()">[ salir ]</button>
+                </div>
+                <div id="semilla-leer-section" class="semilla-global-section" style="margin-top: 20px;">
+                    <div class="semilla-global-label">Leer mensajes cifrados:</div>
+                    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <input type="text" id="semilla-leer-input" class="semilla-global-input" placeholder="Ingresá palabras semilla..." onkeypress="if(event.key==='Enter') leerMensajesCifrados()" style="flex: 1;">
+                        <button class="btn" onclick="leerMensajesCifrados()" style="background: #17a2b8; color: white; min-width: 80px;">[ leer ]</button>
+                    </div>
+                    <label class="login-checkbox-label">
+                        <input type="checkbox" id="checkbox-mantener-semilla"> Mantener semillas
+                    </label>
                 </div>
             </div>
         </div>
@@ -225,7 +230,6 @@
             document.getElementById('btn-modo-app').innerText = '[ encriptado ]';
             document.getElementById('editor-publico-section').classList.add('hidden');
             document.getElementById('editor-encriptado-section').classList.remove('hidden');
-            document.getElementById('semilla-global-section').classList.remove('hidden');
             document.getElementById('search-input').classList.add('hidden');
             document.getElementById('search-info').classList.add('hidden');
             document.getElementById('btn-volver').classList.add('hidden');
@@ -236,9 +240,9 @@
             document.getElementById('btn-modo-app').innerText = '[ público ]';
             document.getElementById('editor-publico-section').classList.remove('hidden');
             document.getElementById('editor-encriptado-section').classList.add('hidden');
-            document.getElementById('semilla-global-section').classList.add('hidden');
             document.getElementById('search-input').classList.remove('hidden');
-            document.getElementById('semilla-global-input').value = '';
+            document.getElementById('semilla-leer-input').value = '';
+            document.getElementById('checkbox-mantener-semilla').checked = false;
             semillaGlobalActiva = '';
             cargarTimeline();
         }
@@ -413,6 +417,8 @@ Cambiá el aspecto visual del sitio.`;
         try {
             const res = await fetch('/api/timeline');
             const posts = await res.json();
+            console.log('Posts recibidos:', posts.length);
+            console.log('Primeros 3 posts:', posts.slice(0, 3));
             todosLosPosts = posts;
             mostrarPosts(posts);
         } catch(e) {
@@ -422,8 +428,14 @@ Cambiá el aspecto visual del sitio.`;
     function mostrarPosts(posts) {
         const timeline = document.getElementById('timeline');
         timeline.innerHTML = '';
+        let postsPublicos = 0;
         posts.forEach(post => {
-            if(post.contenido === '.' || post.contenido === '') return;
+            console.log('Post contenido:', post.contenido, 'Largo:', post.contenido.length);
+            if(post.contenido === '.' || post.contenido === '') {
+                console.log('Post saltado (cifrado puro)');
+                return;
+            }
+            postsPublicos++;
             const postDiv = document.createElement('div');
             postDiv.className = 'post';
             const idAv = `av-${post.id}`;
@@ -442,9 +454,10 @@ Cambiá el aspecto visual del sitio.`;
             timeline.appendChild(postDiv);
             generateAvatarFromMarca(idAv, post.etiqueta, post.color);
         });
+        console.log('Posts públicos mostrados:', postsPublicos);
     }
-    async function descifrarTimelineEncriptado() {
-        const semilla = document.getElementById('semilla-global-input').value.trim();
+    async function leerMensajesCifrados() {
+        const semilla = document.getElementById('semilla-leer-input').value.trim();
         if(!semilla) {
             alert('Ingresá una semilla para descifrar mensajes');
             return;
@@ -453,12 +466,14 @@ Cambiá el aspecto visual del sitio.`;
         try {
             const res = await fetch('/api/timeline');
             const posts = await res.json();
+            console.log('Posts para descifrar:', posts.length);
             const mensajesDescifrados = [];
             posts.forEach(post => {
                 if(!post.contenido_oculto) return;
                 try {
                     const bytes = CryptoJS.AES.decrypt(post.contenido_oculto, semilla);
                     const textoDescifrado = bytes.toString(CryptoJS.enc.Utf8);
+                    console.log('Texto descifrado:', textoDescifrado, 'Largo:', textoDescifrado.length);
                     if(textoDescifrado && textoDescifrado.length > 0) {
                         mensajesDescifrados.push({
                             id: post.id,
@@ -472,6 +487,7 @@ Cambiá el aspecto visual del sitio.`;
                     console.log('Error descifrando:', e);
                 }
             });
+            console.log('Mensajes descifrados exitosamente:', mensajesDescifrados.length);
             if(mensajesDescifrados.length === 0) {
                 document.getElementById('timeline').innerHTML = '<div style="padding: 20px; text-align: center; color: var(--color-terciario);">No se encontraron mensajes con esta semilla.</div>';
                 return;
@@ -512,6 +528,7 @@ Cambiá el aspecto visual del sitio.`;
     async function postearEncriptado() {
         const editor = document.getElementById('editor-encriptado');
         const password = document.getElementById('password-encriptado-input').value.trim();
+        const mantenerSemilla = document.getElementById('checkbox-mantener-semilla').checked;
         const texto = editor.value.trim();
         if(!texto) {
             alert('Escribí algo antes de postear');
@@ -527,6 +544,7 @@ Cambiá el aspecto visual del sitio.`;
             return;
         }
         const contenidoCifrado = CryptoJS.AES.encrypt(texto, password).toString();
+        console.log('Contenido cifrado:', contenidoCifrado);
         const payload = {
             etiqueta: miMarca,
             contenido: '.',
@@ -542,7 +560,9 @@ Cambiá el aspecto visual del sitio.`;
             });
             if(res.ok) {
                 editor.value = '';
-                document.getElementById('password-encriptado-input').value = '';
+                if(!mantenerSemilla) {
+                    document.getElementById('password-encriptado-input').value = '';
+                }
                 document.getElementById('char-count-encriptado').innerText = "288 caracteres restantes";
                 alert('Mensaje cifrado publicado. Ingresá la semilla nuevamente para verlo.');
             } else {
@@ -630,7 +650,7 @@ Cambiá el aspecto visual del sitio.`;
             await cargarTimeline();
         } else {
             if(semillaGlobalActiva) {
-                await descifrarTimelineEncriptado();
+                await leerMensajesCifrados();
             }
         }
     }
