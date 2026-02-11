@@ -247,6 +247,15 @@
             cargarTimeline();
         }
     }
+    function formatearFecha(timestamp) {
+        const fecha = new Date(timestamp);
+        const dia = String(fecha.getDate()).padStart(2, '0');
+        const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+        const mes = meses[fecha.getMonth()];
+        const hora = String(fecha.getHours()).padStart(2, '0');
+        const min = String(fecha.getMinutes()).padStart(2, '0');
+        return `${dia}-${mes} ${hora}:${min}hs`;
+    }
     function generarUsuarioDesdeIdentidad(identidad) {
         const hash = CryptoJS.SHA256(identidad).toString();
         const silabas = ['ba','be','bi','bo','bu','ca','ce','ci','co','cu','da','de','di','do','du','fa','fe','fi','fo','fu','ga','ge','gi','go','gu','ja','je','ji','jo','ju','ka','ke','ki','ko','ku','la','le','li','lo','lu','ma','me','mi','mo','mu','na','ne','ni','no','nu','pa','pe','pi','po','pu','ra','re','ri','ro','ru','sa','se','si','so','su','ta','te','ti','to','tu','va','ve','vi','vo','vu','xa','xe','xi','xo','xu','ya','ye','yi','yo','yu','za','ze','zi','zo','zu'];
@@ -441,8 +450,8 @@ Cambiá el aspecto visual del sitio.`;
             const idAv = `av-${post.id}`;
             const contenidoProcesado = post.contenido.replace(/#(\w+)/g, '<span style="color: red; font-weight: 600;">#$1</span>');
             const htmlContent = contenidoProcesado.replace(/\n/g, '<br>').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/&lt;br&gt;/g, '<br>').replace(/&lt;span style="color: red; font-weight: 600;"&gt;#/g, '<span style="color: red; font-weight: 600;">#').replace(/#(\w+)&lt;\/span&gt;/g, '#$1</span>');
-            const fecha = new Date(post.fecha * 1000);
-            const fechaStr = `${fecha.getDate().toString().padStart(2,'0')}/${(fecha.getMonth()+1).toString().padStart(2,'0')}/${fecha.getFullYear()} ${fecha.getHours().toString().padStart(2,'0')}:${fecha.getMinutes().toString().padStart(2,'0')}`;
+            const fecha = new Date(post.fecha);
+            const fechaStr = formatearFecha(post.fecha);
             postDiv.innerHTML = `
                 <div class="avatar" id="${idAv}"></div>
                 <div class="post-body">
@@ -499,8 +508,8 @@ Cambiá el aspecto visual del sitio.`;
                 const postDiv = document.createElement('div');
                 postDiv.className = 'post';
                 const idAv = `av-${msg.id}`;
-                const fecha = new Date(msg.fecha * 1000);
-                const fechaStr = `${fecha.getDate().toString().padStart(2,'0')}/${(fecha.getMonth()+1).toString().padStart(2,'0')}/${fecha.getFullYear()} ${fecha.getHours().toString().padStart(2,'0')}:${fecha.getMinutes().toString().padStart(2,'0')}`;
+                const fecha = new Date(msg.fecha);
+                const fechaStr = formatearFecha(msg.fecha);
                 postDiv.innerHTML = `
                     <div class="avatar" id="${idAv}"></div>
                     <div class="post-body">
