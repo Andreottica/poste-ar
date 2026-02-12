@@ -368,41 +368,12 @@
         }
     }
     function toggleManual() {
-        const manualBox = document.getElementById('manual-box');
-        if(manualBox.innerHTML === '') {
-            manualBox.innerHTML = `MANUAL DE USO - poste.ar
-
-IDENTIDAD
-Tu usuario se genera automáticamente con palabras semilla.
-Ejemplo: "gato verde mesa tiza" → siempre genera el mismo usuario.
-Recomendamos 4-5 palabras simples. Máximo 12 palabras.
-
-MODO PÚBLICO
-- Timeline abierto visible para todos.
-- Posteos sin cifrado.
-- Mensajes públicos permanentes hasta el lunes.
-
-MODO ENCRIPTADO
-- Timeline cifrado independiente.
-- Ingresá semillas para descifrar mensajes.
-- Solo ves mensajes de tu grupo cifrado.
-- Posteos cifrados sin huella pública.
-
-PRIVACIDAD
-- No guardamos IPs ni datos personales.
-- El servidor no conoce tus claves.
-- Todo se cifra/descifra en tu navegador.
-- Timeline se borra cada lunes.
-
-BÚSQUEDA (solo en modo público)
-Buscá por texto o hashtags.
-Ejemplo: #ciudadela
-
-TEMAS
-Cambiá el aspecto visual del sitio.`;
-        } else {
-            manualBox.innerHTML = '';
-        }
+        const box = document.getElementById('manual-box');
+        if(box.style.display === 'block') { box.style.display = 'none'; return; }
+        fetch('postear.txt').then(r => r.text()).then(t => {
+            box.innerText = t;
+            box.style.display = 'block';
+        });
     }
     function actualizarContadorReset() {
         const ahora = new Date();
