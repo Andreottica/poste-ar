@@ -124,7 +124,7 @@ body.modo-noche {
        ======================================== */
     .button-container {
         display: grid !important;
-        grid-template-columns: 1fr 1fr 1fr !important;
+        grid-template-columns: 1fr 1fr !important;
         gap: 0 !important;
         margin: 0 -16px 16px -16px !important;
         border-top: 1px solid var(--border);
@@ -142,6 +142,7 @@ body.modo-noche {
         height: 44px !important;
         border: none !important;
         border-right: 1px solid var(--border) !important;
+        border-bottom: 1px solid var(--border) !important;
         background: var(--bg) !important;
         color: var(--text) !important;
         font-size: 15px !important;
@@ -156,8 +157,7 @@ body.modo-noche {
         cursor: pointer;
     }
 
-    .button-container .btn:nth-child(3),
-    .button-container .btn:nth-child(3n) {
+    .button-container .btn:nth-child(2n) {
         border-right: none !important;
     }
 
@@ -165,23 +165,23 @@ body.modo-noche {
         background: var(--hover-light) !important;
     }
 
-    /* Botón manual en celeste */
+    /* Botón manual en celeste suave */
     .button-container .btn:nth-child(2) {
-        background: var(--blue) !important;
+        background: #5dade2 !important;
         color: white !important;
     }
 
     .button-container .btn:nth-child(2):active {
-        background: var(--blue-hover) !important;
+        background: #3498db !important;
     }
 
     body.modo-noche .button-container .btn:nth-child(2) {
-        background: var(--blue) !important;
+        background: #5dade2 !important;
         color: white !important;
     }
 
     body.modo-noche .button-container .btn:nth-child(2):active {
-        background: var(--blue-hover) !important;
+        background: #3498db !important;
     }
 
     .button-container-bottom {
@@ -497,9 +497,10 @@ body.modo-noche {
         border-bottom: 1px solid var(--border);
         padding: 16px;
         background: var(--bg);
+        overflow: hidden;
     }
 
-    /* Avatar y metadata en una línea horizontal */
+    /* Avatar + metadata en una fila, texto y semilla abajo al ancho completo */
     .post > .avatar {
         display: inline-flex !important;
         align-items: center;
@@ -534,15 +535,15 @@ body.modo-noche {
     .fecha-tag {
         font-size: 13px;
         color: var(--text-light);
-        margin: 0 0 10px 0;
+        margin: 0;
         line-height: 1.2;
     }
 
-    /* Texto del post a ancho COMPLETO - debajo del avatar y metadata */
+    /* Texto del post - ancho COMPLETO fuera del post-body */
     .post-body > div[style*="white-space"] {
         display: block !important;
-        width: 100% !important;
-        margin-left: 0 !important;
+        width: calc(100vw - 32px) !important;
+        margin-left: calc(-48px) !important;
         margin-top: 10px !important;
         font-size: 15px !important;
         line-height: 1.5 !important;
@@ -558,12 +559,12 @@ body.modo-noche {
        SEMILLA & MENSAJE OCULTO
        ======================================== */
     .semilla-box {
-        width: 100% !important;
-        margin-top: 12px;
-        margin-left: 0 !important;
         display: flex !important;
         align-items: center !important;
         gap: 8px;
+        width: calc(100vw - 32px) !important;
+        margin-left: calc(-48px) !important;
+        margin-top: 12px;
         border-top: 1px solid var(--border);
         padding-top: 12px;
         box-sizing: border-box;
@@ -571,6 +572,7 @@ body.modo-noche {
 
     .semilla-input {
         flex: 1;
+        min-width: 0;
         background: var(--bg);
         border: 1px solid var(--border);
         padding: 8px 12px;
@@ -612,9 +614,9 @@ body.modo-noche {
     }
 
     .mensaje-oculto {
-        width: 100% !important;
+        width: calc(100vw - 32px) !important;
+        margin-left: calc(-48px) !important;
         margin-top: 12px;
-        margin-left: 0 !important;
         padding-top: 12px;
         border-top: 1px solid var(--border);
         box-sizing: border-box;
