@@ -438,6 +438,16 @@
             console.error('Error al cargar timeline:', e);
         }
     }
+    function procesarTexto(texto) {
+        let html = texto;
+        html = html.replace(/<([^<>]+?):(https?:\/\/[^<>]+?)>/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+        html = html.replace(/<([^<>]+?):(?!\/\/)([^<>\s]+)>/g, '<a href="http://$2" target="_blank" rel="noopener noreferrer">$1</a>');
+        html = html.replace(/\*([^\*]+)\*/g, '<b>$1</b>');
+        html = html.replace(/_(.*?)_/g, '<i>$1</i>');
+        html = html.replace(/#(\w+)/g, '<span style="color: #d32f2f; font-weight: bold;">#$1</span>');
+        html = html.replace(/\n/g, '<br>');
+        return html;
+    }
     function mostrarPosts(posts) {
         const timeline = document.getElementById('timeline');
         timeline.innerHTML = '';
@@ -452,8 +462,7 @@
             const postDiv = document.createElement('div');
             postDiv.className = 'post';
             const idAv = `av-${post.id}`;
-            const contenidoProcesado = post.contenido.replace(/#(\w+)/g, '<span style="color: red; font-weight: 600;">#$1</span>');
-            const htmlContent = contenidoProcesado.replace(/\n/g, '<br>').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/&lt;br&gt;/g, '<br>').replace(/&lt;span style="color: red; font-weight: 600;"&gt;#/g, '<span style="color: red; font-weight: 600;">#').replace(/#(\w+)&lt;\/span&gt;/g, '#$1</span>');
+            const htmlContent = procesarTexto(post.contenido);
             const fecha = new Date(post.fecha);
             const fechaStr = formatearFecha(post.fecha);
             postDiv.innerHTML = `
@@ -519,7 +528,7 @@
                     <div class="post-body">
                         <div class="marca-tag" style="color: ${msg.color}">${msg.etiqueta}</div>
                         <div class="fecha-tag">${fechaStr}</div>
-                        <div style="white-space: pre-wrap; font-size: 15px;">${msg.texto}</div>
+                        <div style="white-space: pre-wrap; font-size: 15px;">${procesarTexto(msg.texto)}</div>
                     </div>
                 `;
                 timeline.appendChild(postDiv);
