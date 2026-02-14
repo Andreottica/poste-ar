@@ -7,9 +7,54 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const db = createClient({
-  url: process.env.TURSO_URL || "libsql://ciudadeloa-db-andreottica.aws-us-east-1.turso.io",
+  url: process.env.TURSO_URL,
   authToken: process.env.TURSO_TOKEN
 });
+
+// ============================================
+// RATE LIMITING - Sin dependencias externas
+// ============================================
+const requestCounts = new Map();
+const LIMITE_REQUESTS = 60;  // máximo requests por minuto por IP
+const LIMITE_POSTS = 5;       // máximo posts por minuto por IP
+const postCounts = new Map();
+
+function limpiarContadores() {
+    const ahora = Date.now();
+    for (const [ip, data] of requestCounts.entries()) {
+        if (ahora - data.inicio > 60000) requestCounts.delete(ip);
+    }
+    for (const [ip, data] of postCounts.entries()) {
+        if (ahora - data.inicio > 60000) postCounts.delete(ip);
+    }
+}
+setInterval(limpiarContadores, 60000);
+
+function rateLimitGeneral(req, res, next) {
+    const ip = req.headers['cf-connecting-ip'] || req.ip;
+    const ahora = Date.now();
+    const data = requestCounts.get(ip) || { count: 0, inicio: ahora };
+    if (ahora - data.inicio > 60000) { data.count = 0; data.inicio = ahora; }
+    data.count++;
+    requestCounts.set(ip, data);
+    if (data.count > LIMITE_REQUESTS) {
+        return res.status(429).json({ error: 'Demasiadas solicitudes. Esperá un momento.' });
+    }
+    next();
+}
+
+function rateLimitPost(req, res, next) {
+    const ip = req.headers['cf-connecting-ip'] || req.ip;
+    const ahora = Date.now();
+    const data = postCounts.get(ip) || { count: 0, inicio: ahora };
+    if (ahora - data.inicio > 60000) { data.count = 0; data.inicio = ahora; }
+    data.count++;
+    postCounts.set(ip, data);
+    if (data.count > LIMITE_POSTS) {
+        return res.status(429).json({ error: 'Demasiados posts. Esperá un momento.' });
+    }
+    next();
+}
 
 // ============================================
 // MIDDLEWARE DE SEGURIDAD - SOLO CLOUDFLARE
@@ -21,32 +66,34 @@ app.use((req, res, next) => {
     const cfRay = req.headers['cf-ray'];
     const host = req.get('host') || '';
     
-    // Permitir solo localhost en desarrollo
+    // Permitir localhost en desarrollo
     if (host.includes('localhost') || host.includes('127.0.0.1')) {
         return next();
     }
     
-    // Bloquear si NO viene de Cloudflare (verificar ambos headers)
+    // Bloquear si NO viene de Cloudflare
     if (!cfIP || !cfRay) {
-        console.log(`🚫 Acceso bloqueado - Host: ${host}, CF-IP: ${cfIP}, CF-Ray: ${cfRay}`);
+        console.log(`🚫 Acceso bloqueado - Host: ${host}`);
         return res.status(403).send('Acceso denegado - Solo disponible via poste.ar');
     }
     
     next();
 });
 
-// Función para obtener fecha/hora en timezone Argentina
+app.use(rateLimitGeneral);
+
+// ============================================
+// FUNCIONES DE FECHA Y PURGA
+// ============================================
 function obtenerFechaArgentina() {
     const ahora = new Date();
-    // Convertir a Argentina (UTC-3)
-    const offsetArgentina = -3 * 60; // minutos
+    const offsetArgentina = -3 * 60;
     const offsetLocal = ahora.getTimezoneOffset();
     const diffMinutos = offsetArgentina - offsetLocal;
     const fechaArgentina = new Date(ahora.getTime() + diffMinutos * 60 * 1000);
     return fechaArgentina.toISOString().slice(0, 19).replace('T', ' ');
 }
 
-// Función para verificar si es lunes 00:00
 function esLunesCeroHoras() {
     const ahora = new Date();
     const offsetArgentina = -3 * 60;
@@ -56,7 +103,6 @@ function esLunesCeroHoras() {
     return fechaArgentina.getDay() === 1 && fechaArgentina.getHours() === 0 && fechaArgentina.getMinutes() < 5;
 }
 
-// Función para purgar la base de datos
 async function purgarBaseDeDatos() {
     try {
         await db.execute("DELETE FROM posteos");
@@ -66,35 +112,38 @@ async function purgarBaseDeDatos() {
     }
 }
 
-// Verificar cada 5 minutos si es lunes 00:00
 setInterval(async () => {
-    if(esLunesCeroHoras()) {
-        await purgarBaseDeDatos();
-    }
+    if(esLunesCeroHoras()) await purgarBaseDeDatos();
 }, 5 * 60 * 1000);
 
-app.use(express.json());
+// ============================================
+// MIDDLEWARE GENERAL
+// ============================================
+app.use(express.json({ limit: '10kb' }));
 app.use(express.static('public'));
 
+// ============================================
+// RUTAS API
+// ============================================
 app.get('/api/posts', async (req, res) => {
     try {
         const rs = await db.execute("SELECT * FROM posteos ORDER BY id DESC LIMIT 50");
         res.json(Array.from(rs.rows));
     } catch (e) { 
         console.error(e);
-        res.status(500).json({ error: e.message }); 
+        res.status(500).json({ error: 'Error interno' }); 
     }
 });
 
 app.get('/api/buscar', async (req, res) => {
     try {
-        const query = req.query.q || '';
+        const query = (req.query.q || '').slice(0, 100); // máximo 100 chars en búsqueda
         if (!query.trim()) {
             const rs = await db.execute("SELECT * FROM posteos ORDER BY id DESC LIMIT 50");
             return res.json(Array.from(rs.rows));
         }
 
-        const terminos = query.split(',').map(t => t.trim()).filter(t => t);
+        const terminos = query.split(',').map(t => t.trim()).filter(t => t).slice(0, 5); // máximo 5 términos
         
         let sql = "SELECT * FROM posteos WHERE ";
         const conditions = [];
@@ -112,48 +161,38 @@ app.get('/api/buscar', async (req, res) => {
         res.json(Array.from(rs.rows));
     } catch (e) {
         console.error(e);
-        res.status(500).json({ error: e.message });
+        res.status(500).json({ error: 'Error interno' });
     }
 });
 
-app.post('/api/postear', async (req, res) => {
-    const { etiqueta, contenido, color, semilla, contenido_oculto } = req.body;
+app.post('/api/postear', rateLimitPost, async (req, res) => {
+    let { etiqueta, contenido, color, semilla, contenido_oculto } = req.body;
     
+    // Validación de campos obligatorios
     if (!etiqueta || !contenido) {
         return res.status(400).json({ error: 'Faltan datos' });
     }
+
+    // Validación de longitud server-side
+    if (etiqueta.length > 50) return res.status(400).json({ error: 'Etiqueta demasiado larga' });
+    if (contenido.length > 600) return res.status(400).json({ error: 'Contenido demasiado largo' });
+    if (contenido_oculto && contenido_oculto.length > 2000) return res.status(400).json({ error: 'Contenido oculto demasiado largo' });
     
     try {
         const fechaArgentina = obtenerFechaArgentina();
         await db.execute({
             sql: "INSERT INTO posteos (etiqueta, contenido, color, semilla, contenido_oculto, fecha) VALUES (?, ?, ?, ?, ?, ?)",
-            args: [etiqueta, contenido, color, semilla || null, contenido_oculto || null, fechaArgentina]
+            args: [etiqueta, contenido, color || '#000000', semilla || null, contenido_oculto || null, fechaArgentina]
         });
         res.sendStatus(201);
     } catch (e) { 
         console.error(e);
-        res.status(500).json({ error: e.message }); 
+        res.status(500).json({ error: 'Error interno' }); 
     }
 });
 
 app.get('/source', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'source.txt'));
-});
-
-app.get('/api/stats', async (req, res) => {
-    try {
-        const count = await db.execute("SELECT COUNT(*) as total FROM posteos");
-        const rows = Array.from(count.rows);
-        const maxCapacity = 1000;
-        const percentage = Math.floor((rows[0].total / maxCapacity) * 100);
-        res.json({ 
-            total: rows[0].total, 
-            percentage,
-            maxCapacity 
-        });
-    } catch (e) {
-        res.status(500).json({ error: e.message });
-    }
 });
 
 app.get('/keep-alive', (req, res) => res.send('ok'));
