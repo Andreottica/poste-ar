@@ -129,7 +129,7 @@
         </div>
         <div class="alerta-box hidden" id="contador-reset">El timeline se borra todos los lunes: calculando...</div>
         <div id="login-section" class="login-section">
-            <div class="login-hint">
+            <div id="intro-box" class="login-hint" style="display:none;">
                 Sin registro. Sin teléfono. Sin email. Nadie sabe quién sos.<br><br>
                 Tu identidad se genera a partir de palabras que solo vos conocés — sin cuenta, sin nada que instalar. Si alguien hackea el servidor, solo encuentra texto cifrado sin sentido: tu password semilla nunca sale de tu cabeza.<br><br>
                 Escribí 4 o 5 palabras simples (ejemplo: <em>gato verde mesa tiza</em>) y presioná [ entrar ]. Mientras uses las mismas palabras, siempre serás el mismo usuario con un identificador del tipo <em>weti.33@filo.87</em>. Si las olvidás, esa identidad desaparece para siempre — anotálas en papel, no en el teléfono, no las compartas.<br><br>
@@ -148,7 +148,10 @@
             <div class="login-usuario-guardado hidden" id="login-usuario-guardado">
                 Usuario guardado: <span id="usuario-guardado-display"></span>
             </div>
-            <button class="btn-postear" onclick="entrar()">[ entrar ]</button>
+            <div style="display: flex; gap: 10px; align-items: center; margin-top: 10px;">
+                <button class="btn-postear" onclick="entrar()">[ entrar ]</button>
+                <button class="btn btn-manual" onclick="toggleIntro()">[ ¿qué es esto? ]</button>
+            </div>
         </div>
         <div id="main-content" class="hidden">
             <div class="button-container">
@@ -402,6 +405,10 @@
         } else {
             cargarPreferenciasLogin();
         }
+    }
+    function toggleIntro() {
+        const box = document.getElementById('intro-box');
+        box.style.display = box.style.display === 'block' ? 'none' : 'block';
     }
     function toggleManual() {
         const box = document.getElementById('manual-box');
